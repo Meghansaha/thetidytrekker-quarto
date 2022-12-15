@@ -17,5 +17,3 @@ listing:
 ---
 
 <body onload="document.body.style.opacity=&#39;1&#39;">
-
-<script src = "assets/scripts/mobile_detect.js"></script>

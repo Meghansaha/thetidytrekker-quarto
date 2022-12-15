@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ```
 
-
+<script src = "assets/scripts/mobile_detect.js"></script>
 
 
 ```{r textbox, echo = FALSE}

@@ -21,8 +21,6 @@ website:
             #href: tidytuesdays.html
           - text: Rtistry Gallery
             href: rtistry.html
-          #- text: "Project Portfolio"
-            #href: projects.html
     
     right:
       - icon: envelope-fill

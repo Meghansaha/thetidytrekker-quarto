@@ -35,4 +35,3 @@ htmltools::div(style = "float:right; width:60%;padding-left: 5px; box-sizing: bo
 
 </body>
 
-<script src = "assets/scripts/mobile_detect.js"></script>
