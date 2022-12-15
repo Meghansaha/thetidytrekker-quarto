@@ -1,0 +1,25 @@
+---
+title: "Making Functions For Rtistry"
+
+description: "The Functions in Rtistry workshop will dive into using functions to create, add variation to, and streamline generative art pieces made in the R language..."
+date: 05-24-2022
+image: images/cover.png
+affiliation: R-Ladies Johannesburg
+---
+
+[![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/Functions_in_Rtistry/#1)
+
+## Description
+
+> While you don't have to be an R expert to attend, some of the material expects that the viewer has a basic understanding of using the ggplot2 package and functional programming basics in R. This talk will go over the benefits of using functions from Base R and the Purrr package, different types of functions that can be created for generative art, and more. The workshop will end with a live coding rtistry session that viewers can follow along with. The code created in the live coding session will be available shortly after the session on GitHub.
+
+## Slides
+
+The slides for the presentation is available on GitHub [here](https://meghansaha.github.io/Functions_in_Rtistry/#1).
+
+## Recorded Presentation
+
+This presentation was recorded but the link has not been provided by R-Ladies Johannesburg yet.
+
+## Talk Materials and GitHub Repository 
+This talk has a supplemental GitHub repository that can be accessed [here](https://github.com/Meghansaha/Functions_in_Rtistry)

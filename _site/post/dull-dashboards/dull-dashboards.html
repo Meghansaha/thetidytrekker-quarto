@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Meghan Harris">
+<meta name="dcterms.date" content="2021-03-15">
+<meta name="description" content="A walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code.">
+
+<title>Making Dull* Dashboards in R (* Without Shiny)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: #27445C;
+    }
+    </style>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/TTTdark.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">
+ <span class="menu-text">Exploration Corner</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resumecv.html">
+ <span class="menu-text">Resume/CV</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Portfolios</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">    
+        <li>
+    <a class="dropdown-item" href="../../talks.html">
+ <span class="dropdown-text">Talks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rtistry.html">
+ <span class="dropdown-text">Rtistry Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:meghanha01@gmail.com;thetidytrekker@gmail.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Making Dull* Dashboards in R (* Without Shiny)</h1>
+                  <div>
+        <div class="description">
+          <p>A walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">r markdown</div>
+                <div class="quarto-category">markdown</div>
+                <div class="quarto-category">dashboards</div>
+                <div class="quarto-category">mapping</div>
+                <div class="quarto-category">leaflet</div>
+                <div class="quarto-category">flexdashboards</div>
+                <div class="quarto-category">summarywidget</div>
+                <div class="quarto-category">shiny</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Meghan Harris </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 15, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Summary</h2>
+   
+  <ul>
+  <li><a href="#getting-started" id="toc-getting-started" class="nav-link active" data-scroll-target="#getting-started">Getting Started:</a></li>
+  <li><a href="#creating-the-markdown-file" id="toc-creating-the-markdown-file" class="nav-link" data-scroll-target="#creating-the-markdown-file">Creating the Markdown File</a></li>
+  <li><a href="#setting-the-yaml" id="toc-setting-the-yaml" class="nav-link" data-scroll-target="#setting-the-yaml">Setting the YAML</a></li>
+  <li><a href="#configuring-the-setup-code-chunk" id="toc-configuring-the-setup-code-chunk" class="nav-link" data-scroll-target="#configuring-the-setup-code-chunk">Configuring the “Setup” Code Chunk</a></li>
+  <li><a href="#thinking-about-dashboard-components-and-real-estate" id="toc-thinking-about-dashboard-components-and-real-estate" class="nav-link" data-scroll-target="#thinking-about-dashboard-components-and-real-estate">Thinking about Dashboard Components and Real Estate</a></li>
+  <li><a href="#setting-up-our-first-column-and-map" id="toc-setting-up-our-first-column-and-map" class="nav-link" data-scroll-target="#setting-up-our-first-column-and-map">Setting up our First Column and Map</a></li>
+  <li><a href="#creating-the-home-button-bounding-box-and-map-center" id="toc-creating-the-home-button-bounding-box-and-map-center" class="nav-link" data-scroll-target="#creating-the-home-button-bounding-box-and-map-center">Creating the Home Button, Bounding Box, and Map Center</a></li>
+  <li><a href="#creating-the-actual-map" id="toc-creating-the-actual-map" class="nav-link" data-scroll-target="#creating-the-actual-map">Creating the Actual Map</a></li>
+  <li><a href="#setting-up-our-second-column" id="toc-setting-up-our-second-column" class="nav-link" data-scroll-target="#setting-up-our-second-column">Setting up our Second Column</a>
+  <ul class="collapse">
+  <li><a href="#reactive-summary-count-of-records" id="toc-reactive-summary-count-of-records" class="nav-link" data-scroll-target="#reactive-summary-count-of-records">Reactive Summary Count of Records</a></li>
+  <li><a href="#creating-a-simple-reactive-data-table" id="toc-creating-a-simple-reactive-data-table" class="nav-link" data-scroll-target="#creating-a-simple-reactive-data-table">Creating a Simple Reactive Data Table</a></li>
+  </ul></li>
+  <li><a href="#setting-up-reactive-filters" id="toc-setting-up-reactive-filters" class="nav-link" data-scroll-target="#setting-up-reactive-filters">Setting up Reactive Filters</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-checkbox-filter" id="toc-creating-a-checkbox-filter" class="nav-link" data-scroll-target="#creating-a-checkbox-filter">Creating a Checkbox Filter</a></li>
+  <li><a href="#creating-selection-filters" id="toc-creating-selection-filters" class="nav-link" data-scroll-target="#creating-selection-filters">Creating Selection Filters</a></li>
+  </ul></li>
+  <li><a href="#finishing-up-the-dashboard" id="toc-finishing-up-the-dashboard" class="nav-link" data-scroll-target="#finishing-up-the-dashboard">Finishing up the Dashboard</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><strong><em>Don’t have time to read and just want the source code? <a href="https://github.com/Meghansaha/NYS_MH_Programs/blob/master/Dull_NYMHprogramDash.Rmd">Click Here</a></em></strong></p>
+<p><br></p>
+<p><strong>The Problem:</strong> <em>You want to put cleaned/prepared data into an interactive dashboard but you can’t or don’t want to code with Shiny at the moment.</em></p>
+<p><strong>The Fix:</strong> <em>You need to use the flexdashboard package and create a markdown document instead.</em></p>
+<p><br></p>
+<section id="getting-started" class="level2">
+<h2 class="anchored" data-anchor-id="getting-started">Getting Started:</h2>
+<p>To start, we’ll look at a cleaned and prepped dataset that includes a mix of categorical and geographic variables. The data is publicly sourced from the New York State Department of Mental Health and contains information for <a href="https://data.ny.gov/Human-Services/Local-Mental-Health-Programs/6nvr-tbv8">New York State’s Local Mental Health Programs</a>.</p>
+<p>For this example, I’ve already cleaned and prepped the set. If you’re interested, you can view the <a href="https://github.com/Meghansaha/NYS_MH_Programs/blob/master/Scripts/DataProcessing.R">cleaning</a> script and <a href="https://github.com/Meghansaha/NYS_MH_Programs/blob/master/Scripts/GeocodingProcessing.R">geoprocessing</a>* script. Our main purpose for this project is to create a dashboard with a map, filters for the map, and a data table that let’s us view selected data points.</p>
+<p><em>*The geoprocessing coding in this script came from Dmitry Kisler’s article “OSM Nominatim with R: getting Location’s Geo-coordinates by its Address” Check it out to learn more about the process if you’d like!</em></p>
+<p>If you’d like to follow along within the R project files you can download them from the <a href="https://github.com/Meghansaha/NYS_MH_Programs/archive/master.zip">Tidy Trekker Github Repository</a>. Be sure to fully extract the ZIP. folders for proper access. You can also download the data set used and load it into your own session for practice.</p>
+<center>
+<p><a href="https://github.com/Meghansaha/NYS_MH_Programs/archive/master.zip"><img src="images/GHsnip.png" alt="GitHub Download"></a></p>
+<figcaption>
+<p><i>Direct <a href="https://github.com/Meghansaha/NYS_MH_Programs/archive/master.zip">download link</a> for this post’s example data</i></p>
+</figcaption></center>
+
+
+<p><br></p>
+</section>
+<section id="creating-the-markdown-file" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-markdown-file">Creating the Markdown File</h2>
+<p>In order to create the dashboard, we need to write out code in an R Markdown file (.RMD) instead of an R Script (.R). If you don’t have the flexdashboard package installed already you’ll want to do that first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Installing the flexdashboard package===</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"flexdashboard"</span>)                                                    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After installing flexdashboard, you should be able to create a new markdown document with the flexdashboard template. You can do so by going to create a new markdown document like you normally would…</p>
+<p><br></p>
+<center>
+<p><img src="images/snip1.png" alt="A screenshot of the R Studio IDE's menu to create a new document. 'R Markdown' is third on the list an highlighted with the alt text: 'Create a new R Markdown document' displayed."></p>
+<figcaption>
+<p>Creating a new markdown document in the R Studio IDE</p>
+</figcaption>
+</center>
+<p><br></p>
+<p>…but instead of accepting the default document settings, click on the “From Template” option in the left pane, select the “Flex Dashboard” template in the right pane, and finally click “OK” at the bottom:</p>
+<p><br></p>
+<center>
+<p><img src="images/snip2.png" alt="A screenshot of the New R Markdown Template menu in the R Studio IDE. The menu consists of two panes. One on the left and right. The left pane has four markdown options: 'Document', 'Presentation', 'Shiny', and 'From Template'. The 'From Template' option in highlighted and selected. The right pane has various Template options with 'Flex Dashboard' at the top which is selected and highlighted. The bottom of the screen shot has three buttons. In the right hand bottom corner, the button reads 'Create Empty Document.' In the bottom left hand corner are two buttons that read 'OK' and 'Cancel' from left to right."></p>
+<figcaption>
+<p>R Markdown Template Menu in R Studio IDE</p>
+</figcaption>
+</center>
+<p><br></p>
+<p>You’ll now see a pre-generated Flex Dashboard markdown script! You can use this for practice. If you have some time and are interested, play around with the syntax and get a feel for how changes to this template will affect the final knitted document. You can read up more about Flex Dashboard basics <a href="https://rmarkdown.rstudio.com/flexdashboard/">here</a>. If you want more information about different layout options you can find them <a href="https://rmarkdown.rstudio.com/flexdashboard/layouts.html">here</a>. For this guide, we’ll be using the “Chart Stack (fill)” layout.</p>
+<p><br></p>
+</section>
+<section id="setting-the-yaml" class="level2">
+<h2 class="anchored" data-anchor-id="setting-the-yaml">Setting the YAML</h2>
+<p>The first part of the markdown code that we see is the YAML (Yet Another Markup Language or YAML Ain’t Markup Language) Header. Without getting bogged down with an explanation, this is basically a special block of code that’s going to tell R how to process our markdown document. It’s the “magic battery” that’s needed to power the translation process that converts code to pretty documents. For this project our YAML looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>title<span class="sc">:</span> <span class="st">"New York State's (Brooklyn,NY) Local Mental Health Programs"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>output<span class="sc">:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  flexdashboard<span class="sc">::</span>flex_dashboard<span class="sc">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    vertical_layout<span class="sc">:</span> fill</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    source_code<span class="sc">:</span> embed</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    css<span class="sc">:</span> scripts<span class="sc">/</span>nycmhstyle.css</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="sc">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p><strong>The Components of this YAML:</strong></p>
+<ul>
+<li><p><strong>Title:</strong> This is the string that will show up in the top left corner of your dashboard.</p></li>
+<li><p><strong>Output:</strong> This is where the document type is set. You can set options for this on the same line, or underneath it (shown here.)</p></li>
+<li><p><strong>Output Options:</strong> In this YAML, our options are underneath the “output” line and are indented. <font color="red"><strong>The indents are extremely important.</strong></font> If these options aren’t indented in a hierarchical (ordered) fashion, it will not work! Let’s look at them further:</p></li>
+</ul>
+<p><br></p>
+<center>
+<p><img src="images/careful.png" style="width:20%"><br> <strong><em>Please be mindful that the YAML output options are</em></strong> <font color="red">properly ordered and indented!</font> You’ll know if it’s not because you will get an error.</p>
+</center>
+<p><br></p>
+<ul>
+<li><p><strong>flexdashboard::flex_dashboard:</strong> Note how this is tabbed or indented only <strong>once</strong> under the output option. This tells R we want this document processed as a Flex Dashboard.</p></li>
+<li><p><strong>vertical_layout: fill:</strong> Also note how it’s indented/tabbed again. This tells R that these are options that we want applied to this dashboard. This option tells R that we want the dashboard to fill the page vertically. This option can also be set to “scroll.” You can always play around with it and see which is best for your needs.</p></li>
+<li><p><strong>source_code: embed:</strong> This option tells R that we want to share our source code on the dashboard. This will appear as a button in the top right corner of the dashboard. If we have source code elsewhere on the internet (like GitHub) you can replace “embed” with the actual URL as a string (with quotation marks - “<a href="https://github.com/user/code" class="uri">https://github.com/user/code</a>”)</p></li>
+<li><p><strong>css:</strong> scripts/nycmhstyle.css: This option tells R that we want to use an external css file to change the appearance of our flexdashboard. This file is included on the <a href="https://github.com/Meghansaha/NYS_MH_Programs/blob/master/Scripts/nycmhstyle.css">GitHub repository</a> if you’re interested.</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="configuring-the-setup-code-chunk" class="level2">
+<h2 class="anchored" data-anchor-id="configuring-the-setup-code-chunk">Configuring the “Setup” Code Chunk</h2>
+<p>Now that the YAML is set, we need to load in all the packages we’ll use and our data.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Library load in.#</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flexdashboard)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'flexdashboard' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'knitr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+v ggplot2 3.4.0      v purrr   0.3.5 
+v tibble  3.1.8      v dplyr   1.0.10
+v tidyr   1.2.1      v stringr 1.5.0 
+v readr   2.1.3      v forcats 0.5.2 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'forcats' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'leaflet' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leafem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'leafem' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarywidget)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'raster' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: sp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'sp' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'raster'
+
+The following object is masked from 'package:dplyr':
+
+    select</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>There’s a good amount of packages here. I’ve already mentioned flexdashboard, leaflet, crosstalk, DT, and summary widgets, but there’s a few more needed for our particular example: - <a href="https://yihui.org/knitr/">knitr</a>: Helps with markdown/report generation - <a href="https://www.rdocumentation.org/packages/leafem/versions/0.1.3">leafem</a>: Gives extensions and additional options for the leaflet (map) package. - <a href="https://www.tidyverse.org/">tidyverse</a>: Group of packages used to aid with data wrangling/manipulation - <a href="https://www.rdocumentation.org/packages/raster/versions/3.4-5">raster</a>: Helps with geographical data analysis and modelling.</p>
+<p><br></p>
+<p>After loading in all of the libraries, we can now load in our data. The data for this project is stored as an .RDS object. The original csv file was converted to an .RDS object to ensure reproducibility and maintain integrity of the data’s structure. The <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/readRDS"><code>readRDS()</code> function</a> will automatically open the object and restore it as a data frame with all original components intact. This code stores the data frame as <code>MHprograms</code></p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Loading the datasets into the environment.#</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="co">#MH programs with geocodes#</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>MHprograms <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/mhprogramsnyc.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Now that our data is in the environment, we can use the crosstalk package to translate our data into a shared data object. This will allow interactivity between our dashboard components.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Converting data frames into shared data objects with crosstalk. This will allow the map, filters, and tables to be interactive and dynamic.#</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>Sharedgeodata <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(MHprograms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="thinking-about-dashboard-components-and-real-estate" class="level2">
+<h2 class="anchored" data-anchor-id="thinking-about-dashboard-components-and-real-estate">Thinking about Dashboard Components and Real Estate</h2>
+<p>When creating our dashboard we must think about the type of data we have and how that data will fill the space on our dashboard. Before thinking about where things will go, we need to think about what would be useful to have on our dashboard. There’s 17 variables in the set, but for the sake of this example let’s focus on the following:</p>
+<center>
+<p><br> Agency Name<br> Program Name<br> Agency Phone<br> Program Address 1<br> Program State<br> Program Zip<br> Program Category<br> Program Subcategory<br> Populations Served<br></p>
+</center>
+<p><br></p>
+<p>These variables should be just enough to give the user basic description information about the programs in the data set. Keeping this in mind, we might now start to think about what would be useful to add to our dashboard and map. How about the following?</p>
+<p><br></p>
+<p><strong><em>On the map itself:</em></strong></p>
+<ul>
+<li><p><strong>A “Home Button”</strong> - A button that will snap our map view back to our data if we go wondering off in the map.</p></li>
+<li><p><strong>Conditional Formatting</strong> - for map icons based on the program category (i.e.&nbsp;different icons based on the program type)</p></li>
+</ul>
+<p><strong><em>On the dashboard, separate of the map:</em></strong></p>
+<ul>
+<li><p><strong>Reactive Values</strong> - Values that change based on the data that’s shown on the map. For this example we’ll do a simple “count” of all mental health programs that were found.</p></li>
+<li><p><strong>A Simple Data Table</strong> - A simple table that can display information about all programs shown on the map.</p></li>
+<li><p><strong>Filters</strong> - Filters that will limit what locations are seen on the map based on options that the user selects.</p></li>
+</ul>
+<p><br> When you start to work with flexdashboard more, you’ll learn about the quirks of <a href="https://rmarkdown.rstudio.com/flexdashboard/layouts.html">layout templates</a> and will begin to see what’s possible. It’s recommended to take time to understand how you want your components to work and look together. For some people this may mean taking the time to draw on paper or making a “mock” dashboard in <a href="https://en.wikipedia.org/wiki/Microsoft_Paint">MS Paint</a>. Whatever your method of planning, just make sure you have a plan! Here’s our mock plan drawn up for our dashboard:</p>
+<p><br></p>
+<center>
+<p><img src="images/snip3.png" style="width:80%"><br></p>
+<figcaption>
+<p>Mock-up Plan for our NY Mental Health Dashboard</p>
+</figcaption>
+</center>
+<p><br></p>
+</section>
+<section id="setting-up-our-first-column-and-map" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-our-first-column-and-map">Setting up our First Column and Map</h2>
+<p>So looking at our mock-up, we just need two columns. One on the left with just a map and one of the right with three modules and some text at the bottom. To set flexdashboard columns in markdown you need to put the following “outside” of r code chunks in the regular markdown editor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Column {data<span class="sc">-</span>width<span class="ot">=</span><span class="dv">550</span>}</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-----------------------------------------------------------------------</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="do">### </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Because we want the first column to be filled with our map, we’ll set the width to be a bit wider than the second column. The series of dashes (—) under the “column” option along with the three hashes (#) let’s R know to place everything underneath those hashes in it’s own column within it’s own box. The hashes are also where you can place the title of your box within your column. This one will be left blank to maximize the space for the map.</p>
+<p>Now that the column is initialized, we can place more r code chunks underneath it to get our data in. Our first chunk will be for our map. Recall that we designate the beginning of R code chunks with three back-ticks (aka: <a href="https://en.wikipedia.org/wiki/Grave_accent">Grave Accents</a>) and square brackets with options and end them with an additional three back-ticks at the bottom of the chunk:</p>
+<pre><code>```{r map}
+
+```</code></pre>
+<p><br></p>
+</section>
+<section id="creating-the-home-button-bounding-box-and-map-center" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-home-button-bounding-box-and-map-center">Creating the Home Button, Bounding Box, and Map Center</h2>
+<p>Let’s recall what we wanted on our map. A home button and conditional formatting for program types. Let’s code for our home button to start. Say we want an actual image of a home. We’ve gone ahead and found a <a href="https://i.ibb.co/D8tSw9q/Homebutton.png">url of one</a>. To create this button, we’ll need to use the <a href="https://www.rdocumentation.org/packages/htmltools/versions/0.5.1.1/topics/HTML"><code>HTML</code> function</a> in the <a href="https://www.rdocumentation.org/packages/htmltools/versions/0.5.1.1"><code>htmltools</code> package</a> to use some HTML for this:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Pulling a "Home" icon I've hosted on the internet===</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Homeimg <span class="ot">&lt;-</span> htmltools<span class="sc">::</span><span class="fu">HTML</span>(<span class="fu">paste</span>(<span class="st">"&lt;img src='https://i.ibb.co/D8tSw9q/Homebutton.png' width = '15', height '15', title = 'Home'&gt;"</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Naming the home image for the addhomebutton function in the leaflet map===</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>Home <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Home"</span> <span class="ot">=</span> Homeimg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>This code will show us a pretty home icon, but we’ll need to feed the button the <a href="https://wiki.openstreetmap.org/wiki/Bounding_Box">bounding box</a> (bbox) so that it knows where to set the map’s view when it’s clicked on. We can do this easily with the <a href="https://www.rdocumentation.org/packages/ggmap/versions/3.0.0/topics/make_bbox"><code>make_bbox</code> function</a> in the <a href="https://github.com/dkahle/ggmap"><code>ggmap</code> package</a> as long as our data has longitude and latitude columns with numeric values (Ours does!)</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating a bounding box of the entire data set. This will act as our "homebase" to zoom back to when the home button is clicked on===</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>homebase <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">make_bbox</span>(lon, lat, <span class="at">data =</span> MHprograms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>We may also want to designate a “center” for our map that is first shown when the dashboard is open. We can do this by using the <a href="https://www.rdocumentation.org/packages/sp/versions/1.4-5/topics/coordinates"><code>coordinates</code></a> and <a href="https://rdrr.io/cran/sp/man/is.projected.html"><code>proj4strings</code></a> functions from the <a href="https://www.rdocumentation.org/packages/sp/versions/1.4-5"><code>sp</code> package</a>, The <a href="https://www.rdocumentation.org/packages/raster/versions/3.4-5/topics/extent"><code>extent</code></a> function from the <a href="https://www.rdocumentation.org/packages/raster/versions/3.4-5"><code>raster</code> package</a>, and the <a href="https://www.rdocumentation.org/packages/methods/versions/3.6.2/topics/as"><code>as</code></a> function that comes from the <a href="https://www.rdocumentation.org/packages/methods/versions/3.6.2"><code>methods</code></a> package that usually loads in with base R.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving the center point for the map data to set the "home" view===</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(MHprograms) <span class="ot">&lt;-</span> <span class="er">~</span>lon<span class="sc">+</span>lat</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(MHprograms) <span class="ot">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>mapcenter <span class="ot">&lt;-</span> <span class="fu">coordinates</span>(<span class="fu">as</span>(<span class="fu">extent</span>(MHprograms), <span class="st">"SpatialPolygons"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>The options set in the <code>proj4string</code> line is referring to the Coordinate Reference System that R uses to create our maps. You can learn more about it with some reading material provided by the <a href="https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf">National Center for Ecological Analysis and Synthesis</a> if you’re interested.</p>
+<p><br></p>
+</section>
+<section id="creating-the-actual-map" class="level2">
+<h2 class="anchored" data-anchor-id="creating-the-actual-map">Creating the Actual Map</h2>
+<p>Now we can finally get our map into the column. The code is as follows:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating the leaflet map from the shared geo data object===</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Sharedgeodata <span class="sc">%&gt;%</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>OpenStreetMap) <span class="sc">%&gt;%</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addAwesomeMarkers</span>(</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste0</span>(</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;b&gt;&lt;h3&gt;"</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Agency Name</span><span class="st">`</span>, <span class="st">"&lt;/h3&gt;&lt;/b&gt;&lt;br&gt;"</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;h4&gt;"</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Name</span><span class="st">`</span>,<span class="st">"&lt;/h4&gt;&lt;br&gt;"</span>,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Phone: "</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Agency Phone</span><span class="st">`</span>, <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>      MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Address 1</span><span class="st">`</span>, <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>      MHprograms<span class="sc">$</span>City, MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program State</span><span class="st">`</span>, MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Zip</span><span class="st">`</span>), </span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">icon =</span> <span class="fu">awesomeIcons</span>(</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">library =</span> <span class="st">"fa"</span>,</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">icon =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Outpatient"</span>, </span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span> <span class="st">"fa-stethoscope"</span>,</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Inpatient"</span>, </span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span>  <span class="st">"fa-bed"</span>,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Emergency"</span>, </span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span> <span class="st">"fa-ambulance"</span>,</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="st">"fa-users"</span></span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>      ))),</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">iconColor =</span> <span class="st">"#ffffff"</span>,</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">markerColor =</span> <span class="st">"darkpurple"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addHomeButton</span>(<span class="at">ext =</span> homebase, </span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> Home,</span>
+<span id="cb34-29"><a href="#cb34-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="st">"topright"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb34-30"><a href="#cb34-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> mapcenter[<span class="dv">1</span>] , <span class="at">lat =</span> mapcenter[<span class="dv">2</span>], <span class="at">zoom =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>This part of the code starts out by using a <a href="https://uc-r.github.io/pipe">pipe operator</a> (%&gt;%) to connect our leaflet map functions to our shared data object <code>Sharedgeodata</code>. Let’s break down the main functions we have here:</p>
+<p><br></p>
+<ul>
+<li><p><strong>leaflet():</strong> Initiates our leaflet map widget.</p></li>
+<li><p><strong>addProviderTiles():</strong> This draws on actual map tiles to create a basemap. In this example we are using OpenStreetMaps. Being as this is Leaflet’s default, we could replace this with <code>addTiles()</code> with no options set inside and it would produce the same result.</p></li>
+<li><p><strong>addAwesomeMarkers():</strong> This allows us to add markers on our map with custom color and icons on them.</p></li>
+</ul>
+<p><strong><em>Arguments within the addAwesomeMarkers() function:</em></strong></p>
+<ul>
+<li><p><strong>popup</strong> = This is the text that will popup when a marker is clicked on. You can paste data from the original data set that was converted into a shared data object (in this case, the <code>MHprograms</code> set). In this example, we’re pasting the Agency Name, Program Name, Phone Number and Address associated with each marker (observation) in the data set. I’m utilizing HTML here to assist with formatting because I did not spend years learning it on Myspace for nothing. If you’d like to learn more about HTML basics you can do so here.</p></li>
+<li><p><strong>icon</strong> = These are the options that we set for our icons that show up on our marker. For this example we are using an additional function <code>awesomeIcons()</code> which will allow us to further customize the icons that are shown on our markers. In this function we have two additional arguments (library= &amp; icon=.) In this example we set <code>library=</code> to <code>"fa"</code> because we are using the Font Awesome library. Our icon argument is set to an <code>ifelse</code> function because we want the icons to change conditionally based on the type of program we are displaying at the marker.</p></li>
+<li><p><strong>iconcolor</strong> = &amp; <strong>markercolor</strong> = Self-explanatory. Changes the color of the icon in the marker and the marker itself.</p></li>
+<li><p><strong>addHomeButton():</strong> This allows us to add a “home/zoom to” button onto our map. Recall that we did some work for this already. This is where we fill in details to make the magic happen.</p></li>
+</ul>
+<p><br> <strong><em>Arguments within the addHomeButton() function:</em></strong></p>
+<ul>
+<li><p><strong>ext</strong> = This is the extent variable or bounding box that you’d like the home button to take the user to when clicked on. We already created our bounding box earlier and named it <code>homebase</code>.</p></li>
+<li><p><strong>group</strong> = This is the group or layer that will be shown in the home button on the map. A character string is expected here. Because we wish to use the home icon for our button that we set up earlier, we use the name we set it to earlier (<code>home</code>). This tells R to place our picture there instead of the text “home.”</p></li>
+<li><p><strong>position</strong> = Self-explanatory. This lets us choose where our home button will be displayed on the map. The options are <code>topleft</code>, <code>topright</code>, <code>bottomleft</code>, or <code>bottomright</code>. The default is <code>bottomright</code>.</p></li>
+<li><p><strong>setView():</strong> This allows us to determine the view that is seen when the map is open. <code>lng</code> and <code>lat</code> refer to longitude and latitude respectively. We can pull these values from the object we’ve already created called <code>mapcenter</code>. We do this by subsetting the first and second elements of <code>mapcenter</code> which is our longitude and lattiude values for the center of all of our data. We can also set the zoom level with the zoom argument. The zoom scale for Leaflet goes from 0-18 with 0 being a view of the entire world and 18 being the closest you can get to a “street” view.</p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="setting-up-our-second-column" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-our-second-column">Setting up our Second Column</h2>
+<section id="reactive-summary-count-of-records" class="level3">
+<h3 class="anchored" data-anchor-id="reactive-summary-count-of-records">Reactive Summary Count of Records</h3>
+<p>Great! Our first column is done. Now we need to create our second (right) column. Looking at our mock-up will let us know what order we wanted our elements to appear in. The first element is a reactive count of the amount of locations that are present on our map at any given time. Because we are creating a new column, we can repeat the same coding header we used for the last column with some tweaks to the sizing. We’ll make this column smaller because we want the map to take up most of the space on the page. We’ll get our reactive count by using the <strong><code>summarywidget</code></strong> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Start of the second Column</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>Column {data<span class="sc">-</span>width<span class="ot">=</span><span class="dv">450</span>}</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-----------------------------------------------------------------------</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="do">### **Total Locations Found:** {data-height=70}</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>center<span class="sc">&gt;</span><span class="er">&lt;</span>h4<span class="sc">&gt;</span><span class="er">&lt;</span>font color<span class="ot">=</span><span class="st">"#593869"</span><span class="sc">&gt;</span><span class="er">&lt;</span>b<span class="sc">&gt;</span><span class="st">`</span><span class="at">r summarywidget(Sharedgeodata, statistic='count', digits=0)</span><span class="st">`</span><span class="sc">&lt;</span><span class="er">/</span>b<span class="sc">&gt;</span><span class="er">&lt;/</span>font<span class="sc">&gt;</span><span class="er">&lt;/</span>h4<span class="sc">&gt;</span><span class="er">&lt;/</span>center<span class="sc">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Recall that we tell R that we want to create a box within our column with the three hashes (###). This time we will give it the name “Total Location Found:” and we will <strong>bold</strong> it by wrapping it in two asterisks (If you need a quick cheat sheet for R Markdown formatting, you can find one <a href="https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">here</a>!) We will also set the height of this box which is similar to setting widths of columns.</p>
+<p>Using some HTML tags, we can center and change the size and color of the <a href="https://rmarkdown.rstudio.com/lesson-4.html">inline code</a> we are using. In R Markdown, if you would like to insert R code to be evaluated within the lines of your markdown document, you can use backticks with an “r” inside of it before the code you wish to evaluate. Let’s pull this inline code out and look at what’s happening really quick:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">r summarywidget(Sharedgeodata, statistic='count', digits=0)</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>The first backtick and “r” let’s R know that it’s about to evaluate whatever comes next and then print that result in the markdown document as if it’s not code, meaning it’ll just print out the result. The <strong>summarywidget</strong> function is interacting with our shared data object <code>Sharedgeodata</code> to grab our statistic of choice (a count) for the records that are available at any given time. Because this is the same shared data object that’s used in our map (and our data table and filters that we’ll create in a moment), whenever anything on the dashboard is changed, this value with reactively change as well. Finally, we also set the digits in this function to zero to avoid any decimal numbers.</p>
+<p><br></p>
+</section>
+<section id="creating-a-simple-reactive-data-table" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-simple-reactive-data-table">Creating a Simple Reactive Data Table</h3>
+<p>We can now move on to our next box which is a data table. We set it up similarly with the hashes and set the data height like we did for the previous box. To display a data table, we’ll now use the <a href="https://www.rdocumentation.org/packages/DT/versions/0.19/topics/datatable"><code>datatable</code></a> function from the <a href="https://rstudio.github.io/DT/"><code>DT</code> package</a>. Note that this code will go into it’s own R code chunk named <code>datatable</code>.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="do">### **Program Information:** {data-height=200}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>```{r datatable}
+Sharedgeodata %&gt;% 
+  datatable(
+    rownames = FALSE,  
+    style = "bootstrap",
+    class = "compact",
+    selection = "multiple",
+    options = list(
+      dom = "tip", 
+      columnDefs = list(
+        list(width = '50%',
+          visible = FALSE,
+          targets = c(0,4:13,15:16))),
+    colnames = c(
+      "Location Name" = "Program Name",
+      "Ages Served" = "Populations Served",
+      "Phone Number" = "Program Phone",
+      "Address" = "Complete Address"
+      ))) 
+```</code></pre>
+<p><br></p>
+<p>After using the pipe operator (%&gt;%) to link to our shared data object <code>Sharedgeodata</code>, we use the <code>datatable()</code> function to make our table. There’s a lot going on here so let’s break it down:</p>
+<p><br></p>
+<ul>
+<li><p><strong>rownames</strong> = Simply the option for controlling the row names on the table. You can also set this to a character vector with the strings desired in it.</p></li>
+<li><p><strong>style</strong> = The table style you’d like. You can learn more about the DT table styles here. Sources say that R can only utilize the options <code>"default"</code>, <code>"bootstrap"</code>, and <code>"bootstrap4"</code> at this time.</p></li>
+<li><p><strong>selection</strong> = Controls how many rows/columns the user can select at a time. Options are <code>"multiple"</code>, <code>"single"</code>, and <code>"none"</code>.</p></li>
+<li><p><strong>options</strong> = This contains a list of options used to initialize our data table. Let’s break the options down further:</p></li>
+</ul>
+<p><br> <strong><em>Arguments within <code>options=</code>:</em></strong></p>
+<ul>
+<li><p><strong>dom</strong> = This is the <strong>D</strong>ocument <strong>O</strong>bject <strong>M</strong>odel for the table and can be seen in JavaScript usually. This is how we can get things like the actual table, pagination control, and more. For our example we’ve set it to “tip”. This translates to <strong>t</strong>-“table”, <strong>i</strong>-“table information summary”, and <strong>p</strong>-“pagination control”. These options can be placed in any order you wish, but it will affect the order in which it’s layered onto the dashboard. In this example our table gets printed first, then our information summary with the pagination buttons at the very bottom. To learn more about possible DOM options, you can read more about them <a href="https://datatables.net/reference/option/dom">here</a>.</p></li>
+<li><p><strong>columnDefs</strong> = These are the options we apply specifically to our columns. Note that R needs this info within a nested list (a list within a list) to interpret it properly. <strong>width</strong> = simply controls the sizing of the columns in the table. You can play around with this to see which percentage is better for your needs. <strong>visible</strong> = tells R whether or not we want specific columns to be shown or not. We have ours set to <code>FALSE</code> because we want R to hide most of our columns. <strong>targets</strong> = is where we tell R which columns to hide with the column index numbers. Note that the indexing within datatable arguments are zero-based. Meaning that the first column in the dataset is considered index “0” instead of index “1” like R normally does.</p></li>
+<li><p><strong>colnames</strong> = Self-explanatory. This is a vector of names that you want shown in the table. The function expects the name you want displayed first set to the name of the column in the actual data set.</p></li>
+</ul>
+<p><br></p>
+</section>
+</section>
+<section id="setting-up-reactive-filters" class="level2">
+<h2 class="anchored" data-anchor-id="setting-up-reactive-filters">Setting up Reactive Filters</h2>
+<section id="creating-a-checkbox-filter" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-checkbox-filter">Creating a Checkbox Filter</h3>
+<p>We can finally set up our filters that will interact with our map and data table. We do so by creating a new box in our dashboard. We’ll bold its title and name it “Map Filters:”.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="do">### **Map Filters:**</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>center<span class="sc">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>```{r mapfilters}
+
+  filter_checkbox(
+    id = "Program Category Description",
+    label = "Program Type",
+    sharedData = Sharedgeodata,
+    group = ~`Program Category Description`,
+    inline = TRUE
+  )
+
+```
+&lt;/center&gt;</code></pre>
+<p><br></p>
+<p>We’ve wrapped the R code block in some HTML tags to center the filter within the box. Using the crosstalk package, we can create our filter with the <a href="https://rdrr.io/cran/crosstalk/man/filter_select.html"><code>filter_checkbox()</code></a> function.</p>
+<p><strong><em>Arguments within filter_Checkbox():</em></strong></p>
+<p><strong><em>id</em></strong> = Reserved for element IDs. In this example we use the dataset’s column name that we want to filter on.</p>
+<p><strong><em>label</em></strong> = Expects a character string that will be shown on the actual dashboard.</p>
+<p><strong><em>sharedData</em></strong> = Where we put our shared data object we created (the same object that’s used in the datatable and map).</p>
+<p><strong><em>group</em></strong> = Is where we put a formula that will be used for filling the data within this particular filter. Normally this is just a column that’s either filled with factors or character vectors. The tilde (~) let’s R know it needs to interpret it as a function. In our example, our data is already cleaned and prepared for use but in other cases where special selections need to be made, you can enter more complicated functions on a column to achieve your desired result.</p>
+<p><strong><em>inline</em></strong> = Tells R whether to display the filter options horizontally (<code>TRUE</code>) or vertically (<code>FALSE</code>).</p>
+<p><br></p>
+</section>
+<section id="creating-selection-filters" class="level3">
+<h3 class="anchored" data-anchor-id="creating-selection-filters">Creating Selection Filters</h3>
+<p><br></p>
+<p>Selection filters are very similar in it’s syntax but will display the options in a drop-down menu instead:</p>
+<p><br></p>
+<pre><code>```{r mapfilters2}
+
+  filter_select(
+    id = "Program Subcategory Description",
+    label = "Program Setting",
+    sharedData = Sharedgeodata,
+    group = ~`Program Subcategory Description`,
+    multiple = TRUE
+  )
+
+```</code></pre>
+<pre><code>```{r mapfilters3}
+
+  filter_select(
+    id = "Populations Served",
+    label = "Ages Served",
+    sharedData = Sharedgeodata,
+    group = ~`Populations Served`,
+    multiple = FALSE
+  )
+
+```</code></pre>
+<p><br></p>
+<p>Note that we have two more R code chunks. Both of these filters could go in one code chunk, but I personally like to break my filters up into different chunks for easier debugging if things go wrong. It’s a matter of preference. The code for the <strong><code>filter_select()</code></strong> function is very similar to the <strong><code>filter_checkbox()</code></strong> function we just used. The only addition is that of the <strong>multiple</strong> = argument. This dictates whether the user can select multiple options at once. For example purposes, we’ve set our <code>Program Setting</code> filter to <code>TRUE</code> for this (meaning we can select multiple options) and we’ve set our <code>Ages Served</code> filter to <code>FALSE</code> (meaning we can only select one option at a time).</p>
+<p><br></p>
+</section>
+</section>
+<section id="finishing-up-the-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="finishing-up-the-dashboard">Finishing up the Dashboard</h2>
+<p>To finish up this dashboard, you can add some brief information about the data and it’s source. I feel this code chunk is a perfect example of some of flexdashboard limitations:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>Data provided by the <span class="sc">&lt;</span>b<span class="sc">&gt;</span><span class="er">&lt;</span>a href <span class="ot">=</span> <span class="st">"https://omh.ny.gov/"</span><span class="sc">&gt;</span>New York State Office of Mental Health<span class="sc">&lt;</span><span class="er">/</span>a<span class="sc">&gt;</span><span class="er">&lt;/</span>b<span class="sc">&gt;</span> and found publicly on <span class="sc">&lt;</span>b<span class="sc">&gt;</span><span class="er">&lt;</span>a href <span class="ot">=</span> <span class="st">"https://data.ny.gov/Human-Services/Local-Mental-Health-Programs/6nvr-tbv8"</span><span class="sc">&gt;</span>DATA.NY.GOV<span class="sc">&lt;</span><span class="er">/</span>a<span class="sc">&gt;</span><span class="er">&lt;/</span>b<span class="sc">&gt;</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>br<span class="sc">&gt;</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>Example created by <span class="sc">&lt;</span>b<span class="sc">&gt;</span><span class="er">&lt;</span>a href <span class="ot">=</span> <span class="st">"https://twitter.com/meghansharris"</span><span class="sc">&gt;</span> Meghan Harris<span class="sc">&lt;</span><span class="er">/</span>a<span class="sc">&gt;</span><span class="er">&lt;/</span>b<span class="sc">&gt;</span> with the <span class="sc">&lt;</span>b<span class="sc">&gt;</span><span class="er">&lt;</span>a href<span class="ot">=</span><span class="st">"https://rmarkdown.rstudio.com/flexdashboard/"</span><span class="sc">&gt;</span>flexdashboard<span class="sc">&lt;</span><span class="er">/</span>a<span class="sc">&gt;</span><span class="er">&lt;/</span>b<span class="sc">&gt;</span>, <span class="sc">&lt;</span>b<span class="sc">&gt;</span><span class="er">&lt;</span>a href<span class="ot">=</span> https<span class="sc">:</span><span class="er">//</span>rstudio.github.io<span class="sc">/</span>crosstalk<span class="sc">/</span><span class="st">"&gt; Crosstalk&lt;/a&gt;&lt;/b&gt;, &lt;b&gt;&lt;a href="</span>https<span class="sc">:</span><span class="er">//</span>kent37.github.io<span class="sc">/</span>summarywidget<span class="sc">/</span>index.html<span class="st">"&gt; SummaryWidget&lt;/a&gt;&lt;/b&gt;, and &lt;b&gt;&lt;a href ="</span>https<span class="sc">:</span><span class="er">//</span>rstudio.github.io<span class="sc">/</span>DT<span class="sc">/</span><span class="st">"&gt;DT&lt;/a&gt;&lt;/b&gt; packages. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>You can see the finished dashboard in action on the github repo <a href="https://meghansaha.github.io/NYS_MH_Programs/">here</a>.</p>
+<p><br></p>
+<center>
+<p><a href="https://meghansaha.github.io/NYS_MH_Programs/"><img src="images/snip4.png" alt="screenshot of finished flexdashboard" width="80%"></a></p>
+<figcaption>
+<p><a href="https://meghansaha.github.io/NYS_MH_Programs/">Finished FlexDashboard</a></p>
+</figcaption>
+</center>
+<p><br></p>
+</section>
+<section id="limitations" class="level2">
+<h2 class="anchored" data-anchor-id="limitations">Limitations</h2>
+<p><br></p>
+<p>While flexdashboard is great because it allows you to whip up some great dashboards without shiny, you are confined to the environment set by the template. It calls for some “hacking” sometimes and if you want your dashboard appearance to be customized (color/themes), some knowledge in CSS/HTML will make it an easier process. You can also use <a href="https://www.datadreaming.org/post/r-markdown-theme-gallery/">preset themes</a> to change the appearance of your dashboard as well.</p>
+<p><a href="https://rmarkdown.rstudio.com/flexdashboard/using.html#sizing">Sizing</a> is also a tricky issue with flexdashboards. Because the template uses a browser-based flexbox engine, the sizing will vary based on things like browser window and user monitor size. You’ll also have to consider <a href="https://rmarkdown.rstudio.com/flexdashboard/using.html#mobile_layout">mobile layouts</a> for viewing the dashboard on mobile devices if this is of interest. Despite the limitations, flexdashboards can be pretty useful and a less intimidating way for those without experience in Shiny to start making dashboards in R.</p>
+<p>Lastly, special thanks to <a href="https://twitter.com/mattdray">Matt Dray</a> for his <a href="https://github.com/matt-dray/earl18-presentation">presentation</a> and <a href="https://matt-dray.github.io/earl18-crosstalk/04_leaflet-flexdash-dt-crosstalk.html#interactives">work</a> on these packages! He’s the reason I found flexdashboards!</p>
+<p><em>Have you ever used flexdashboards before? Have any thoughts or suggestions? Know of a better solution or way to make this script more efficient? Feel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

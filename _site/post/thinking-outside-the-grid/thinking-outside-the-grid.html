@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Meghan Harris">
+<meta name="dcterms.date" content="2021-10-19">
+<meta name="description" content="Recently I’ve discovered the courage to dive into creative coding and generative aRt in R. Something that the R community calls “Rtistry.” My Rtistry journey so far has been an amazing and tranquil expedition into a world that seemed intimidating and scary on the outside but is honestly just a bottomless pit of fun and creativity on the inside.">
+
+<title>Thinking Outside The Grid - A “bare bones” intro to Rtistry concepts in R using ggplot.</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: #27445C;
+    }
+    </style>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/TTTdark.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">
+ <span class="menu-text">Exploration Corner</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resumecv.html">
+ <span class="menu-text">Resume/CV</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Portfolios</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">    
+        <li>
+    <a class="dropdown-item" href="../../talks.html">
+ <span class="dropdown-text">Talks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rtistry.html">
+ <span class="dropdown-text">Rtistry Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:meghanha01@gmail.com;thetidytrekker@gmail.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Thinking Outside The Grid - A “bare bones” intro to Rtistry concepts in R using ggplot.</h1>
+                  <div>
+        <div class="description">
+          <p>Recently I’ve discovered the courage to dive into creative coding and generative aRt in R. Something that the R community calls “Rtistry.” My Rtistry journey so far has been an amazing and tranquil expedition into a world that seemed intimidating and scary on the outside but is honestly just a bottomless pit of fun and creativity on the inside.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">data art</div>
+                <div class="quarto-category">rtistry</div>
+                <div class="quarto-category">ggplot</div>
+                <div class="quarto-category">beginner</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Meghan Harris </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 19, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Summary</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#why-rtistry" id="toc-why-rtistry" class="nav-link" data-scroll-target="#why-rtistry">Why Rtistry?</a></li>
+  </ul></li>
+  <li><a href="#ethics" id="toc-ethics" class="nav-link" data-scroll-target="#ethics">Ethics</a></li>
+  <li><a href="#geoms" id="toc-geoms" class="nav-link" data-scroll-target="#geoms">Geoms</a>
+  <ul class="collapse">
+  <li><a href="#geoms-examples" id="toc-geoms-examples" class="nav-link" data-scroll-target="#geoms-examples">Geoms Examples:</a></li>
+  </ul></li>
+  <li><a href="#making-and-applying-rtistry-art-data-to-geoms" id="toc-making-and-applying-rtistry-art-data-to-geoms" class="nav-link" data-scroll-target="#making-and-applying-rtistry-art-data-to-geoms">Making and Applying (Rtistry) aRt Data to Geoms</a></li>
+  <li><a href="#aesthetics" id="toc-aesthetics" class="nav-link" data-scroll-target="#aesthetics">Aesthetics</a></li>
+  <li><a href="#using-non-visual-functions-for-your-visuals" id="toc-using-non-visual-functions-for-your-visuals" class="nav-link" data-scroll-target="#using-non-visual-functions-for-your-visuals">Using “non-visual” Functions For Your Visuals</a></li>
+  <li><a href="#layering" id="toc-layering" class="nav-link" data-scroll-target="#layering">Layering</a></li>
+  <li><a href="#planet-quad-art-example" id="toc-planet-quad-art-example" class="nav-link" data-scroll-target="#planet-quad-art-example">Planet Quad – aRt Example</a></li>
+  <li><a href="#rainbow-rose-art-example" id="toc-rainbow-rose-art-example" class="nav-link" data-scroll-target="#rainbow-rose-art-example">Rainbow Rose – aRt Example</a></li>
+  <li><a href="#theres-a-package-for-that" id="toc-theres-a-package-for-that" class="nav-link" data-scroll-target="#theres-a-package-for-that">There’s a Package for That</a></li>
+  <li><a href="#final-remarks" id="toc-final-remarks" class="nav-link" data-scroll-target="#final-remarks">Final Remarks</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><em>Before I write any further, I want to give a special shout out to <a href="https://twitter.com/ijeamaka_a">@ijeamaka_a</a>, <a href="https://twitter.com/djnavarro">@djnavarro</a>, &amp; <a href="https://twitter.com/jiwanheo">@jiwanheo</a> who I personally credit for inspiring me within the last month specifically (my only month being an aRtist so far)!</em></p>
+<p><br></p>
+<p>So, this post will be a bit different from my others. I’m going to talk about some very basic concepts and perspectives you can think about while starting your own Rtistry journey in ggplot. This includes basics on geoms, aesthetics, layering, etc. But then I’m also going to walk you through two of my Rtistry examples and code to get you started.</p>
+<p><br></p>
+<p><strong>This article is intended for those who have some experience with ggplot building in R but may not have realized how to transition from making “regular” visuals to Rtistry</strong>. This article goes over basic concepts that more seasoned users may already know. If you believe it is too basic, you can jump straight to the code for the finished pieces to see these basics applied together. Seeing how others have constructed things may help you understand how you can apply your programming knowledge to create Rtistry of your own! For those of you that need these basics, I hope this article is helpful and encourages you to start thinking outside of the ggplot grid and start creating your own pieces!</p>
+<p><strong><em>Don’t want to read and just want the code? Here’s the code for:</em></strong> <br></p>
+<div class="alignRow">
+<div class="imageColumn" style="display:inline-block; float:left; max-width:50%;">
+<p><a href="https://github.com/Meghansaha/Data_Art/blob/master/creations/Collages/Planet%20Quad/Planet%20Quad.R"><img src="images/planetquad.png" style="max-width:100%;" alt="Planet Quad - Rtistry - Four different colored planets in outer space made in the R programming language on a 2 x 2 grid"></a> <br></p>
+<center>
+<a href="https://github.com/Meghansaha/Data_Art/blob/master/creations/Collages/Planet%20Quad/Planet%20Quad.R"><strong>Planet Quad</strong></a>
+</center>
+</div>
+<div class="imageColumn" style="display:inline-block; float:left; max-width:50%;">
+<p><a href="https://github.com/Meghansaha/Data_Art/blob/master/creations/Lines/Rainbow%20Rose/Rainbow_Rose.R"><img src="images/rainbowrose.png" style="max-width:100%;" alt="Rainbow Rose - abstract Rtistry of rainbow colored lines jutting from the center of the image in a layered fashion on a black background."></a> <br></p>
+<center>
+<p><a href="https://github.com/Meghansaha/Data_Art/blob/master/creations/Lines/Rainbow%20Rose/Rainbow_Rose.R"><strong>Rainbow Rose</strong></a></p>
+</center>
+</div>
+</div>
+<p><br><br><br></p>
+<center>
+<p>If you want to follow along with any of the following basic examples, you can find the Intro to Data Art repo on my GitHub <a href="https://github.com/Meghansaha/Intro_to_Data_Art">here</a>.</p>
+</center>
+<p><br></p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>First things first: let’s get one thing straight, I am NOT an expert, nor am I a computational scientist or a professional generative artist. While knowledge of some “math things” can be super helpful, you don’t need to know complex computational mathematics to make Rtistry (aRt). Granted, if you enjoy and want to create aRt similar to the works of <a href="https://www.data-imaginist.com/art">Thomas Lin Pedersen</a> and <a href="https://art.djnavarro.net/">Danielle Navarro</a>, then maybe you do! But as a beginner, it’s important to remember that your Rtistry is your work and opportunity to learn, grow as an R programmer, and create pieces you can be proud of. Remember that your aRt is an expression of you and no one else and that there is no “right” way to do Rtistry. One of the things I love most about creating aRt is the fact that I don’t have to get anything “right.” For those of us who use R for work/educational endeavors, we must ensure that our statistics, programming, and literally everything else is correct. Creating Rtistry can provide your mind with not only a creative outlet but a way to still practice programming in R in a low-stress environment where things don’t have to be “right.”</p>
+<section id="why-rtistry" class="level3">
+<h3 class="anchored" data-anchor-id="why-rtistry">Why Rtistry?</h3>
+<p>Some people may think of the concept of creating aRt and may think it’s a waste of time since no analyses are performed. If you think that way, you have every right to that opinion. What I can share with you, though, is why I personally love creating Rtistry:</p>
+<ul>
+<li>Gives my brain a rest from “real work”</li>
+<li>Allows me to practice programming skills in a stress-free environment</li>
+<li>Gives me satisfaction from flexing my creative skills</li>
+<li>Gives me more content for professional portfolios</li>
+</ul>
+</section>
+</section>
+<section id="ethics" class="level2">
+<h2 class="anchored" data-anchor-id="ethics">Ethics</h2>
+<p>While using others’ work as inspiration to give yourself ideas is OK, you should always strive to create something of your own merit. Just like in the physical art world, you may also find that some aRtists may not want to share their process or code with you. Those that are new to Rtistry may be shocked by this. Some newbies may even think that creators come off as standoffish or rude if they decline to share their work. This could be because of how supportive the R community usually is and how we are always seemingly ready to share our code.</p>
+<p>One thing to remember is that a creator could decline to share their code for many reasons. Those decisions are personal and left up to each aRtist on an individual basis. The aRtists that do exceptionally unique work will have usually put a lot of effort and hours into their pieces to a point where it may even feel proprietary. Some aRtists choose to sell their outputs not only because they have made something truly personal to them, but because they’ve also made something unique that probably hasn’t existed before.</p>
+<p>When you find an Rtistry piece that appeals to you, you could try to understand what’s happening behind the scenes instead of asking directly for the code. It tends to be a fun challenge to figure out what’s happening yourself. It’s a lot of work, yes, but I am willing to bet that if you use R for professional work, the work and study you do to figure out how to create your pieces will benefit you in the long run.</p>
+<p>What you choose to do with the pieces you create is entirely up to you. Some aRtists get their work printed for sale or personal use, some look into selling them as <a href="https://en.wikipedia.org/wiki/Non-fungible_token">Non-fungible Tokens (NFTs)</a> and some literally save their output and never save their code, completely erasing its footprint in a cathartic click of a button. Whatever you do, always give credit where credit is due; don’t assume that everyone is willing to share their code with you (but if they do, always express gratitude and give credit for the assist); and try to be ethical in everything that you do.</p>
+</section>
+<section id="geoms" class="level2">
+<h2 class="anchored" data-anchor-id="geoms">Geoms</h2>
+<p>If you want to start making data aRt in ggplot, having some knowledge on ggplot geoms will prove to be very useful. If you’ve ever participated in a <a href="https://github.com/rfordatascience/tidytuesday">#tidytuesday challenge</a> or have made visuals in <a href="https://ggplot2.tidyverse.org/index.html">ggplot</a>, you’re probably familiar with them. The key to using geoms to create your aRt is to understand what type of data is expected for each geom. Some basic ones to start with are:</p>
+<ul>
+<li><a href="https://ggplot2.tidyverse.org/reference/geom_point.html"><code>geom_point()</code></a></li>
+<li><a href="https://ggplot2.tidyverse.org/reference/geom_path.html"><code>geom_line()</code> &amp; <code>geom_path()</code></a></li>
+<li><a href="https://ggplot2.tidyverse.org/reference/geom_segment.html"><code>geom_segment()</code> &amp; <code>geom_curve()</code></a></li>
+<li><a href="https://ggplot2.tidyverse.org/reference/geom_polygon.html"><code>geom_polygon()</code></a></li>
+</ul>
+<p>There is no limit to which geoms you can use for aRt in ggplot. Your only barrier would be not having your data formatted appropriately for whichever geom you wish to use. For example, if you want to use <code>geom_segment()</code> you’d need to know that this function expects four different data points (<code>x</code>, <code>xend</code>, <code>y</code>, and <code>yend</code>). The geom functions will usually do a good job of throwing an error and letting you know if you’re missing any data points. If you’re interested, you can always learn more about ggplot with the official <a href="https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf">cheat sheet</a> or <a href="https://ggplot2-book.org/">book</a>.</p>
+<section id="geoms-examples" class="level3">
+<h3 class="anchored" data-anchor-id="geoms-examples">Geoms Examples:</h3>
+<p>You can think of basic geoms as instruments (paintbrushes) in your Rtistry toolkit. Here are a few simple examples of how each can be used:</p>
+<p><strong>Geom points</strong> can be used for textures, smaller details, or optical illusions like in the image <em>Candy Rope</em>:</p>
+<center>
+<img src="images/candyrope.png" alt="An abstract art piece created in the R programming language." style="max-width:100%">
+<figcaption>
+<i>Candy Rope</i>
+</figcaption>
+</center>
+<p><br><br></p>
+<p><strong>Geom line</strong> and <strong>path</strong> can be used to create linear details and abstract aRt :</p>
+<center>
+<img src="images/redfury.png" alt="An abstract art piece created in the R programming language." style="max-width:100%">
+<figcaption>
+<i>Linear Fury</i>
+</figcaption>
+</center>
+<p><br><br></p>
+<p><strong>Geom segment</strong> &amp; <strong>geom curve</strong> can be used for linear/curved details, or larger components:</p>
+<center>
+<img src="images/moonscape.png" alt="An abstract art piece created in the R programming language." style="max-width:100%">
+<figcaption>
+<i>Moonscape</i>
+</figcaption>
+</center>
+<p><br><br></p>
+<p><strong>Geom Polygon</strong> can be used to make any shape that can exist on ggplot’s coordinate system, Like lots of randomized squares:</p>
+<center>
+<img src="images/besquare.png" alt="An abstract art piece created in the R programming language." style="max-width:100%">
+<figcaption>
+<i>Be Squared</i>
+</figcaption>
+</center>
+<p><br><br></p>
+</section>
+</section>
+<section id="making-and-applying-rtistry-art-data-to-geoms" class="level2">
+<h2 class="anchored" data-anchor-id="making-and-applying-rtistry-art-data-to-geoms">Making and Applying (Rtistry) aRt Data to Geoms</h2>
+<p>If the geoms are the instruments in your toolkit, the data is your ink/paint. The data you provide to each geom will produce visuals on ggplot’s coordinate system. Thinking about it broadly, to make one point on a basic ggplot you need at least one x and one y value:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co">#For everything data====</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyverse' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Attaching packages --------------------------------------- tidyverse 1.3.2 --
+v ggplot2 3.4.0      v purrr   0.3.5 
+v tibble  3.1.8      v dplyr   1.0.10
+v tidyr   1.2.1      v stringr 1.5.0 
+v readr   2.1.3      v forcats 0.5.2 </code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tibble' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'purrr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'forcats' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>-- Conflicts ------------------------------------------ tidyverse_conflicts() --
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 1: Data Frame====</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>single_point <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x=</span><span class="dv">0</span>, <span class="at">y=</span><span class="dv">0</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 1 ggplot====</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>single_point <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y))<span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip1-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">A Single Point</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Having several x and y points is what will get you some shapes, lines, and other things:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 2: Data Frame====</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>random_lines <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>, <span class="dv">50</span>),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 2: ggplot====</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>random_lines <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">xend =</span> <span class="fu">median</span>(x), <span class="at">yend =</span> <span class="fu">median</span>(y)))<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip2-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Random Lines</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>The magic happens when you can start viewing the grid differently. When you begin to understand the relationship the values in a data frame have with the ggplot coordinate system, it becomes easier to realize what data is needed to create your desired output. For example, if you want to create abstract art, you might practice making datasets with randomized values. If you want to make intentional pieces, you might spend time studying the axes of the ggplot and determine what range of values you need to make the figures you want. The process of creating data for Rtistry and applying them to geoms can be as simple or complicated as your creativity allows. Let’s just go over a simple example with a basic square.</p>
+<p>We know that a square consists of four lines. Each line has a start and endpoint. So, we at least need to make four points on our plot. Since each point consists of two values (x and y), we’ll need eight values in total. Four x points and four y points.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 3: Data Frame====</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>square <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">0</span>), </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Because we want to make a shape that’s closed (so we could potentially fill it with color), we’d want to use <code>geom_polygon()</code>. You might be thinking “why not use <code>geom_line()</code> instead?” because a square consists of four lines, but let’s look at that. If we make a data set of the points that are supposed to make a square but then pass it through to <code>geom_line()</code> or <code>geom_path()</code> functions, we get these instead:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 3: Geom_line() ggplot====</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>square <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> y,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> labels))<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()<span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>()<span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip4-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">“Square” made with geom_line()</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 4: Geom_path() ggplot====</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>square <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> y,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> labels))<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>()<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>()<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip5-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">“Square” made with geom_path()</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p><strong>geom_line()</strong> looks this way because it plots points in order by the x axis. Try to take a moment to compare the data and the result and understand why it came to be.</p>
+<p><strong>geom_path()</strong> looks closer to a square! But we’re missing a side! This is because <code>geom_path()</code> doesn’t create a fully closed shape by default. <code>geom_path()</code> is the same as <code>geom_line()</code> except it plots points in the order in which it appears in the dataset.</p>
+<p>Now let’s use <strong>geom_polygon()</strong> with the same data set:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 5: Geom_polygon ggplot====</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>square <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> y,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> labels))<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>()<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>()<span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip6-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">“Square” made with geom_polygon()</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>There we go; An actual square. <code>geom_polygon()</code> is similar to how <code>geom_path()</code>’s process of drawing lines works. The only difference is that the start and endpoints are automatically connected and you can add a “fill” aesthetic to your new shape. By default, ggplot does fill the square. You can set <code>fill = NA</code> to make it empty, but remember to set a color argument if you want to see the “border” of the polygon make its shape:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 6: Geom_Polygon ggplot with no fill====</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>square <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> y,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">label =</span> labels))<span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>()<span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip7-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Square - geom_polygon() ggplot with no fill</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>As a beginner, it’s tempting to try and make every cool idea that comes to you, but it’s a good idea to spend time with these basics first. You can explore creating aRt data sets with formulas you may be interested in or with any of the “non-visual” functions I’ll discuss later in the article. Once you feel comfortable creating aRt datasets and applying them to geoms, you might be able to find cool and unexpected ways to plot things!</p>
+<p><br></p>
+</section>
+<section id="aesthetics" class="level2">
+<h2 class="anchored" data-anchor-id="aesthetics">Aesthetics</h2>
+<p>The next important set of basics to learn about is ggplot aesthetics. We’ve already used aesthetics in the previous section’s examples, but let’s think about them a bit more. Each base ggplot and geom function comes with available aesthetics. If you’ve ever made a ggplot visualization and changed any colors, shapes, etc., you’re already familiar with the foundations needed to start customizing the look/style of your work.</p>
+<p>There’s two ways you can map aesthetics onto your visuals:</p>
+<ol type="1">
+<li>The <a href="https://ggplot2.tidyverse.org/reference/aes.html"><code>aes()</code></a> function in your initial ggplot() function</li>
+<li>Directly into the geom function you wish to change.</li>
+</ol>
+<p>As you explore what you want to do and how you want to style your data, you may find that you prefer one way over the other. If you get stuck on this part, take some time to think about what you’d like to see on the grid and then think logically about which method would make sense.</p>
+<p>For example, if you have a variable that contains <a href="https://en.wikipedia.org/wiki/Web_colors">hex color codes</a> attached to each row in a dataset, it may make sense to set up the aesthetic in the <code>aes()</code> function since it’s already connected to the data. If you have a circumstance where you only want one geom to be one color, or you want to map a different data set of aesthetics to the geom, you can put it into the actual function.</p>
+<p><strong>A word of caution though, if you want to add values from a different dataset, make sure they have the same number of rows as the initial data set that you are piping into the initial ggplot’s function.</strong> If they don’t match up and you don’t set the <code>inherit.aes</code> argument to <strong><code>FALSE</code></strong> in the geom, you’ll get an error. There are ways to use different data sets in addition to the initial one used at the beginning of your ggplot call. I’ll touch on this in the layering section of this article. For now, let’s take a quick look into setting aesthetics in our square example:</p>
+<p>Let’s say we want to color our square purple and make colored dots on each point of the square. Because the polygon will only be filled with one color, we can set that in the <code>geom_polygon()</code> call. If we add a color variable to our data set with individual hex color codes attached to each observation, we can place it in the <code>aes()</code> function and get our desired output with the following code:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 7: Geom_Polygon ggplot with colored points====</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 7: Data Frame====</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>square_color_points <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">0</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">5</span>,<span class="dv">5</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colors =</span> <span class="fu">c</span>(<span class="st">"#c0d943"</span>,<span class="st">"#027337"</span>,<span class="st">"#d12017"</span>,<span class="st">"#000a96"</span>))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 7: Geom_Polygon ggplot with colored points====</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>square_color_points <span class="sc">%&gt;%</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> y))<span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">fill =</span> <span class="st">"#4b1980"</span>)<span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> square_color_points<span class="sc">$</span>colors)<span class="sc">+</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip8-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Square- geom_polygon() with colored points</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>We can also change multiple aesthetics at once. We can change the size of our points too:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 8: Geom_Polygon ggplot with colored points and Random Sizes====</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>square_color_points <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> y))<span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">fill =</span> <span class="st">"#4b1980"</span>)<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> square_color_points<span class="sc">$</span>colors,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="fu">nrow</span>(square_color_points)))<span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip9-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Square - geom_polygon() with randomly sized points</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>As you get more comfortable with aesthetics, you will find that there may be different ways to explore these settings programmatically using various ideas or functions. One of the greatest things about Rtistry is realizing that you may already have the programming knowledge necessary to use these basic components to create amazing things.</p>
+<p>At the end of the day, if you find yourself stuck on how to do something, it may be helpful to search google, the <a href="https://community.rstudio.com/">RStudio Community forums</a>, or even <a href="https://stackoverflow.com/questions/tagged/r">Stack Overflow</a> for the answers to programming questions that may help you piece together your Rtistry. In my experience, I’ve always had the best results when I take a moment to stop and think about what I am asking R to do programmatically. R doesn’t know that I want to randomize colors for an image, but it will know if I want it to pick random hex color values from a vector by using the <code>sample()</code> function. I can then apply that result to an aesthetic option and get the desired output.</p>
+<p>If I were googling for the answer to this example, I wouldn’t type <em>“how to randomize colors of geom_point()”</em> but instead I’d type <em>“how to randomly pick values from a vector in R programming.”</em> It may take a little bit to understand this thought process, but you are programming after all, so try to approach any troubleshooting as if you were coding for “actual work”.</p>
+<p><br></p>
+</section>
+<section id="using-non-visual-functions-for-your-visuals" class="level2">
+<h2 class="anchored" data-anchor-id="using-non-visual-functions-for-your-visuals">Using “non-visual” Functions For Your Visuals</h2>
+<p>The first time I realized that you could pass additional functions into aesthetic options - my mind was blown! I did not realize that anything other than a string of a hex color could go into a color aesthetic in ggplot. My mind was so stuck on how I learned to code for ggplot. It was also bound by the fact that I never needed to think about setting any options outside of regular color “strings” for my everyday work. Take the random data below. We could change the colors of these random points by applying some random colors…</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 9: Data Frame====</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>random_points <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">y =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 9: ggplot of randomized points====</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>random_points <span class="sc">%&gt;%</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y))<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip10-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Ggplot of randomized points</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 10: ggplot of randomized points with randomized colors====</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>random_points <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y))<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="fu">sample</span>(RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">5</span>,<span class="st">"PRGn"</span>), <span class="fu">nrow</span>(random_points), <span class="at">replace =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip11-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Ggplot of randomized points with randomized colors</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>…Or by placing a logical function in the color aesthetic for <code>geom_point()</code>. For example, we can tell R that we only want to apply randomized colors to any data points that have a y value that’s less than 50, otherwise observations with a y value that’s greater than or equal to 50 will just be colored black with an <code>ifelse()</code> function:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 11: ggplot of randomized points with randomized colors and logic applied====</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>random_points <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y))<span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="fu">ifelse</span>(random_points<span class="sc">$</span>y <span class="sc">&lt;</span> <span class="dv">50</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">sample</span>(RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="dv">5</span>,<span class="st">"PRGn"</span>), <span class="fu">nrow</span>(random_points), <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"black"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip12-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Ggplot of randomized points with randomized colors and logic applied</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Since there is no limit to the different types of functions a user can make, the possibilities of different functions that can be added to aesthetics seems endless. A few functions that might help you not only in aesthetics, but working with your data prepping are listed below to get you started:</p>
+<p><br></p>
+<ul>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample"><code>sample()</code></a> – Randomly take a sample from elements of an object</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/rep"><code>rep()</code></a> – Replicate (repeat) elements in a vector or list</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/seq"><code>seq()</code></a> – Generates numeric sequences</li>
+<li><a href="https://www.rdocumentation.org/packages/compositions/versions/2.0-2/topics/runif"><code>runif()</code></a> – Returns a random composition of numbers with a uniform distribution</li>
+<li><a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/Normal"><code>dnorm()</code> &amp; <code>rnorm()</code></a> – Creates a normal density distribution and random normal distribution of numbers</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Trig">Trigonometric Functions (<code>cospi()</code>,<code>cos()</code>,<code>sin()</code>, etc.)</a> – Results in the computation of various trigonometric functions.</li>
+<li><a href="https://tidyr.tidyverse.org/reference/expand.html"><code>Crossing()</code>, <code>expand()</code>, <code>nesting()</code></a> – Tidyr functions that expand data frames to include possible combinations of values.</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Control">Control-flow constructs (<code>while</code>, <code>repeat</code>,<code>if</code>, <code>for</code>, etc.)</a> – Can be used to create iterations, patterns, and functions of your own.</li>
+<li><a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/apply">Apply</a> family functions (<a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/lapply"><code>lapply</code>, <code>sapply</code>, etc.</a>) – Can be used to apply functions on different objects like matrices, vectors, or lists.</li>
+</ul>
+<p><br></p>
+<p>Remember that this is not an exhaustive list, but just a taste of some commonly used functions to hopefully get the gears turning about different ways you can manipulate your ggplot aesthetics and actual Rtistry data.</p>
+</section>
+<section id="layering" class="level2">
+<h2 class="anchored" data-anchor-id="layering">Layering</h2>
+<p>The last basic concept in this post is ggplot layering. Adding layers with the <a href="https://ggplot2.tidyverse.org/reference/layer.html"><code>layer()</code></a> function or even annotations with the <a href="https://ggplot2.tidyverse.org/reference/annotate.html"><code>annotate()</code></a> function is very useful as it allows the user to add different layers of data. You can also achieve this by adding geom functions as you would normally, but if you ever want to add geoms that pull from different data sources this way, you need to set the <code>inherit.aes</code> argument to <code>FALSE</code>, as this will then allow the ggplot to build without error.</p>
+<p>These multiple ways of layering allows for endless possibilities as piecing together an image this way provides a bit more flexibility. Take the two datasets below. One is intended to just create some lines with <code>geom_segment()</code>, and the other is intended to just create circles in between each line with <code>geom_point()</code>. Because we want 4 lines and 3 circles, the amount of data needed to map these things don’t match up. We can tell this on a quick glance by seeing that the number of rows in each data set don’t match up:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 12: Lines_data Data Frame====</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Lines_data <span class="ot">&lt;-</span>  <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">xend =</span> <span class="fu">rep</span>(<span class="dv">5</span>, <span class="dv">4</span>),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">6</span>, <span class="at">by =</span> <span class="dv">2</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">yend =</span> y )</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 12: Circles_data Data Frame====</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>Circles_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="dv">3</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">y =</span> <span class="fu">unique</span>(<span class="fu">abs</span>(<span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">6</span>, <span class="at">by =</span> <span class="dv">2</span>) <span class="sc">-</span> <span class="dv">1</span>)),</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="do">##Logic Check: Do these dataframes have the same number of row?##</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(Lines_data) <span class="sc">==</span> <span class="fu">nrow</span>(Circles_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>If we try to add these together by just using a geom function ,<code>geom_point()</code>, and supplying the <code>Circles_data</code> directly into <code>geom_point()</code> without typing <code>inherit.aes = FALSE</code>, the console will throw an error:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 12: Lines_data and Circles_data error====</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>Lines_data <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend))<span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">size =</span> <span class="dv">15</span>)<span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> Circles_data, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">size =</span> size)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+i Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `geom_point()`:
+! Problem while computing aesthetics.
+i Error occurred in the 2nd layer.
+Caused by error in `FUN()`:
+! object 'xend' not found</code></pre>
+</div>
+</div>
+<p><br></p>
+<p>This error tells you that object <code>xend</code> is not found. This is because we are attempting to override the data frame that is attached to the entire ggplot (<code>Lines_data</code>) with <code>Circles_data</code> now and <code>xend</code> definitely does not exist in <code>Circles_data</code> and therefore “can’t be found.” To fix this specific example and get the desired results, simply add <code>inherit.aes = FALSE</code> into the <code>geom_point()</code> function. If desired, you also could just move the aesthetics for <code>Lines_data</code> into the <code>geom_segment()</code> function but as you will find, there are multiple ways to get to the same result. For this example though, we’ll just add the <code>inherit.aes</code> argument to <code>geom_point()</code>.</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Example 12: Adding Lines_data and Circles_data together with inherit.aes in geom====</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>Lines_data <span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend))<span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">size =</span> <span class="dv">15</span>)<span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> Circles_data, <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">size =</span> size), <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip15-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">ggplot of Lines_data and Circles_data layered together with the addition of geom_point()</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>We can also use the <code>layer()</code> function or the <code>annotate()</code> function to achieve similar results. Both methods are used in the example below:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 13: Adding Lines_data and Circles_data together with layer function====</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>Lines_data <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend))<span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">size =</span> <span class="dv">15</span>)<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">layer</span>(<span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">data =</span> Circles_data,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">stat =</span> <span class="st">"identity"</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">position =</span> <span class="st">"identity"</span>,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">size =</span> size),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip16-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">ggplot of Lines_data and Circles_data layered together with the layer() function</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 14: Adding Lines_data and Circles_data together with annotate function====</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>Lines_data <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>x, <span class="at">y=</span>y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend))<span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="at">size =</span> <span class="dv">15</span>)<span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">"point"</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">x=</span> Circles_data<span class="sc">$</span>x, </span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">y=</span> Circles_data<span class="sc">$</span>y, </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">size =</span> Circles_data<span class="sc">$</span>size)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip17-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">ggplot of Lines_data and Circles_data layered together with the annotate() function</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Both functions produce similar images. The <code>layer()</code> and <code>annotate()</code> functions have their own pros and cons based on what you’d like to do. As shown in the code snippets, each method of layering in ggplot is similar but has its own differences that may be favored in certain situations. I’d encourage you to read and explore these methods of layering a bit more, and to see what works best to execute your ideas.</p>
+<p><br></p>
+</section>
+<section id="planet-quad-art-example" class="level2">
+<h2 class="anchored" data-anchor-id="planet-quad-art-example">Planet Quad – aRt Example</h2>
+<br> <img src="images/planetquad.png" style="max-width:100%;" alt="Planet Quad - Rtistry - Four different colored planets in outer space made in the R programming language on a 2 x 2 grid">
+<figcaption>
+<i>
+<center>
+Planet Quad
+</center>
+</i>
+</figcaption>
+<p><br></p>
+<p>Now that we’ve gone over some technical basics, let’s look at two Rtistry examples I’ve created. The first is Planet Quad. The creation of Planet Quad demonstrates how we can utilize other packages like <a href="https://patchwork.data-imaginist.com/index.html">patchwork</a> and <a href="https://wilkelab.org/cowplot/index.html">cowplot</a> to create our own Rtisrty. Let’s break this down step-by-step.</p>
+<p>Each layer in ggplot is built on top of each other in the order in which it appears in the code. For this image, that means we want the space/stars background to be <strong>behind</strong> our planets- so we can start with that <strong>first</strong>.</p>
+<p>We want four different plots with a similar design in different colors, so we can start by creating a named vector of the background colors we want to use. I always use hex colors, but you can use whatever format you’d like. I’ll name mine <code>Space_colors</code>:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Library Load-In====</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># For everything data</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot) <span class="co"># For placing plots on top of each other easily with ggdraw and draw_image</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork) <span class="co"># For packaging up the plots in the final image</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'patchwork' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'patchwork'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:cowplot':
+
+    align_plots</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Star Backgrounds====</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Making four different stars "backgrounds" with four different colors====</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>Space_colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Topleft"</span><span class="ot">=</span><span class="st">"#000000"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Topright"</span><span class="ot">=</span><span class="st">"#130321"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Bottomleft"</span><span class="ot">=</span><span class="st">"#330500"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Bottomright"</span><span class="ot">=</span><span class="st">"#8a4500"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Next, we want to create the data for the stars in our backgrounds. Because I want the image to look pretty filled in, I’ll apply the <code>crossing()</code> function to the data in this <code>tibble</code> that I’ll name stars:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Making a data set that will be used to create all star backgrounds====</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>stars <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="fu">crossing</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">2000</span>,<span class="dv">100</span>),</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">y =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">2000</span>,<span class="dv">100</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Next, we want to make a list because we’ll run iterations of our <code>stars</code> dataset through a ggplot call that will also iterate through our vector Space_colors. This will result in a list of four similar plots that all have a different color scheme. We’ll name this list <code>All_stars</code> and name the plots inside of the list to make it easier to track each plot as our session continues:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Making the list to hold the "space" plots====</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>All_stars <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Iterating through the "space_colors" to make four different plots====</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(Space_colors)){</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>  All_stars[[i]] <span class="ot">&lt;-</span> stars <span class="sc">%&gt;%</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y))<span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_jitter</span>(<span class="at">size =</span> <span class="fu">sample</span>(<span class="fu">c</span>(.<span class="dv">02</span>,.<span class="dv">04</span>,.<span class="dv">06</span>,.<span class="dv">8</span>),<span class="fu">nrow</span>(stars), <span class="at">replace =</span> <span class="cn">TRUE</span>), <span class="at">color =</span> <span class="st">"white"</span>)<span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> Space_colors[i], <span class="at">color =</span> <span class="st">"#ffffff"</span>, <span class="at">size =</span> <span class="dv">6</span>)) </span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.
+i Please use the `linewidth` argument instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Naming the plots just to help keep track of what's going where====</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(All_stars) <span class="ot">&lt;-</span> <span class="fu">names</span>(Space_colors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Now we can check and look at one of our plots by typing All_stars$Topleft in the console to verify that it looks like what we were expecting:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>All_stars<span class="sc">$</span>Topleft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip21-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">The “Topleft” image in the All_stars list. A ggplot of the stars data</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Now, we can work on our planets. The planets are actually just a <a href="https://ggplot2.tidyverse.org/reference/geom_density_2d.html"><code>geom_density2d_filled()</code></a> plot that will go through four iterations of the planet data set with its coordinate system set to [<code>coord_polar()</code>](https://ggplot2.tidyverse.org/reference/coord_polar.html. Just like we did for the stars data, we also want four very similar plots with different colors. Again, we can make a similar function to create a list of these plots. We just need to generate four different iterations of the data set and pick some colors for the planet surfaces. Let’s start with picking color palettes for planets and different colors for the border lines of each planet. We can place each palette into a list called <code>Planet_colors</code> and each border color into a vector called <code>Planet_borders</code>:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Planet Creations====</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Setting the color palettes for each planet quad====</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>Planet_colors <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Topleft"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"#194157"</span>,<span class="st">"#008dd7"</span>,<span class="st">"#085b88"</span>,<span class="st">"#26925e"</span>,<span class="st">"#095c88"</span>),</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Topright"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"#480463"</span>,<span class="st">"#392242"</span>,<span class="st">"#1e0329"</span>,<span class="st">"#bf9232"</span>,<span class="st">"#120b17"</span>),</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Bottomleft"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"#47322d"</span>,<span class="st">"#6b1c09"</span>,<span class="st">"#a30000"</span>,<span class="st">"#6b1d09"</span>,<span class="st">"#851205"</span>),</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"Bottomright"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"#c7a602"</span>,<span class="st">"#998523"</span>,<span class="st">"#ba690d"</span>,<span class="st">"#755b3d"</span>,<span class="st">"#dbab39"</span>))</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="do">## Setting the colors of each planet's borders====</span></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>Planet_borders <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Topright"</span> <span class="ot">=</span> <span class="st">"#333333"</span>,</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Topright"</span> <span class="ot">=</span> <span class="st">"#120b17"</span>,</span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Bottomleft"</span> <span class="ot">=</span> <span class="st">"#260f09"</span>,</span>
+<span id="cb42-12"><a href="#cb42-12" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"Bottomright"</span> <span class="ot">=</span> <span class="st">"#5c523a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ll create some randomly sampled data to draw out our planets to encourage some weirdness in its final presentation. We’ll name the dataset planet:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Making a dataset that will be used to create all the planets====</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>planet <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="fu">crossing</span>(<span class="at">x =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,<span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2000</span>, <span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Now we’ll create our list, named All_planets, that will be filled with our four different planets after it runs through our for-loop:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Making the list to hold the "planet" plots====</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>All_planets <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Iterating through the "planet_colors" to make four different planet plots====</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(Planet_colors)){</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  All_planets[[i]] <span class="ot">&lt;-</span> planet <span class="sc">%&gt;%</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y))<span class="sc">+</span></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">sample</span>(Planet_colors[[i]],<span class="dv">100</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>))<span class="sc">+</span> <span class="co">#100 is just a arbitrary "safe" number I picked. geom_density does background calcs to create levels that varies based on data.</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_density2d_filled</span>(<span class="at">color =</span> Planet_borders[i], <span class="at">size =</span> <span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">coord_polar</span>(<span class="at">clip =</span> <span class="st">"on"</span>)<span class="sc">+</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a><span class="do">## Naming the plots just to help keep track of what's going where====</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(All_planets) <span class="ot">&lt;-</span> <span class="fu">names</span>(Planet_colors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>All these plots are now in our list <code>All_planets</code>. We can peek at one by typing <code>All_planets$Bottomright</code> into the console. Because a seed hasn’t been set anywhere, yours may look different than mine and that’s all right!</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>All_planets<span class="sc">$</span>Bottomright</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip25-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">The “Bottomright” image in the All_stars list. A ggplot of the stars data</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Now we can save all these planet plots as images out into the directory so we can load them right back in as <a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics">png files</a>. Please note that if you are following along, you may have to alter the directory to avoid errors as this directory is located within my <a href="https://github.com/Meghansaha/Data_Art/tree/master/creations/Collages/Planet%20Quad">Data_aRt GitHub repo</a> in my Planet Quad project file.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Saving Planets into the directory====</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(All_planets)){</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">"planets/"</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>              <span class="fu">names</span>(All_planets)[i],</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>              <span class="st">"_planet.png"</span>),</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>       All_planets[[i]],</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">"transparent"</span>, </span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">device =</span> <span class="st">"png"</span>)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Saving 7 x 5 in image
+Saving 7 x 5 in image
+Saving 7 x 5 in image
+Saving 7 x 5 in image</code></pre>
+</div>
+</div>
+<br> <br> <img src="images/snip1.png" style="width:100%;" alt="A snapshot of the processed PNG files in my personal working directory locally.">
+<figcaption>
+<i>
+<center>
+A snapshot of the processed PNG files in my personal working directory locally.
+</center>
+</i>
+</figcaption>
+<p><br></p>
+<p>Next, we need to bring the processed png files back into the environment. We can do this with the <a href="http://www.rforge.net/png/index.html">png package</a>. Because I’m only using this once, I chose to call in the <a href="https://www.rdocumentation.org/packages/png/versions/0.1-7/topics/readPNG"><code>readPNG()</code></a> function directly from the package instead of loading the package itself. We’ll store the images in a list called <code>Planet_PNGs</code>.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Loading Planets back into the environment as PNGs====</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>Planet_PNGs <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(All_planets)){</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>Planet_PNGs[[i]] <span class="ot">&lt;-</span> png<span class="sc">::</span><span class="fu">readPNG</span>(<span class="fu">paste0</span>(<span class="st">"planets/"</span>,</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>                                        <span class="fu">names</span>(All_planets)[i],</span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>                                        <span class="st">"_planet.png"</span>))</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Setting names to keep track of the planets====</span></span>
+<span id="cb48-12"><a href="#cb48-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Planet_PNGs) <span class="ot">&lt;-</span> <span class="fu">names</span>(All_planets)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Now that we have png files, we can place these “on top” of our star backgrounds we made earlier using the <a href="https://www.rdocumentation.org/packages/cowplot/versions/1.1.1/topics/ggdraw"><code>ggdraw()</code></a> and <a href="https://www.rdocumentation.org/packages/cowplot/versions/1.1.1/topics/draw_image"><code>draw_image()</code></a> functions from the cowplot package with for-loops. This time, we’ll store them in a list called <code>Combined_plots</code>:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Combining both the stars and planets to create four plots in total====</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>Combined_plots <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="fu">seq_along</span>(All_planets)){</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  Combined_plots[[i]] <span class="ot">&lt;-</span> <span class="fu">ggdraw</span>(All_stars[[i]]) <span class="sc">+</span></span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="fu">draw_image</span>(Planet_PNGs[[i]])</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Setting names to keep track of the plots===</span></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Combined_plots) <span class="ot">&lt;-</span> <span class="fu">names</span>(Planet_PNGs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Just like before, we can take a peek at any of the plots in the Combined_plots list to make sure it looks as expected. I’ll use <code>Combined_plots$Bottomleft</code> in the console to see:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>Combined_plots<span class="sc">$</span>Bottomleft</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip29-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">The stars and planet plots combined</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Looking good! Almost done! Now we can <a href="https://purrr.tidyverse.org/reference/pluck.html"><code>pluck()</code></a> each of our plots out and save them to individual objects! Because there’s only four of them, I’ll just copy and paste that code because this is Rtistry and it’s totally OK to be lazy. It’s your work. It’s your aRt . Do what you want!</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Plucking out all the individual plots===</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>Topleft <span class="ot">&lt;-</span> Combined_plots <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"Topleft"</span>)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>Topright <span class="ot">&lt;-</span> Combined_plots <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"Topright"</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>Bottomright <span class="ot">&lt;-</span> Combined_plots <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"Bottomright"</span>)</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>Bottomleft <span class="ot">&lt;-</span> Combined_plots <span class="sc">%&gt;%</span> <span class="fu">pluck</span>(<span class="st">"Bottomleft"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Finally, we use <a href="https://patchwork.data-imaginist.com/articles/guides/layout.html">pacthwork’s layout syntax</a> to combine these plots into one image:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Final output construction with patchwork functions====</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>Planet_Quad <span class="ot">&lt;-</span> (Topleft <span class="sc">+</span> Topright) <span class="sc">/</span> (Bottomleft <span class="sc">+</span> Bottomright)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="co"># View the piece#</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>Planet_Quad</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip31-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Planet Quad - Finished</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>And voila! We have our finished piece! I’ve noticed that sometimes patchwork may render in some borders around these images if <a href="https://ggplot2.tidyverse.org/reference/ggsave.html"><code>ggsave()</code></a> is used. In these cases, I just export using the Export button in the RStudio IDE.</p>
+<p><br></p>
+</section>
+<section id="rainbow-rose-art-example" class="level2">
+<h2 class="anchored" data-anchor-id="rainbow-rose-art-example">Rainbow Rose – aRt Example</h2>
+<br> <img src="images/rainbowrose.png" style="max-width:100%;" alt="An abstract image that was created in the R programming language. It shows a spiral on lines progressing from the center of the image towards the user with a progressive rainbow color palette on a black background">
+<figcaption>
+<i>
+<center>
+Rainbow Rose
+</center>
+</i>
+</figcaption>
+<p><br></p>
+<p>Finally, we’re at our last example! Rainbow Rose is an Rtistry piece that showcases one way trigonometric functions can be used to create cool results. This Rtistry piece was created from a beautiful accident when I mistyped some code while attempting to draw a circle from scratch in ggplot (yes, the <a href="https://ggforce.data-imaginist.com/reference/geom_circle.html"><code>geom_circle()</code></a> function from <a href="https://ggforce.data-imaginist.com/index.html">ggforce</a> exists, but I was trying to improve my manual ggplot skills 🤷🏾️).</p>
+<p><br></p>
+<p>To start out, we need to set up some specifications that will alter how the data is plotted onto ggplot’s Cartesian coordinate system. This includes calculating the “theta”(angles) of our intended circle, the number of divisions/data points we want in the dataset “<code>n</code>”, and the radial setting we wish to have for the visual. Because we want to give an effect that starts from the center of the image, we set the radial setting, “<code>r</code>” to a vector that spans from 1 to our “<code>n</code>” value.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Library Load-In====</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># For everything data</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting parameters to prep ggplot to plot data in a "circular" fashion on the Cartesian coordinate system====</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a><span class="do">## Angle "slices"/ Sine/Cosine Frequency====</span></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">40</span><span class="sc">*</span>pi, <span class="at">length =</span> <span class="dv">100</span>) </span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Number of divisions/rows in the data wanted====</span></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a><span class="do">## "Radial" setting of the "circle" to create "n" different marks====</span></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>n</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Next, I’ll use one of my favorite color palettes that I found for one of my <a href="https://github.com/Meghansaha/TidyTuesday/blob/master/2021/9-14-21%20Billboard_100/final_plot.png">#TidyTuesday submissions</a>. I’ll store them in a vector simply called “colors”:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Setting up the custom color palette====</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#af3918"</span>, <span class="st">"#a21152"</span>, <span class="st">"#822b75"</span>,<span class="st">"#612884"</span>,<span class="st">"#154baf"</span>,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"#0b82b9"</span>, <span class="st">"#277e9d"</span>,<span class="st">"#488e35"</span>,<span class="st">"#e3a934"</span>,<span class="st">"#b2336a"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Now I’ll create a simple data frame. I’ll create my <code>x</code> and <code>y</code> variables using the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Trig"><code>cos()</code> and <code>sin()</code></a> functions respectively:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Placing everything into a dataset====</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">cos</span>(theta)<span class="sc">*</span>r,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> <span class="fu">sin</span>(theta)<span class="sc">*</span>r)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Finally, we’ll put everything together. Using <code>geom_path()</code> on this dataset and passing our colors vector into it creates our Rainbow Rose!</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pulling it all together====</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>Rainbow_Rose <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">color =</span> color))<span class="sc">+</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_path</span>(<span class="at">color =</span> <span class="fu">rep</span>(colors, <span class="at">each =</span> n<span class="sc">/</span><span class="dv">10</span>), <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()<span class="sc">+</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>))</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a><span class="co"># View it #</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>Rainbow_Rose</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip35-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Rainbow Rose - Finished</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Mesmerizing! Play around and investigate the options used to try and understand how/why ggplot generated the data this way.</p>
+<p>For example, if we change <code>geom_path()</code> to <code>geom_line()</code> we get this:</p>
+<p><br></p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="thinking-outside-the-grid_files/figure-html/codesnip36-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Rainbow Rose with geom_line() instead of geom_path()</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Still pretty, but a completely different piece! Earlier in the article I mentioned the difference between <code>geom_path()</code> and <code>geom_line()</code> . Given their differences, does it make sense why this version looks this way? These are just some of the questions you can think about and ask yourself while you’re on your Rtistry journey!</p>
+<p><br></p>
+</section>
+<section id="theres-a-package-for-that" class="level2">
+<h2 class="anchored" data-anchor-id="theres-a-package-for-that">There’s a Package for That</h2>
+<p>If you read all of this and still feel intimidated, that’s OK. You can still try to get into Rtistry with some of the following packages: <br></p>
+<ul>
+<li><p><a href="https://github.com/koenderks/aRtsy">aRtsy</a> developed by <a href="https://github.com/koenderks">Koen Derks</a> <em>“Aims to make generative aRt accessible to the general public in a straightforward and standardized manner”</em></p></li>
+<li><p><a href="https://ambient.data-imaginist.com/">Ambient</a> developed by <a href="https://github.com/thomasp85">Thomas Lin Pedersen</a> and <a href="https://github.com/Auburn">Jordan Peck(FastNoise)</a> <em>“…is a an R package that provides access to the FastNoise C++ library for generating noise.”</em></p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/ggvoronoi/vignettes/ggvoronoi.html">Ggvoroni</a> developed by <a href="https://github.com/garretrc">Robert Garrett</a> and Thomas Fisher <em>“With ggvoronoi we can easily draw Voronoi diagram heatmaps, with help from packages deldir and ggplot2.”</em></p></li>
+<li><p><a href="https://github.com/Ijeamakaanyene/contouR">contouR</a> developed by <a href="https://github.com/Ijeamakaanyene">Ijeamaka Anyene</a> <em>“contouR is a package that is a wraparound for ggplot2::geom_contour() to use for generative aRt .”</em></p></li>
+<li><p><a href="https://github.com/djnavarro/jasmines">Jasmines</a> developed by <a href="https://github.com/djnavarro">Danielle Navarro</a> <em>“The jasmines package is what Danielle uses to make a lot of her generative artwork with R. Internally it relies heavily on the ambient package, and you may need to install the developer version of ambient to make it work.”</em></p></li>
+</ul>
+<p><br></p>
+</section>
+<section id="final-remarks" class="level2">
+<h2 class="anchored" data-anchor-id="final-remarks">Final Remarks</h2>
+<p>This concludes The Tidy Trekker Intro to Data Art post! I really hope that those of you who are just trying to start out in Rtistry found this to be useful. While the basics content truly is basic, it really is a good chunk of the foundation needed to eventually progress into more complex generative aRt . Sometimes it can be difficult to disseminate the how-tos or guides for a creative process. As you saw with the Rainbow Rose piece, sometimes aRt can be created by accident. Those accidents can only be unique to you. The best way to improve your Rtistry skills is to just jump in and play. Use the time to zone out, relax, and engage with data in a way you may not have before.</p>
+<p><em>Have you started your Rtistry journey? Do you think some crucial basics were left out of this post? Feel free to contact me directly! Respectful discourse is always welcome!</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

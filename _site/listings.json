@@ -1,0 +1,28 @@
+[
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/post/making-waves/making-waves.html",
+      "/post/thinking-outside-the-grid/thinking-outside-the-grid.html",
+      "/post/where-have-i-been/where-have-i-been.html",
+      "/post/making-my-first-shiny-app/making-my-first-shiny-app.html",
+      "/post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html",
+      "/post/dull-dashboards/dull-dashboards.html",
+      "/post/how-i-became-a-not-beginner-in-r/not-beginner.html",
+      "/post/applyfamilynotes/apply-family.html",
+      "/post/orderingmonths/ordering-months.html",
+      "/post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html",
+      "/post/setting-intentions/setting-intentions.html"
+    ]
+  },
+  {
+    "listing": "/talks.html",
+    "items": [
+      "/talks/exploring_validation/exploring_validation.html",
+      "/talks/collages_and_patterns/collages_and_patterns.html",
+      "/talks/pipelines_in_r/pipeline_in_r.html",
+      "/talks/functions_in_rtistry/functions_for_rtistry.html",
+      "/talks/intro_to_rtistry/intro_to_rtistry.html"
+    ]
+  }
+]

@@ -1,0 +1,151 @@
+/*-- scss:defaults --*/
+// Base document colors
+$body-bg: #202124;
+$body-color: white;
+$link-color: #75AADB;
+$font-color: white;
+$navbar-bg: #202124;
+
+
+// Code blocks
+$code-block-bg-alpha: -.8;
+
+#quarto-content {
+  color: $font-color;
+}
+
+#ambox{
+  background: $body-bg;
+}
+
+#title-block-header > div.quarto-title-meta {
+  color: white;
+}
+
+#title-block-header > div.quarto-title-banner.page-columns.page-full {
+  background-color: #002F56;
+  color: white;
+}
+
+i {
+  color: white;
+}
+
+center:nth-child(odd) > figcaption {
+  color: white;
+}
+
+center:nth-child(even) > figcaption {
+  color: white;
+}
+
+.textbox{
+  background: #202124; 
+  width:60%;
+  transform: translateY(18%);
+  float:right; 
+  padding: 10px; 
+  box-sizing: border-box;
+  overflow:auto;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.thumbnail > p > a > img{
+  border-color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.thumbnail > p > a > img{
+  border-color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+#navbarCollapse > ul.navbar-nav.navbar-nav-scroll.me-auto > li.nav-item.dropdown > ul > li:nth-child(odd) > a{
+  background-color: #202124;
+  color: rgb(172, 173, 174);
+}
+
+#navbarCollapse > ul.navbar-nav.navbar-nav-scroll.me-auto > li.nav-item.dropdown > ul > li:nth-child(even) > a{
+  background-color: #202124;
+  color: rgb(172, 173, 174);
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.metadata > a > div.metadata-value.listing-affiliation {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.metadata > a > div.metadata-value.listing-affiliation {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.body > a:nth-child(odd) > div > p {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.body > a:nth-child(even) > div > p {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.body > a:nth-child(even) > div > p {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.body > a:nth-child(odd) > div > p {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.body > a:nth-child(odd) > h3 {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.body > a:nth-child(even) > h3 {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.body > a:nth-child(odd) > h3 {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.body > a:nth-child(even) > h3 {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.metadata > a > div.listing-date {
+  color: white;
+}
+
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.metadata > a > div.listing-date {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.metadata > a > div.listing-author {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.metadata > a > div.listing-author {
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.body > div > div:nth-child(odd){
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.body > div > div:nth-child(even){
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.body > div > div:nth-child(even){
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.body > div > div:nth-child(odd){
+  color: white;
+}
+
+#description > blockquote{
+  color: white;
+}

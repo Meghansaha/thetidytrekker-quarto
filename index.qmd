@@ -1,0 +1,37 @@
+---
+page-layout: custom
+classoption: "test"
+title-block-banner: false
+logo: "images/TTTlight.png"
+
+---
+
+
+<body onload="document.body.style.opacity=&#39;1&#39;">
+
+![](images/TTTlanding.gif){.splash height="auto" style="position: relative;  top: -30px;" fig-align="center" width="100%"}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Learn more about creating websites with Distill at:
+# https://rstudio.github.io/distill/website.html
+
+# Learn more about publishing to GitHub Pages at:
+# https://rstudio.github.io/distill/publish_website.html#github-pages
+
+```
+
+
+
+
+```{r textbox, echo = FALSE}
+htmltools::div(id = "container",
+               style = "width:60vw; margin: auto;",
+htmltools::img(src = "images/homehs.png", style = "width:40%"),
+htmltools::div(class = "textbox",
+               htmltools::HTML("<strong>HI, I'M MEGHAN HARRIS</strong> <img src='images/wave.png' width ='20px'><br><i>The Tidy Trekker.</i><br><br>",
+               'Thanks for stopping by. Here you will find information about me, my professional experiences, and data-related musings. As a "Tidy Trekker" and data lover, it was inevitable that',
+               'I would have to find a place on the web to call "home." Please feel free to <a href="mailto:meghanha01@gmail.com, thetidytrekker@gmail.com">reach out to me personally</a> to get in touch with any inquiries!')))
+```
+

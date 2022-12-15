@@ -1,0 +1,319 @@
+---
+title: "Ordering Months"
+description: |
+  A guide on ordering month "categories" chronologically and dealing with missing month data on a ggplot using Tidyverse packages and base R constants. This guide assumes that you understand how to load data into R, work with vectors, and are somewhat familiar with subsetting and ggplot2.
+author: Meghan Harris
+date: 01-23-2021
+output:
+    toc: true
+imaage: images/ordering_months.png
+categories:
+  - data manipulation
+  - data carpentry
+  - data visualization
+  - r
+  - statistical programming
+  - ggplot
+  - r walkthrough
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,fig.align = 'center')
+```
+
+
+<div id = "post" style = "overflow: hidden;">
+<center><img src="images/ordering_months.png"></img></center>
+<br><br>
+
+**The Problems:** 
+*1) You need to order your "Month" categories chronologically on a ggplot but they keep plotting alphabetically.*
+
+
+*2) You don't have data for all 12 months of the year, but want to have every month of the year plotted on your graph.*
+
+
+**The First Example:**
+
+Here we have simple aggregated data for total new patients enrolled in a clinic during the year. The dataset might look like this:
+
+<figure>
+  <center><img src="images/snip1.png" alt="snapshot of example data showing five months with varying values attached to them: February - 21, May - 16, August - 33, September - 40, December - 11" style="width:40%">
+  <figcaption><i>The "Patients" Example Data</i></center></figcaption>
+</figure>
+
+For those of you who are just starting out in ggplot and have managed to plot your first graphs, you may have realized that ggplot doesn't always display your categorical data as you see it in your view pane. Often times, ggplot will plot categorical variables in alphabetical order. This happens because the categorical variable you are trying to graph ("Month") is not set as an ordered factor. In R, factors are categorical variables that have values assigned to them. To learn a bit more about factors, I highly recommend referring to [chapter 15 (Factors)](https://r4ds.had.co.nz/factors.html) in [Wickham](https://github.com/hadley) and [Grolemund's](https://github.com/garrettgman) *[book R For Data Science](https://r4ds.had.co.nz/index.html)*. 
+
+*If you'd like to follow along within the R project files you can download them from the Tidy Trekker Github Repository. Be sure to fully extract the ZIP. folders for proper access. You can also download the data set used and load it into your own session for practice by clicking the GitHub button below:*
+
+<center>
+
+[<img src="images/GHsnip.png" alt ="GitHub Download">](https://github.com/Meghansaha/OrderingMonths/archive/master.zip)
+  <figcaption><i>Direct [download link](https://github.com/Meghansaha/OrderingMonths/archive/master.zip) for this post's example data</i></center></figcaption>
+
+</center>
+
+##    Loading in Your Libraries and Data:
+
+
+For this example, we'll use the [readr](https://readr.tidyverse.org/), [dplyr](https://dplyr.tidyverse.org/), [tidyr](https://tidyr.tidyverse.org/), and [ggplot2](https://ggplot2.tidyverse.org/) [tidyverse](https://tidyverse.org) packages to load in our data, do some wrangling, and get it visualized on to a graph. We'll load in our libraries and our first dataset named `Patients`.
+
+<br>
+
+```{r codesnip1, echo = TRUE}
+
+# Loading in the appropriate libraries===
+library(readr)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Loading the data into the environment===
+Patients <- read_csv("data/Patients.csv")
+
+```
+
+<center>
+<img src="images/careful.png" style = "width:20%"><br>
+*Pay attention to the file path in the `read_csv` function. If you copy and paste that command and are not using the project files within the Github link above, you will get an error!*
+</center>
+<br>
+
+##    Plotting Your Data:
+
+So we have our data in, and we decide we want to make a simple bar chart of these counts. We'll use a basic ggplot framework to do this. We'll call the resulting plot `Patientgraph`. If you're rusty or just learning ggplot, I highly recommend downloading the ggplot cheat sheet to get up to speed!
+
+<br>
+
+```{r codesnip2, echo = TRUE}
+# Making a ggplot with the data "as-is"====
+Patientgraph <- ggplot(Patients, aes(x = Month, y = `New Patients`)) +
+  geom_bar(stat = "identity", fill = "#693ead")
+  
+# Let's view the graph===
+Patientgraph
+
+```
+
+<br>
+
+We can see that we've got our data onto the graph, but the `Month` categories are displayed alphabetically. This may be fine in some cases, but usually we expect to see months listed chronologically (January - December).
+
+We can already see from the graph and dataset that we have 5 distinct months to work with. We can confirm this by asking R to show us the unique values for the `Month` variable. We should also take the time to identify the `Month` variable's class. (Data Type)
+
+<br>
+
+```{r codesnip3, echo = TRUE}
+# Viewing the unique values in the "Month" variable===
+unique(Patients$Month)
+
+# Identifying the class of the "Month" variable===
+class(Patients$Month)
+
+```
+
+<br> 
+
+##    Refactoring Your Data for Plotting:
+
+
+As I mentioned earlier, in order to adjust these categories on a ggplot, we need to change the variable type, or it's class, into a factor. Let's make this change and save the results into a new dataset called "Patients2." 
+
+<br>
+
+```{r codesnip4, echo = TRUE}
+Patients2 <- Patients %>%
+  mutate(Month = factor(Month, levels = c("February","May","August","September","December")))
+
+```
+
+<br>
+Using the [pipe operator](https://magrittr.tidyverse.org/) `%>%` with the dplyr verb [mutate](https://dplyr.tidyverse.org/reference/mutate.html), we can alter the existing `Month` variable into a factor using [base R's "factor" function](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/factor). In this function, you simply tell R which variable you want to convert and then pass a "levels" argument. This argument manually dictates the order in which categories will be seen on the ggplot. Note that because we are using the pipe operator, we do not need to do a direct subset to this variable in the factor function. *ex: (`Patients$Month`)* 
+
+<center>
+<img src="images/careful.png" style = "width:20%"><br>
+*Although cumbersome, manually setting your factor levels may be required from time to time. Make sure capitalization, spelling, and punctuation match what's in your data set exactly. Even having whitespace in your data can cause issues. You can tackle whitespace issues with Stringr's [str_trim function](https://stringr.tidyverse.org/reference/str_trim.html).*
+</center>
+<br>
+
+
+Now let's replot the graph with the `Patients2` data.
+
+<br>
+
+```{r codesnip5, echo = TRUE }
+# Plotting Patients2===
+Patientgraph2 <- ggplot(Patients2, aes(x = Month, y = `New Patients`))+ 
+  geom_bar(stat = "identity", fill= "#693ead")
+
+#Viewing Patients2 graph===
+Patientgraph2
+
+```
+
+<br>
+
+Now this is more like it! Now I did say that this method was cumbersome. Thankfully, there are ways to cut some of this work down. We'll do this by using some constants in R. 
+
+
+##    The "month.name" Constant for Easier Refactoring:
+
+If you don't know about constants, you can read about them [here](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Constants)! They are basically preset values that come in base R. We can use the `month.name` constant in this particular example. Let's look at it first though to get familiar.
+
+<br>
+
+```{r codesnip6, echo = TRUE}
+# Printing out the month.name constant to take a look at it===
+month.name
+
+```
+
+<br>
+
+We can see all the months are here in this constant ready for us to use! So how do we apply this to help us out with our coding? By calling on the `month.name` constant for our `levels` argument when factoring! Recall that we have five months in our dataset. In order to use the "month.names" constant, it has to only contain those five months (Remember that the levels have to match exactly.) We do this by subsetting out only the months we need. We'll do this and store the results into a dataset called "Patients3" with the following code:
+
+<br>
+
+```{r codesnip7, echo = TRUE}
+# Refactoring the "easier" way===
+    Patients3 <- Patients %>%
+        mutate(Month = factor(Month, levels = month.name[month.name %in% unique(Month)]))
+
+```
+
+<br>
+
+You may see that our code looks similar to the last factoring we did. The only thing that has changed is the addition of what's passed into the `levels` argument:
+
+<br>
+
+```{r codesnip8, echo = TRUE, eval = FALSE}
+month.name[month.name %in% unique(Month)]
+
+```
+
+<br>
+
+The code above tells R to "look" within the "month.name" constant and only return the values that are also uniquely in (`%in%`) our "Month" variable. If needed, you can learn more about R's operators like `%in%` [here](https://www.tutorialspoint.com/r/r_operators.htm). If we plot `Patients3`, we can see the result is the same as the original refactored graph we made. 
+
+<br>
+
+```{r codesnip9, echo = TRUE}
+Patients3
+
+```
+
+<br>
+
+The only difference here is not having to do the cumbersome coding of spelling out our months in our factor function.
+
+##    When All Months Are Present in Your Dataset:
+
+
+So what if we have a dataset with all the months accounted for in the year? We can do less work! Let's load in our `Patients_complete` dataset to take a look.
+
+<br>
+
+```{r codesnip10, echo = TRUE}
+# Loading in the "complete" Patients dataset
+Patients_complete <- read_csv("data/Patients_complete.csv")
+
+```
+
+<br>
+
+<center>
+<img src="images/careful.png" style = "width:20%"><br>
+*Pay attention to the file path in the `read_csv` function. If you copy and paste that command and are not using the project files within the Github link above, you will get an error!*
+</center>
+<br>
+
+<figure>
+  <center><img src="images/snip2.png" alt="snapshot of patients complete data set. All months of the year are shown with values for each. Jan-5, Feb - 21, Mar - 26, April - 15, May - 16, June - 9, July - 23, August - 33, Sept - 40, Oct - 29, Nov - 37, December 11" style="width:40%">
+  <figcaption><i>The "Patients Complete" Example Data</i></center></figcaption>
+</figure>
+
+<br>
+So you might've guessed that this dataset would also return a graph in which the months are ordered alphabetically. We'll make a quick one and store it in `Patientgraph4`.
+
+<br>
+
+```{r codesnip11, echo = TRUE}
+# Confirming assumptions with the "Patients_complete" dataset===
+  Patientgraph4 <- ggplot(Patients_complete, aes(x = Month, y = `New Patients`)) +
+  geom_bar(stat = "identity", fill= "#693ead")
+  
+# Viewing it==
+Patientgraph4
+
+```
+
+<br>
+
+This time, because we have all of the months in the dataset, the code for refactoring can be simplified. We'll store it in a dataset called `Patients4` then graph it in a ggplot called `Patientgraph5`.
+
+<br>
+
+```{r codesnip12, echo = TRUE}
+# Easier refactoring when all months are present ===
+Patients4 <- Patients_complete %>%
+  mutate(Month = factor(Month, levels = month.name))
+  
+# Creating the plot ===
+Patientgraph5 <- ggplot(Patients4, aes(x = Month, y = `New Patients`))+
+  geom_bar(stat = "identity", fill= "#693ead")
+
+# Viewing it ===
+Patientgraph5
+
+```
+
+##    When You Want to Fill in Missing Months on a Plot:
+
+
+###   The Second Example: 
+
+Finally, let's go back to our original `Patients` dataset. What do you do if you don't have all the months of the year, but you want to plot all of the months? To do this, we need to create "placeholder" data points within our dataset. We do this by adding the months we are missing to our dataset and assigning them a numeric value of 0. We'll do this and store it into a final dataset called `Patients_modified`. Be sure to remember to refactor this as well!
+
+<br>
+
+```{r codesnip13, echo = TRUE}
+ # Adding missing months to our "Patients" data set===
+ Patients_modified <- left_join(tibble("Month" = month.name),Patients, by = "Month") 
+ 
+ #Replacing coerced NAs from the previous code to a numeric 0 then refactoring our new dataset===
+Patients_modified <- Patients_modified %>%
+  mutate(`New Patients` = ifelse(is.na(`New Patients`),0,`New Patients`)) %>%
+  mutate(Month = factor(Month, levels = month.name))
+
+```
+
+<br>
+
+Essentially what we've done is transformed our vector of [month.name](http://month.name/) constants into a data frame, or [tibble](https://tibble.tidyverse.org/). Doing this allows us to complete a [left join](https://dplyr.tidyverse.org/reference/join.html) and merge all of the "Month" names in the constant into our dataset. The first mutate function uses the [ifelse function](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/ifelse) to replace all the NAs of this merge with numeric values of 0. The second mutate function is just the refactoring method that was previously introduced. Let's create the graph, call it `Patientgraph6`, and view it.
+
+<br>
+
+
+```{r codesnip14, echo = TRUE}
+# Creating the final plot===
+Patientgraph6 <- ggplot(Patients_modified, aes(x = Month, y = `New Patients`)) +
+  geom_bar(stat = "identity", fill= "#693ead") 
+
+#And view it===
+Patientgraph6
+
+````
+
+<br>
+
+And there we are! All of our data is plotted and we can see all of the months in the year! You'll notice those pesky month labels may be colliding with each other. This may vary based on the machine/browser window you're working with. If you need to fix cases like these, I'd recommend the [str_wrap()](https://stringr.tidyverse.org/reference/str_wrap.html) function from the [stringr](https://stringr.tidyverse.org/index.html) package.
+
+
+*Have any thoughts or suggestions? Know of a better solution or way to make this process more efficient? Feel free to leave a comment below to share or contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!*
+
+
+
+</div>
+

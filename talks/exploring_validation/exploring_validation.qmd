@@ -1,0 +1,26 @@
+---
+title: "Exploring Data Validation With The pointblank Package"
+
+description: "Data validation is a very important component that should not be ignored when working in data analytics or data science. While there are many ways to perform data validation in R, this talk will explore Rich Iannone and Mauricio Vargas' pointblank package for this purpose."
+date: 10-26-2022
+image: images/cover.png
+affiliation: Cleveland R User Group
+---
+
+[![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/exploring_validation/)
+
+## Description
+
+>  This talk will provide information on what data validation is, why it's important, and how R users can begin using the pointblank package to validate their own data in R. Participants can read more about the pointblank package [here](https://rich-iannone.github.io/pointblank/)
+
+## Slides
+
+The slides for the presentation is available on GitHub [here](https://meghansaha.github.io/exploring_validation/).
+
+## Recorded Presentation
+
+This presentation was recorded and is now accessible on YouTube [here](https://t.co/181jd0X3e9)
+
+## Talk Materials and GitHub Repository 
+This talk has a supplemental GitHub repository that can be accessed [here](https://github.com/Meghansaha/exploring_validation)
+

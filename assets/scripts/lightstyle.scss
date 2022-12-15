@@ -1,0 +1,47 @@
+/*-- scss:defaults --*/
+// Base document colors
+$body-bg: white;
+$body-color: white;
+$link-color: #75AADB;
+$font-color: black;
+$navbar-bg: #002F56;
+
+
+// Code blocks
+$code-block-bg-alpha: -.8;
+
+#quarto-content {
+  color: $font-color;
+}
+
+#title-block-header > div.quarto-title-banner.page-columns.page-full {
+  background-color: white;
+  color:black;
+}
+
+.textbox{
+  background: white; 
+  width:60%;
+  transform: translateY(18%);
+  float:right; 
+  padding: 10px; 
+  box-sizing: border-box;
+  overflow:auto;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(odd) > div.thumbnail > p > a > img{
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(even) > div.thumbnail > p > a > img{
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+
+

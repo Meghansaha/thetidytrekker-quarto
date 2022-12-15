@@ -1,0 +1,32 @@
+---
+title: "Making Data Pipelines in R: A Story from a Self-Taught Perspective"
+
+description: "When people first learn about R’s capabilities to create fully integrated systems, automated visuals, and seamless data pipelines, the reaction can span from disbelief to amazement..."
+date: 07-27-2022
+image: images/cover.png
+affiliation: "RStudio::conf(2022)"
+---
+
+[![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/pipelines_in_R)
+
+## Description
+
+> R’s expansive capabilities can leave some feeling overwhelmed when tasked with larger projects like data pipelines. This talk invites the participant to hear the perspective of a self-taught R user who used curiosity and patience to create a functional data pipeline in R for a local health department. Specifically, this talk will touch on the following concepts:
+
+-   Surveying Data Landscapes
+-   File Structures
+-   Saving Yourself with Data Validation
+-   Modularizing Code and Connecting R Scripts
+-   Thinking about Pipeline Sustainability
+-   Remaining Calm in Unfamiliar R Territories"
+
+## Slides
+
+The slides for the presentation is available on GitHub [here](https://meghansaha.github.io/pipelines_in_R).
+
+## Recorded Presentation
+
+This presentation was recorded and is now accessible on the RStudio::conf(2022) website [here](https://www.rstudio.com/conference/2022/talks/making-data-pipelines-in-r/)
+
+## Talk Materials and GitHub Repository 
+This talk has a supplemental GitHub repository that can be accessed [here](https://github.com/Meghansaha/pipelines_in_R)

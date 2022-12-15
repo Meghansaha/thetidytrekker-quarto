@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Meghan Harris">
+<meta name="dcterms.date" content="2021-01-23">
+<meta name="description" content="An apply() function notebook to explore the different apply functions in Base R">
+
+<title>Apply Family Notebook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: #27445C;
+    }
+    </style>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/TTTdark.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">
+ <span class="menu-text">Exploration Corner</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resumecv.html">
+ <span class="menu-text">Resume/CV</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Portfolios</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">    
+        <li>
+    <a class="dropdown-item" href="../../talks.html">
+ <span class="dropdown-text">Talks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rtistry.html">
+ <span class="dropdown-text">Rtistry Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:meghanha01@gmail.com;thetidytrekker@gmail.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Apply Family Notebook</h1>
+                  <div>
+        <div class="description">
+          <p>An apply() function notebook to explore the different apply functions in Base R</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">r programming</div>
+                <div class="quarto-category">base r</div>
+                <div class="quarto-category">apply</div>
+                <div class="quarto-category">lapply</div>
+                <div class="quarto-category">sapply</div>
+                <div class="quarto-category">functional programming</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Meghan Harris </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 23, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Summary</h2>
+   
+  <ul>
+  <li><a href="#apply-family-notes" id="toc-apply-family-notes" class="nav-link active" data-scroll-target="#apply-family-notes">Apply Family Notes</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link" data-scroll-target="#purpose"><strong>Purpose</strong></a></li>
+  <li><a href="#apply-functions-inputs-outputs" id="toc-apply-functions-inputs-outputs" class="nav-link" data-scroll-target="#apply-functions-inputs-outputs"><strong>Apply Functions, Inputs, &amp; Outputs</strong></a></li>
+  <li><a href="#apply-function-apply" id="toc-apply-function-apply" class="nav-link" data-scroll-target="#apply-function-apply"><strong>Apply Function: apply()</strong></a>
+  <ul class="collapse">
+  <li><a href="#data-frame-example" id="toc-data-frame-example" class="nav-link" data-scroll-target="#data-frame-example"><strong>Data Frame Example</strong></a></li>
+  <li><a href="#applying-statistic-more-complex-functions" id="toc-applying-statistic-more-complex-functions" class="nav-link" data-scroll-target="#applying-statistic-more-complex-functions"><strong>Applying Statistic (More Complex) Functions</strong></a></li>
+  </ul></li>
+  <li><a href="#lapply-function-lapply" id="toc-lapply-function-lapply" class="nav-link" data-scroll-target="#lapply-function-lapply"><strong>Lapply Function: lapply()</strong></a>
+  <ul class="collapse">
+  <li><a href="#data-frame-example-1" id="toc-data-frame-example-1" class="nav-link" data-scroll-target="#data-frame-example-1"><strong>Data Frame Example</strong></a></li>
+  <li><a href="#list-example" id="toc-list-example" class="nav-link" data-scroll-target="#list-example"><strong>List Example</strong></a></li>
+  </ul></li>
+  <li><a href="#mapply-function-mapply" id="toc-mapply-function-mapply" class="nav-link" data-scroll-target="#mapply-function-mapply"><strong>Mapply Function: mapply()</strong></a>
+  <ul class="collapse">
+  <li><a href="#multiple-list-example" id="toc-multiple-list-example" class="nav-link" data-scroll-target="#multiple-list-example"><strong>Multiple List Example</strong></a></li>
+  <li><a href="#multiple-vector-example" id="toc-multiple-vector-example" class="nav-link" data-scroll-target="#multiple-vector-example"><strong>Multiple Vector Example</strong></a></li>
+  </ul></li>
+  <li><a href="#rapply-function-rapply" id="toc-rapply-function-rapply" class="nav-link" data-scroll-target="#rapply-function-rapply"><strong>Rapply Function: rapply()</strong></a>
+  <ul class="collapse">
+  <li><a href="#nested-list-example" id="toc-nested-list-example" class="nav-link" data-scroll-target="#nested-list-example"><strong>Nested list example</strong></a></li>
+  </ul></li>
+  <li><a href="#sapply-function-sapply" id="toc-sapply-function-sapply" class="nav-link" data-scroll-target="#sapply-function-sapply"><strong>Sapply Function: sapply()</strong></a></li>
+  <li><a href="#tapply-function-tapply" id="toc-tapply-function-tapply" class="nav-link" data-scroll-target="#tapply-function-tapply"><strong>Tapply Function: tapply()</strong></a>
+  <ul class="collapse">
+  <li><a href="#data-frame-example-2" id="toc-data-frame-example-2" class="nav-link" data-scroll-target="#data-frame-example-2"><strong>Data Frame Example</strong></a></li>
+  <li><a href="#jagged-vectors-example" id="toc-jagged-vectors-example" class="nav-link" data-scroll-target="#jagged-vectors-example"><strong>Jagged Vectors Example</strong></a></li>
+  </ul></li>
+  <li><a href="#vapply-function-vapply" id="toc-vapply-function-vapply" class="nav-link" data-scroll-target="#vapply-function-vapply"><strong>Vapply Function: vapply</strong></a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="apply-family-notes" class="level1">
+<h1>Apply Family Notes</h1>
+</section>
+<section id="purpose" class="level1">
+<h1><strong>Purpose</strong></h1>
+<p>In this notebook session, I’ll be going over the “Apply” Family in base R. The “Apply Functions” refer to a group of functions that come with base R that allow you to do repetitive actions within different objects(i.e.&nbsp;data frames, lists, etc.)</p>
+<p>The functions I’ll go over will be:</p>
+<ul>
+<li>apply()</li>
+<li>lapply()</li>
+<li>mapply()</li>
+<li>rapply()</li>
+<li>sapply()</li>
+<li>tapply()</li>
+<li>vapply()</li>
+</ul>
+<p><br></p>
+<p><strong>Packages Used &amp; Loaded:</strong></p>
+<pre><code>## [1] "tidyverse"  "knitr"      "kableExtra"</code></pre>
+<p><br></p>
+<hr>
+</section>
+<section id="apply-functions-inputs-outputs" class="level1">
+<h1><strong>Apply Functions, Inputs, &amp; Outputs</strong></h1>
+<p>A quick overview:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(applychart) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">kable_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: left;">What it does</th>
+<th style="text-align: left;">Input</th>
+<th style="text-align: left;">Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">apply()</td>
+<td style="text-align: left;">Applies a function to the rows or columns of the object</td>
+<td style="text-align: left;">Data Frame or Matrix</td>
+<td style="text-align: left;">Matrix or Array</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lapply()</td>
+<td style="text-align: left;">Applies a function to all elements within the input</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+<td style="text-align: left;">List</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">mapply()</td>
+<td style="text-align: left;">Applies a function to multiple lists or vectors - can be considered a multivariate version of ‘sapply’</td>
+<td style="text-align: left;">Multiple Lists or Vectors (i.e.&nbsp;a Data Frame)</td>
+<td style="text-align: left;">List or Vector</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rapply()</td>
+<td style="text-align: left;">Applies a function recursively through a list - nested lists</td>
+<td style="text-align: left;">Nested Lists</td>
+<td style="text-align: left;">Nested List or Vector depending on arguments passed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sapply()</td>
+<td style="text-align: left;">A simpler version of ‘lapply’ that works on lists, data frames, and vectors</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+<td style="text-align: left;">Matrix or Vector</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tapply()</td>
+<td style="text-align: left;">Applies a function over a ragged/jagged array (an array that has more than one dimension with varying lengths)</td>
+<td style="text-align: left;">Data Frame or Vector that can be split (divided into groups/factors)</td>
+<td style="text-align: left;">Array</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vapply()</td>
+<td style="text-align: left;">Similar to ‘sapply’, but you can pre-specify the type of value that is output, making it a bit faster</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<hr>
+</section>
+<section id="apply-function-apply" class="level1">
+<h1><strong>Apply Function: apply()</strong></h1>
+<p>The <strong>apply()</strong> function is used to apply a function to <strong>a</strong>ll rows or columns of an object. Consequently, only objects with more than one dimension can be used with apply, so a data frame or matrix.</p>
+<p><br></p>
+<p><code>apply(X, MARGIN, FUN)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">Data Frame or Matrix</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MARGIN</td>
+<td style="text-align: left;">‘1’ or ‘2’ or ‘c(1,2)’ where 1 = Rows and 2 = Columns</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FUN</td>
+<td style="text-align: left;">The function you want to be applied to the data frame or matrix in question</td>
+</tr>
+</tbody>
+</table>
+<section id="data-frame-example" class="level2">
+<h2 class="anchored" data-anchor-id="data-frame-example"><strong>Data Frame Example</strong></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating a mock data frame</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>City <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Buffalo"</span>,<span class="st">"NYC"</span>,<span class="st">"Seattle"</span>,<span class="st">"Austin"</span>,<span class="st">"Orlando"</span>,<span class="st">"Minneapolis"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Cases <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">500</span>,<span class="dv">2012</span>,<span class="dv">1876</span>,<span class="dv">635</span>,<span class="dv">4512</span>,<span class="dv">823</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Controls <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3426</span>,<span class="dv">5210</span>,<span class="dv">6753</span>,<span class="dv">5633</span>,<span class="dv">2013</span>,<span class="dv">1890</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(City,Cases,Controls, <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>records</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##          City Cases Controls
+## 1     Buffalo   500     3426
+## 2         NYC  2012     5210
+## 3     Seattle  1876     6753
+## 4      Austin   635     5633
+## 5     Orlando  4512     2013
+## 6 Minneapolis   823     1890</code></pre>
+<p><br></p>
+<p>We can use the apply function to calculate column sums…</p>
+<p><br></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating the column sum of all applicable columns</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(records[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="dv">2</span>,sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    Cases Controls 
+##    10358    24925</code></pre>
+<p><br></p>
+<p>…Or row sums. (Note that these both produce vectors and that we subset the dataframe with <strong><code>[,2:3]</code></strong> to avoid R throwing an error for the first column that has strings in it. Can’t perform a mathematical function on character strings)</p>
+<p><br></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating row sums</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(records[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="dv">1</span>,sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] 3926 7222 8629 6268 6525 2713</code></pre>
+<p><br></p>
+<p>We can name the vectors in one line of code with the <code>names&lt;-</code> function:</p>
+<p><br></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating row sums, but applying names from the "City" column</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">City Totals</span><span class="st">`</span> <span class="ot">&lt;-</span>  <span class="st">`</span><span class="at">names&lt;-</span><span class="st">`</span>(<span class="fu">apply</span>(records[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>], <span class="dv">1</span>,sum), records<span class="sc">$</span>City)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">City Totals</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis 
+##        3926        7222        8629        6268        6525        2713</code></pre>
+</section>
+<section id="applying-statistic-more-complex-functions" class="level2">
+<h2 class="anchored" data-anchor-id="applying-statistic-more-complex-functions"><strong>Applying Statistic (More Complex) Functions</strong></h2>
+<p><br></p>
+<p>We can also do different statistical procedures based on each test’s requirement. Let’s do a T-test:</p>
+<p><br></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Making a mock data set for T-test</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Ex1_grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">67</span>,<span class="dv">53</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Ex2_grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">89</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>Ex3_grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">89</span>,<span class="dv">95</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>Ex4_grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">95</span>,<span class="dv">87</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>Ex5_grades <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">99</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>Student <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Student1"</span>,<span class="st">"Student2"</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>Grades <span class="ot">&lt;-</span> <span class="fu">tibble</span>(Student,Ex1_grades,Ex2_grades,Ex3_grades,Ex4_grades,Ex5_grades)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>Grades</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## # A tibble: 2 x 6
+##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades
+##   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Student1         67         90         89         95        100
+## 2 Student2         53         89         95         87         99</code></pre>
+<p><br></p>
+<p>Let’s just say we want the P.value of one sample T-tests for each student and we want to place it in this dataset as a new column. What’s important to note is that arguments that would normally be passed through to your functions, go as separate arguments at the end of the apply function, after you declare which function you want used.</p>
+<p><br></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Turning off scientific notation formatting</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen =</span> <span class="dv">999</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Getting index of columns that end with the word "grades"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>Gradeindexes <span class="ot">&lt;-</span> <span class="fu">grep</span>((<span class="st">"grades$"</span>),<span class="fu">names</span>(Grades))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Using apply to apply the t.test.</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>testresults <span class="ot">&lt;-</span> <span class="fu">apply</span>(Grades[,Gradeindexes],<span class="dv">1</span>,t.test, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Using do.call to bind p values to the data set. Because results are in a list, we can use lapply and wrap it in "as.vector" for clean transfer into the dataframe</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>Grades<span class="sc">$</span><span class="st">`</span><span class="at">P Values</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">format</span>(<span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(testresults, <span class="cf">function</span>(x){x<span class="sc">$</span>p.value})), <span class="at">digits =</span> <span class="dv">2</span>))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>Grades</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## # A tibble: 2 x 7
+##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades `P Values`
+##   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     
+## 1 Student1         67         90         89         95        100 0.000098  
+## 2 Student2         53         89         95         87         99 0.000494</code></pre>
+<hr>
+</section>
+</section>
+<section id="lapply-function-lapply" class="level1">
+<h1><strong>Lapply Function: lapply()</strong></h1>
+<p>The <strong>lapply()</strong> function is used to apply a function to all elements of a <strong>l</strong>ist.</p>
+<p><br></p>
+<p><code>lapply(X, FUN)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FUN</td>
+<td style="text-align: left;">The function you want to be applied to the data frame or matrix in question</td>
+</tr>
+</tbody>
+</table>
+<section id="data-frame-example-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-frame-example-1"><strong>Data Frame Example</strong></h2>
+<p><br></p>
+<p>We can use lapply to make changes to a data frame.</p>
+<p><br></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Changing column names in the "records" data frame to be all CAPS</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(records) <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">names</span>(records),str_to_upper)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>records</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##          CITY CASES CONTROLS
+## 1     Buffalo   500     3426
+## 2         NYC  2012     5210
+## 3     Seattle  1876     6753
+## 4      Austin   635     5633
+## 5     Orlando  4512     2013
+## 6 Minneapolis   823     1890</code></pre>
+</section>
+<section id="list-example" class="level2">
+<h2 class="anchored" data-anchor-id="list-example"><strong>List Example</strong></h2>
+<p><br></p>
+<p>We can use lapply to make changes to a list. Need to create a mock list.</p>
+<p><br></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating list from randomly sampled numbers, then adding names from the "fruit" constant that comes with base R</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting a seed for reproducibility</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">555</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating the random sample of numbers</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>stock <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>,<span class="dv">5</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Pulling the first five strings of the fruit constant from base R</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>fruits <span class="ot">&lt;-</span> fruit[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Coercing the sampled numbers into a list  </span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>Inventory <span class="ot">&lt;-</span> <span class="fu">as.list</span>(<span class="fu">as.numeric</span>(stock))</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting the names of each randomly sampled number to each string in out fruits vector</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Inventory) <span class="ot">&lt;-</span> fruits</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>Inventory</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## $apple
+## [1] 42
+## 
+## $apricot
+## [1] 49
+## 
+## $avocado
+## [1] 24
+## 
+## $banana
+## [1] 16
+## 
+## $`bell pepper`
+## [1] 29</code></pre>
+<p><br></p>
+<p>We can alter the list by adding 100 to each fruit’s count and assigning the result back to <code>Inventory</code>:</p>
+<p><br></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Inventory <span class="ot">&lt;-</span> <span class="fu">lapply</span>(Inventory, <span class="cf">function</span>(x) (x<span class="sc">+</span><span class="dv">100</span>))</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Inventory</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## $apple
+## [1] 142
+## 
+## $apricot
+## [1] 149
+## 
+## $avocado
+## [1] 124
+## 
+## $banana
+## [1] 116
+## 
+## $`bell pepper`
+## [1] 129</code></pre>
+<hr>
+</section>
+</section>
+<section id="mapply-function-mapply" class="level1">
+<h1><strong>Mapply Function: mapply()</strong></h1>
+<p>The <strong>Mapply()</strong> function applies a function to <strong>m</strong>ultiple lists or vectors. This can be considered a multivariate version of ‘sapply.’</p>
+<p><br></p>
+<p><code>mapply(FUN, X, MoreArgs)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">FUN</td>
+<td style="text-align: left;">The function you want to be applied to the lists or vectors in question</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">The lists or vectors you want to the function applied to (normally wrapped within the ‘c()’ function</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">MoreArgs</td>
+<td style="text-align: left;">A list (wrapped in the ’list() function) of additional arguments to pass to the function</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<section id="multiple-list-example" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-list-example"><strong>Multiple List Example</strong></h2>
+<p>We can use mapply() to alter different elements within multiple lists, as oppose to <em><code>lapply()</code></em> which only works within one list. Let’s create multiple lists to test <code>mapply()</code> out.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Want to take these separate list, add th last name "Smith" to all the names, then get the final result in one place (a list)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>names1 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"John"</span>, <span class="st">"Abigail"</span>, <span class="st">"Sam"</span>,<span class="st">"Judy"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>names2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Mary"</span>, <span class="st">"Lauri"</span>, <span class="st">"Gus"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>names3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Harold"</span>, <span class="st">"Peter"</span>, <span class="st">"Natalie"</span>,<span class="st">"Scott"</span>,<span class="st">"Fatima"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">Names List</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="fu">mapply</span>(<span class="cf">function</span>(x) <span class="fu">paste</span>(x,<span class="st">"Smith"</span>), <span class="fu">c</span>(names1,names2,names3))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">Names List</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##  [1] "John Smith"    "Abigail Smith" "Sam Smith"     "Judy Smith"    "Mary Smith"    "Lauri Smith"   "Gus Smith"     "Harold Smith"  "Peter Smith"   "Natalie Smith" "Scott Smith"   "Fatima Smith"</code></pre>
+</section>
+<section id="multiple-vector-example" class="level2">
+<h2 class="anchored" data-anchor-id="multiple-vector-example"><strong>Multiple Vector Example</strong></h2>
+<p>Mapply() can be used to vectorize function results from multiple vectors.</p>
+<p>Let’s same we have vectors of numbers and we want to know the mean of all of them separately:</p>
+<p><br></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Making mock vectors, setting a seed for reproducibility.</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">321</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Assigning the vectors</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>vector1 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,<span class="dv">12</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>vector2 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,<span class="dv">5</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>vector3 <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>,<span class="dv">9</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>vector1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##  [1] 54 77 88 80 58 17 47 11 25 31 82 79</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>vector2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] 98 75 31 82 36</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>vector3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## [1] 78 87 34 84  4 48 51 80 13</code></pre>
+<p><br></p>
+<p>Because we want summaries (the mean) of each vector, we can use the <strong><code>list()</code></strong> function instead of the <strong><code>c()</code></strong> function. We can use the <strong><code>MoreArgs</code></strong> argument to pass the <code>trim</code> argument to the <strong><code>mean()</code></strong> function. By default, this is set at zero, but passing it through to demonstrate.</p>
+<p><br></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculating the mean of each vector</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>vectormeans <span class="ot">&lt;-</span><span class="fu">mapply</span>(mean,<span class="fu">list</span>(vector1,vector2,vector3), <span class="at">MoreArgs =</span> <span class="fu">list</span>(<span class="at">trim =</span> <span class="dv">0</span>))</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Setting names to the results</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(vectormeans) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"vector1"</span>,<span class="st">"vector2"</span>,<span class="st">"vector3"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>vectormeans</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##  vector1  vector2  vector3 
+## 54.08333 64.40000 53.22222</code></pre>
+<hr>
+</section>
+</section>
+<section id="rapply-function-rapply" class="level1">
+<h1><strong>Rapply Function: rapply()</strong></h1>
+<p>The <strong>rapply()</strong> function is used to apply a function <strong>r</strong>ecursively to all elements in a nested list.</p>
+<p><br></p>
+<p><code>rapply(object, f, classes, how)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Object</td>
+<td style="text-align: left;">Nested Lists</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">f</td>
+<td style="text-align: left;">The function you want to be applied to the nested list in question</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">classes</td>
+<td style="text-align: left;">Classes of elements to match on ex: ‘numeric’ , ‘character’</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">how</td>
+<td style="text-align: left;">Sets the action in which the function is executed. Standard options are: ‘replace’, ‘unlist’, ‘list’</td>
+</tr>
+</tbody>
+</table>
+<section id="nested-list-example" class="level2">
+<h2 class="anchored" data-anchor-id="nested-list-example"><strong>Nested list example</strong></h2>
+<p>Let’s say we have a list of cities that have a list of restaurant types embedded in them:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>Restaurantdata <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Buffalo"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">"italian"</span>,<span class="st">"mexican"</span>,<span class="st">"japanese"</span>,<span class="st">"puerto rican"</span>),</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Seattle"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">"japanese"</span>,<span class="st">"chinese"</span>,<span class="st">"southern"</span>,<span class="st">"steakhouse"</span>),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"Miami"</span> <span class="ot">=</span> <span class="fu">list</span>(<span class="st">"seafood"</span>,<span class="st">"cuban"</span>,<span class="st">"italian"</span>,<span class="st">"polish"</span>))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>Restaurantdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## $Buffalo
+## $Buffalo[[1]]
+## [1] "italian"
+## 
+## $Buffalo[[2]]
+## [1] "mexican"
+## 
+## $Buffalo[[3]]
+## [1] "japanese"
+## 
+## $Buffalo[[4]]
+## [1] "puerto rican"
+## 
+## 
+## $Seattle
+## $Seattle[[1]]
+## [1] "japanese"
+## 
+## $Seattle[[2]]
+## [1] "chinese"
+## 
+## $Seattle[[3]]
+## [1] "southern"
+## 
+## $Seattle[[4]]
+## [1] "steakhouse"
+## 
+## 
+## $Miami
+## $Miami[[1]]
+## [1] "seafood"
+## 
+## $Miami[[2]]
+## [1] "cuban"
+## 
+## $Miami[[3]]
+## [1] "italian"
+## 
+## $Miami[[4]]
+## [1] "polish"</code></pre>
+<p><br></p>
+<p>We want to change all of the elements so that each restaurant type is capitalized. We can do this with either the <code>tools</code> or <code>stringr</code> packages. I’ll use the <code>stringr</code> package for this example. Note that the <code>"replace"</code> option in the <code>how</code> argument will actually alter the <code>Restaurantdata</code> list, but in order to save it as such, we have to assign in back to the <code>Restaurantdata</code> object.</p>
+<p><br></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>Restaurantdata <span class="ot">&lt;-</span> <span class="fu">rapply</span>(Restaurantdata,stringr<span class="sc">::</span>str_to_title,<span class="at">how =</span> <span class="st">"replace"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>Restaurantdata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## $Buffalo
+## $Buffalo[[1]]
+## [1] "Italian"
+## 
+## $Buffalo[[2]]
+## [1] "Mexican"
+## 
+## $Buffalo[[3]]
+## [1] "Japanese"
+## 
+## $Buffalo[[4]]
+## [1] "Puerto Rican"
+## 
+## 
+## $Seattle
+## $Seattle[[1]]
+## [1] "Japanese"
+## 
+## $Seattle[[2]]
+## [1] "Chinese"
+## 
+## $Seattle[[3]]
+## [1] "Southern"
+## 
+## $Seattle[[4]]
+## [1] "Steakhouse"
+## 
+## 
+## $Miami
+## $Miami[[1]]
+## [1] "Seafood"
+## 
+## $Miami[[2]]
+## [1] "Cuban"
+## 
+## $Miami[[3]]
+## [1] "Italian"
+## 
+## $Miami[[4]]
+## [1] "Polish"</code></pre>
+<p><br></p>
+<p>We can also get a vector of our results by using the <code>unlist</code> option in the <code>how</code> function instead. Let’s add the word “restaurants” to each of these elements then <code>unlist</code> the object to place it in a vector.</p>
+<p><br></p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>Restaurantvector <span class="ot">&lt;-</span> <span class="fu">rapply</span>(Restaurantdata,<span class="cf">function</span>(x) <span class="fu">paste</span>(x,<span class="st">"restaurants"</span>),<span class="at">how =</span> <span class="st">"unlist"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>Restaurantvector</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##                   Buffalo1                   Buffalo2                   Buffalo3                   Buffalo4                   Seattle1                   Seattle2                   Seattle3                   Seattle4                     Miami1                     Miami2                     Miami3                     Miami4 
+##      "Italian restaurants"      "Mexican restaurants"     "Japanese restaurants" "Puerto Rican restaurants"     "Japanese restaurants"      "Chinese restaurants"     "Southern restaurants"   "Steakhouse restaurants"      "Seafood restaurants"        "Cuban restaurants"      "Italian restaurants"       "Polish restaurants"</code></pre>
+<hr>
+</section>
+</section>
+<section id="sapply-function-sapply" class="level1">
+<h1><strong>Sapply Function: sapply()</strong></h1>
+<p><br></p>
+<p>The <strong>sapply()</strong> function is a <strong>s</strong>impler version of ‘lapply’ that works to apply functions across all elements of lists, data frames, and vectors.</p>
+<p><br></p>
+<p><code>sapply(X, FUN, simplify, USE.NAMES)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FUN</td>
+<td style="text-align: left;">The function you want to be applied to the data frame, list, or vector in question</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">simplify</td>
+<td style="text-align: left;">Determines if the result should be simplified to a vector, matrix, or array</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>For this example, let’s work with the <code>records</code> set form earlier. In order to get an error-free compilation, row names have to be set:</p>
+<p><br></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Pulling cities names and placing it into a vector</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>cities <span class="ot">&lt;-</span> records<span class="sc">$</span>CITY</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Removing the CITY variable from the frame to isolate the numeric values</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>records <span class="ot">&lt;-</span> records[,<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>records</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##   CASES CONTROLS
+## 1   500     3426
+## 2  2012     5210
+## 3  1876     6753
+## 4   635     5633
+## 5  4512     2013
+## 6   823     1890</code></pre>
+<p><br></p>
+<p>Let’s divide the numbers in the dataset for each city by 10. We can store the results in a list by setting <code>simplify = FALSE</code>:</p>
+<p><br></p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dividing each number by 10 and setting the names of the elements in the list</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>recordslist <span class="ot">&lt;-</span> <span class="fu">sapply</span>(records, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="dv">10</span>, <span class="at">simplify =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co">#setting the names for each element in the list. We use the a for loop to subset the two objects in the list (CASES and CONTROLS) while using the "names" function to copy the city names over</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(<span class="fu">names</span>(recordslist))){</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(recordslist[[i]]) <span class="ot">&lt;-</span> cities</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>recordslist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## $CASES
+##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis 
+##        50.0       201.2       187.6        63.5       451.2        82.3 
+## 
+## $CONTROLS
+##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis 
+##       342.6       521.0       675.3       563.3       201.3       189.0</code></pre>
+<p><br></p>
+<p>If we set <code>simplify = TRUE</code> we can get an array instead:</p>
+<p><br></p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Dividing each number by 10 and setting the names of the elements in the list</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>recordsarray <span class="ot">&lt;-</span> <span class="fu">sapply</span>(records, <span class="cf">function</span>(x) x<span class="sc">/</span><span class="dv">10</span>, <span class="at">simplify =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(recordsarray) <span class="ot">&lt;-</span> cities</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>recordsarray</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##             CASES CONTROLS
+## Buffalo      50.0    342.6
+## NYC         201.2    521.0
+## Seattle     187.6    675.3
+## Austin       63.5    563.3
+## Orlando     451.2    201.3
+## Minneapolis  82.3    189.0</code></pre>
+<hr>
+</section>
+<section id="tapply-function-tapply" class="level1">
+<h1><strong>Tapply Function: tapply()</strong></h1>
+<p><br></p>
+<p><strong>Tapply()</strong> can be used when we want to perform a function over a ragged/jagged array (an array that has more than one dimension with varying lengths). It is best used to apply functions across a vector (or column in a data frame) and producing the result by factors (categories).</p>
+<p><br></p>
+<p><code>tapply(X, INDEX, FUN)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">Data Frame or Vector that can be `split` (has factors/categories to split on)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">INDEX</td>
+<td style="text-align: left;">A list or vector of one or more factors or groupings that is the SAME length as X</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FUN</td>
+<td style="text-align: left;">The function you want to be applied to the data frame or vector in question</td>
+</tr>
+</tbody>
+</table>
+<section id="data-frame-example-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-frame-example-2"><strong>Data Frame Example</strong></h2>
+<p>We can use <code>tapply()</code> to apply a function across a column in a dataframe. Let’s make a simple data frame:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting a seed for reproducibility</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">789</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>Teams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"UK"</span>,<span class="st">"USA"</span>,<span class="st">"Egypt"</span>,<span class="st">"Ireland"</span>,<span class="st">"UK"</span>,<span class="st">"USA"</span>,<span class="st">"USA"</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>Seconds <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="fu">length</span>(Teams), <span class="at">min=</span><span class="dv">30</span>, <span class="at">max =</span> <span class="dv">240</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>Runners <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(Teams,Seconds)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>Runners</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##     Teams   Seconds
+## 1      UK 176.97782
+## 2     USA  49.63476
+## 3   Egypt  32.49623
+## 4 Ireland 154.23733
+## 5      UK 133.35138
+## 6     USA  34.23435
+## 7     USA 150.25773</code></pre>
+<p><br></p>
+<p>Let’s say we want to calculate the average time (seconds) for each Team. We can use <code>tapply()</code> for this.</p>
+<p><br></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>Runner_means <span class="ot">&lt;-</span> <span class="fu">tapply</span>(Runners<span class="sc">$</span>Seconds, Runners<span class="sc">$</span>Teams, mean)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>Runner_means</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##     Egypt   Ireland        UK       USA 
+##  32.49623 154.23733 155.16460  78.04228</code></pre>
+<p><br></p>
+<p>The results are stored into an array. If a new table is desired it can be manipulated to do so:</p>
+<p><br></p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>Runners_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Team =</span> <span class="fu">names</span>(Runner_means), <span class="at">Mean =</span>Runner_means, <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>Runners_summary</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##      Team      Mean
+## 1   Egypt  32.49623
+## 2 Ireland 154.23733
+## 3      UK 155.16460
+## 4     USA  78.04228</code></pre>
+</section>
+<section id="jagged-vectors-example" class="level2">
+<h2 class="anchored" data-anchor-id="jagged-vectors-example"><strong>Jagged Vectors Example</strong></h2>
+<p><br></p>
+<p>We can use <code>tapply()</code> to also preform tasks across multiple vectors of different lengths as long as the amount of factors matches the amount of the elements overall in each vector</p>
+<p><br></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a list of factors </span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>Names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Meghan"</span>,<span class="st">"Gus"</span>,<span class="st">"Jennifer"</span>,<span class="st">"Gus"</span>,<span class="st">"Jennifer"</span>,<span class="st">"Natalie"</span>,<span class="st">"Meghan"</span>,<span class="st">"Jennifer"</span>,<span class="st">"Gus"</span>,<span class="st">"Natalie"</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>Scores1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">90</span>,<span class="dv">67</span>,<span class="dv">88</span>,<span class="dv">99</span>,<span class="dv">100</span>)</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>Scores2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">99</span>,<span class="dv">99</span>,<span class="dv">78</span>)</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>Scores3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">100</span>,<span class="dv">78</span>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Placing them together gives us a vector that has a length of 10. Same as the "Names" vector</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>Test_scores <span class="ot">&lt;-</span> <span class="fu">c</span>(Scores1,Scores2,Scores3)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="co">#We can now apply the same function across this vectors and get summarized results</span></span>
+<span id="cb49-12"><a href="#cb49-12" aria-hidden="true" tabindex="-1"></a>Test_averages <span class="ot">&lt;-</span> <span class="fu">tapply</span>(Test_scores,Names,mean)</span>
+<span id="cb49-13"><a href="#cb49-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-14"><a href="#cb49-14" aria-hidden="true" tabindex="-1"></a>Test_averages</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##      Gus Jennifer   Meghan  Natalie 
+## 88.66667 88.66667 94.50000 88.50000</code></pre>
+<hr>
+</section>
+</section>
+<section id="vapply-function-vapply" class="level1">
+<h1><strong>Vapply Function: vapply</strong></h1>
+<p><br></p>
+<p><strong>Vapply()</strong> is similar to ‘sapply’, but you can pre-specify the type of <strong>v</strong>alue that is output, making it a bit faster.</p>
+<p><br></p>
+<p><code>vapply(X, INDEX, FUN)</code></p>
+<p><br></p>
+<p>Where:</p>
+<table class="table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">X</td>
+<td style="text-align: left;">Data Frame, List, Vector</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FUN</td>
+<td style="text-align: left;">The function you want to be applied to the data frame or vector in question</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">FUN.VALUE</td>
+<td style="text-align: left;">A template for the value you want returned</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<p>So let’s look at our <code>records</code> data set again. We can use <code>vapply()</code> to compute the sum of each group (Cases and Controls) We can use vapply to ensure the result we get is numeric. Vapply is said to be a “safer” alternative to sapply because it will ensure you’re getting the results you are expecting. If you don’t set the <code>FUN.VALUE</code> argument in the function, it will throw an error, whereas sapply would automatically produce a result:</p>
+<p><br></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>records</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##   CASES CONTROLS
+## 1   500     3426
+## 2  2012     5210
+## 3  1876     6753
+## 4   635     5633
+## 5  4512     2013
+## 6   823     1890</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Using vapply to get the sums. We place a "1" in the numeric argument to tell R we are expecting a non-zero number</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(records, sum, <span class="at">FUN.VALUE =</span> <span class="fu">numeric</span>(<span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    CASES CONTROLS 
+##    10358    24925</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Without the FUN.VALUE argument, vapply will throw an error</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">vapply</span>(records, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>## Error in vapply(records, sum): argument "FUN.VALUE" is missing, with no default</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co">#In comparison, sapply will give us the result without specifying the output type</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(records, sum)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>##    CASES CONTROLS 
+##    10358    24925</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

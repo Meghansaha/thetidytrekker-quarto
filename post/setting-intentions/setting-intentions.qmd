@@ -1,0 +1,49 @@
+---
+title: "Setting Intentions"
+description: "As the fiasco that is the year 2020 comes to an end, I figured I'd set some intentions for the Tidy Trekker site moving forward."
+author: Meghan Harris
+date: 12-31-2020
+image: images/fireworks.png
+categories:
+  - data science
+  - imposter syndrome
+  - intentions
+  - r
+  - statistical programming
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+<div id = "post" style = "overflow: hidden;">
+<br>
+No doubt, 2020 has been extremely difficult for everyone. (*Who would have known it would be so draining to be productive and just live during a global pandemic?*) Many people were forced to adapt to a "new normal" (*don't worry, I won't use the "U" word we're all tired of hearing.*) Many of us in the U.S who were fortunate to remain employed had to adapt to working from home (WFH). This personally has not bothered me as I'm an advocate for WFH even during non-pandemic times due to the [benefits it brings](https://www.flexjobs.com/blog/post/benefits-of-remote-work/) I've been fortunate enough to continue working during the pandemic and actually switch jobs to take baby steps into my data science career.
+
+Given that the theme of 2020 seemed to be "instability", I thought it would be wonderful to have just one thing I could consider "stable." My own little pocket on the web. I hope to document my progression into data science and finally make some contributions to the field. I have my reservations about this. Candidly, I consider myself a "baby data scientist." My path into data science was by no means "traditional." I will be the first to say that my weakness is not having a formal computer science or statistics degree. Back in my day, (\**shudder*\* *I sound old.*) data science wasn't as well known or prominent as it is today. If you were majoring in computer science, it was because you were going to do hardcore computer programming. Retrospectively, a career in data science/coding made sense for me even in my adolescence. (*I proudly spent hours learning CSS and HTML to have the best Myspace page. I have also always loved applied statistics; hindsight truly is 2020. Yes, that is a pun. No, I'm not sorry.*)
+
+The goal of this site is to help myself and anyone else while I progress into this field. I hope to offer a different perspective to solutions in data science based on needs/functionality. I am by no means an expert and I want to make that OK. I definitely am affected by imposter syndrome taking this route into data science but I'd like to serve as an example for others on a similar path. (*You can learn more about imposter syndrome through a data scientist's perspective by watching fellow data scientist, [Ken Jee's](https://twitter.com/KenJee_DS) , video on it [here](https://www.youtube.com/watch?v=Uf0dO-pgOrk).*) I want to encourage others to continue to push through and learn about this field despite the challenges. On a personal note, I want to learn all that I can so that I can advocate and push for more data science efforts in health research and mental health data analytics.
+
+So, moving forward, I'll be using the [Exploration Corner](./../../blog.html) to share various categories of posts that include:
+
+<br>
+
+**General/Data Musings:** Informal posts like this one that you're reading right now that are general or my thoughts/opinions on data-related things that I find.
+
+
+**Project Recaps:** These will be posts that briefly describe projects I have completed. Project recaps will differ from full walkthroughs as they will not be a step-by-step guide. It will generally explain a goal, data sources, a quick list of processes/packages used, and a link to the actual project and source code on [Github](https://github.com/Meghansaha). 
+
+
+**R Explorations:** These posts will act as a playground for me personally. I'm reserving this space as a way to leave notes for myself that might help others. This can include deeper dives into packages and functions or even cheat sheets. 
+
+
+**R Walkthroughs:** These posts will be targeted step-by-step guides on how I've done random things in R. I use R daily for my work and find myself doing different things daily. These will also include links to example data sets and project files on [Github](https://github.com/Meghansaha) when applicable.
+
+
+As I trek through my journey, I do plan to learn [python](https://www.python.org/) and dive into [D3.js](https://d3js.org/). When I get to that point, I'll add blog categories accordingly.
+
+
+*Where are you on your data science journey? Do you have any suggestions for different blog posts? Feel free to leave a comment below to share your thoughts or contact me directly! Respectful discourse is always welcomed!*
+
+</div>

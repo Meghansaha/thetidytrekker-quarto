@@ -1,0 +1,22 @@
+---
+title: "An Introduction to Rtistry Using ggplot2 in R"
+
+description: "If you’ve ever seen pictures of generative art made in R and wondered if you could ever create art like that, the answer is “Yes.”..."
+date: 01-13-2022
+image: images/cover.png
+affiliation: Tunis R User Group
+---
+
+[![](images/cover.png){fig-align="center"}](https://lnkd.in/ghGDreS8)
+
+## Description
+
+> In this introductory presentation, we will briefly go over the basics of creating generative art in R (Rtistry) using the ggplot2 package. This presentation will go over the common geoms (geometries), aesthetics, layering, and functions that can be used for Rtistry creation. The presentation will conclude with a live code review session of one Rtistry pieces. Full annotated code will be shared with participants for further practice and use.
+
+## Slides
+
+The slides for the presentation is available in a PDF format [here](https://lnkd.in/ghGDreS8).
+
+## Recorded Presentation
+
+The recorded presentation for this talk is available on YouTube [here](https://lnkd.in/gDcQTK5d).

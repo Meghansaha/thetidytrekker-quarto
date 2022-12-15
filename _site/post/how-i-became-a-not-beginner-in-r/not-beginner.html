@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Meghan Harris">
+<meta name="dcterms.date" content="2021-02-20">
+<meta name="description" content="Some thoughts I have on being a “Not-beginner” (Intermediate) R programmer/Data Scientist.">
+
+<title>How I Became A “Not-Beginner” in R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: #27445C;
+    }
+    </style>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/TTTdark.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">
+ <span class="menu-text">Exploration Corner</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resumecv.html">
+ <span class="menu-text">Resume/CV</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Portfolios</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">    
+        <li>
+    <a class="dropdown-item" href="../../talks.html">
+ <span class="dropdown-text">Talks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rtistry.html">
+ <span class="dropdown-text">Rtistry Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:meghanha01@gmail.com;thetidytrekker@gmail.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">How I Became A “Not-Beginner” in R</h1>
+                  <div>
+        <div class="description">
+          Some thoughts I have on being a “Not-beginner” (Intermediate) R programmer/Data Scientist.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">data science</div>
+                <div class="quarto-category">imposter syndrome</div>
+                <div class="quarto-category">r programming</div>
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">statistical programming</div>
+                <div class="quarto-category">not-beginner</div>
+                <div class="quarto-category">beginner</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Meghan Harris </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 20, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<div id="post" style="overflow: hidden;">
+<p>I’ve been in my current position as a Data Integration Specialist for about nine months now and <strong>I absolutely love it!</strong> I have achieved a lot of professional development that intertwined perfectly with my actual position. I’ve learned how to clean data more efficiently, deal with multiple data sources, and even learned how to create automated reports and dashboards in R and R Markdown.</p>
+<p>More recently, I’ve had a local opioid dashboard (that I created in R) featured on our local news station. <a href="https://www.wkbw.com/news/local-news/overdose-deaths-rise-in-erie-county-during-pandemic">Like on actual TV</a> (yeah, I’m still in shock about that one.)</p>
+<p>It was then that I realized: <em>I’m not a beginner in R anymore</em></p>
+<figure class="figure">
+<img src="images/mindblown.gif" alt="mindblown" style="width:100%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“Me realizing I’m not a beginner anymore”</i>
+</center>
+</figcaption>
+</figure>
+<p>That realization made me think about things though. It was clear that I wasn’t a beginner anymore, but if I wasn’t a beginner, what was I? I suddenly had an existential moment where I realized I needed to have a conversation with Data Science and R programming (as if they were actual people) and ask them about our relationship status. I had to ask them:</p>
+<center>
+<b>“What are we?”</b>
+</center>
+<p><br></p>
+<p>I’m definitely <strong>not an expert</strong>, not by a long shot, but I can do A LOT of really essential things in R now. Whenever I’m interacting with others in the field, or assisting others with their programming, I always felt I needed to give a disclaimer that “I’m still learning.” People would then kind of roll their eyes at me after I explain things by telling me I’m a “wizard” or “expert” and to stop being modest. So that made me think about it. How should I be labeling myself? The more I tried to put a label on my data science/R programming proficiency, the more I realized that I’m currently in some weird gray area of my journey; and honestly? I don’t think it’s talked about enough.</p>
+<p>There’s a wide range of resources out there for aspiring R programmers and data scientists. The first thing everyone tells you to do (myself included) is to start reading <a href="https://r4ds.had.co.nz/">R for Data Science</a> and to just <a href="https://www.r-exercises.com/start-here-to-learn-r/?__cf_chl_jschl_tk__=fc94d2586bba2c2a9a144f64b85da815ebdb1fd7-1613591190-0-AZy69AhWgoRCeqDS4XLA_wG0zU2Z7BbPCXmUX0Lz_wEK8xcoSdUTRMi5BqX9nYu0tHWvdMZaTfgFB4elHHMBgVz0Xp2bUYsjxoNTW-htgBCAO0aBRb14hLAmrsrnrgxb8TA9FDyYLf3fh4bsQ6H9F6QM9moGz6QqBAJr1m_FDuQIwvDtiJA4ubTea0w-k_PEwvBISqCJU1ArQnY_ZSQTyCuNIDmh4S2PFb_PZ0cj8_Agl-DHtx4NRHb80nIB7wXlwgYl21HMq0WkaqSqU9AkuctVOakoEiv7i5wTDEJKePHKU2kfUCzvuT6SbYjwUf2vrf6_9vjvVCAdbUCQXfDIhgA">practice</a>. There’s also a wealth of information about more advanced R topics like modeling and advanced Shiny app development. I remember longing to join discussions about these things at the <a href="https://rstudio.com/resources/rstudioglobal-2021/">RStudio::Global</a> conference this year, but I ultimately felt like I wasn’t quite ready to join those conversations yet. This made me feel like the space wasn’t for me and that I couldn’t really participate or engage with anyone. I found myself asking “where are the resources for people who aren’t beginners or experts?”</p>
+<figure class="figure">
+<img src="images/confused.gif" alt="confused" style="width:100%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“Me looking for something labeled ‘Intermediate R Resources’”</i>
+</center>
+</figcaption>
+</figure>
+<p>So it’s not like there aren’t any resources available at an intermediate level. <a href="https://www.datacamp.com/courses/intermediate-r">DataCamp</a> has a course (if you’re willing to pay) and there are also other resources crafted by wonderful heroes in the field that can be found by googling. But there isn’t a lot of consistency between the resources available.</p>
+<p>These inconsistencies are to be expected though because there isn’t a standardized guideline that lets you know how you’re doing in the field or in R programming in general. How do aspiring data scientists/R programmers know when they’re experts? Do we ever know? Or do we have to wait until enough people deem us as “experts”? Context also matters. The set of skills one person may have may be above-and-beyond what’s needed at one company but might not cut it at another.</p>
+<p>I also spent way too much time thinking about when you can officially “earn” the right to call yourself a data scientist. Do you absolutely need to master machine learning and <a href="https://aws.amazon.com/">AWS</a> before doing so? How do you know you’re not crossing into data engineering territory as those lines are kind of murky as well? Do you need to actually go out and get a degree in data science? <i><sub>(My opinion on that is no by the way, although for students who know this is what they want to do, it can’t hurt to get that degree if you like the program?)</sub></i></p>
+<p>Toward the end of my existential crises, I asked myself if thinking about all of this was worth it. Is it really important to label myself? Does it matter if I’m seen as an expert in the field? Does it matter if people say I’m not a data scientist until I learn more things? As long as I’m employed, probably not. What I do think is important to realize is that the climate of the data science field in general is very fluid. Especially when bringing R proficiency into the mix. I mean think about it: if you want to be a doctor, or a lawyer, or many other professions, you normally have some sort of standardized “guide” to let you know if you’re proficient in what you do. You may have options to be certified in specialized domains as well as obtain a degree to “prove” what you can do. In Data Science and R Programming, it’s a bit different.</p>
+<p>You can get <a href="https://education.rstudio.com/trainers/#info">certified to be a tidyverse instructor</a>. But from what I could tell, there’s no “official” or standardized certifications that exist globally for R programming. The certifications that I could find were either a part of newly designed data science programs at various universities, or certifications from Massive Open Online Courses (MOOC) on sites like Coursera or Udemy. I wonder if this is because R is an open-sourced program.</p>
+<p>Well, after spending a good week thinking about all of this, I came to the conclusion that I didn’t really determine too much of anything. The only thing that I <strong><em>WAS</em></strong> able to determine is this:</p>
+<center>
+I’m not a beginner anymore… I’m a “<strong>Not-Beginner</strong>”
+</center>
+<p><br></p>
+<p>I use the term “Not-Beginner” because I don’t know if I could even call myself intermediate! I know a lot about some things, and little about others. So I am fully comfortable and proud to use this term to describe myself!</p>
+<p>So how did I do it? How did I cross the imaginary boundary into “Not-Beginner” territory in data science/R programming? Keep in mind that we’re all different. Everyone learns and operates differently, but I can retrospectively tell you how I think I got here:</p>
+<p><br></p>
+<section id="environment" class="level3">
+<h3 class="anchored" data-anchor-id="environment">Environment</h3>
+<p>This was absolutely the <strong>BIGGEST</strong> factor for me. I fell in love with R programming/Data Science in a past position while attending an <a href="https://www.eval.org/">AEA</a> conference a few years back. When I returned to work, I was bursting with motivation and energy and was itching to put all of my time and effort into learning R and Data Science. The environment I was in allowed me to do this to some degree, but it wasn’t sustainable. I found myself putting in LOADS of overtime for professional development and I always felt like others in the environment didn’t have the bandwidth to really help guide me on the journey. Although it’s understandable (due to the initial learning curve you need to get over with R), that work environment left me feeling unsupported and stagnated in the process. I was forced to continue working on my skills outside of work to eventually get to the position I’m in now because it turns out it is really hard to learn new things if you’re constantly in daily Zoom meetings (I partially blame COVID on that one).</p>
+<p>While I’m the only person utilizing R in my department now, the current environment I work in is conducive to my development. It’s nurturing, flexible, and supportive which I think helps a lot.</p>
+<center>
+<i><sub>(Also not spending 70% of my time in meetings is a big help. This is a PSA and plea to abolish unnecessary meetings ✊🏾)</sub></i>
+</center>
+<p><br></p>
+<center>
+<figure class="figure">
+<img src="images/excited.gif" alt="excited" style="width:60%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“How I feel logging into work most days”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+</section>
+<section id="communityonline-presence" class="level3">
+<h3 class="anchored" data-anchor-id="communityonline-presence">Community/Online Presence</h3>
+<p>I mentioned I’m the only one that uses R in my department and that’s totally OK. (Absolutely nothing wrong with Excel, SAS, and other data tools.) Consequently, I was prompted to create an online presence for myself to get some support. Along with the Tidy Trekker site, I also joined Twitter and made more of an effort to join data science/R programming groups on Facebook and LinkedIn. Being engaged in a community can give an extra level of support that you might not be able to get within your department. Sometimes (if data agreements allow) it can be so helpful to get outside opinions on visualizations or general assistance with programming. In particular, the <a href="https://twitter.com/search?q=rstats&amp;src=spelling_expansion_revert_click">#rstats</a> and <a href="https://twitter.com/search?q=r4ds&amp;src=typed_query">#r4ds</a> Twitter communities are places that should be cherished and treasured.</p>
+<p><br></p>
+<center>
+<figure class="figure">
+<img src="images/twitter.gif" alt="excited" style="width:60%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>Come hang out on Twitter if you aren’t already there (<a href="https://twitter.com/meghansharris"><span class="citation" data-cites="meghansharris">@meghansharris</span></a>)</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+</section>
+<section id="passionmotivation" class="level3">
+<h3 class="anchored" data-anchor-id="passionmotivation">Passion/Motivation</h3>
+<p>I recently saw a post on Twitter that stated that you should not get into the Data Science field if you’re just in it for the money, and I fully agree. I cannot tell you how many nights I accidentally stayed up coding and learning for hours. Not because I “had” to, but because I absolutely <em>wanted</em> to. People that are here because they are passionate about the field can understand. There were times where I had to sit and ask myself if this career choice was what I wanted purely because the process of getting through those initial phases of R programming/data science were <strong>BRUTAL</strong>. If you’re trying to get your way out of the “beginner” phases of your journey, or even if you’re just beginning, you have to be honest with yourself and make sure that it is something you truly want to do. That passion is what’s going to excel you forward in your journey.</p>
+<p>Back in a past position, I was overworked and sick as a result. This was around the time I was learning R. I remembered having a legitimate fever dream about coding. I would close my eyes and see the <a href="https://rstudio.com/products/rstudio/">RStudio IDE</a> staring back at me. Once that fever broke, I was thrilled to return to whatever script I was working on at the time. That’s when I knew this was for me. Now you don’t have to be at the same level of insanity that I am, clearly, but this isn’t something you should fake. If you’re not passionate about it, get out while you still can!</p>
+<p><br></p>
+<center>
+<figure class="figure">
+<img src="images/typing.gif" alt="Cat typing furiously on a laptop." style="width:60%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“Me grinding everyday because ‘coding is a lifestyle’”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+</section>
+<section id="patience" class="level3">
+<h3 class="anchored" data-anchor-id="patience">Patience</h3>
+<p>This is the one I hate the most. I am admittedly NOT a patient person. I want to be a data science/R wizard and I wanted that status <strong><em>yesterday</em></strong>. I think of a personal example whenever this comes to mind.</p>
+<p>When I first started learning to program in R, I immediately tried to make a <a href="https://shiny.rstudio.com/">Shiny</a> app. Needless to say I failed miserably and had almost quit the journey entirely. I felt so inadequate and not smart at all. I gave R a break for a week or two and realized I <em>really</em> wanted to learn. So I restarted the “right” way and started with the basics. I can’t tell you how long it took to get the basics down, but one day, it really did seem like things were starting to click together.</p>
+<p>Soon, daunting data wrangling and mining became a breeze and an enjoyable puzzle to solve. And while I am far from where I began in my journey, I still have to remember to have patience; especially as I try to navigate these murky “not-beginner” waters. Having this level of discipline can ensure that you are learning things effectively. For me personally? I just reached the point where I am finally ready to dig into the basics of machine learning and Shiny app development. I’ll be sure to document these endeavors as I trek through them.</p>
+<p><br></p>
+<p><em>Are you a “Not-Beginner?” How did you know you weren’t a beginner anymore? If you ARE a beginner, what do you think will put you into that next category of data science “proficiency”? Feel free to leave a comment below to share or contact me directly! Respectful discourse is always welcomed!</em></p>
+</section>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

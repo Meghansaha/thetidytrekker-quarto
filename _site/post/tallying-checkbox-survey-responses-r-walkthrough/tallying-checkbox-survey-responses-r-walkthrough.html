@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Meghan Harris">
+<meta name="dcterms.date" content="2021-03-18">
+<meta name="description" content="A guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing “Checkbox” question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions.">
+
+<title>Tallying “Checkbox” Survey Responses: R Walkthrough</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: #27445C;
+    }
+    </style>
+
+
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/TTTdark.png" alt="" class="navbar-logo">
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">
+ <span class="menu-text">Exploration Corner</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../resumecv.html">
+ <span class="menu-text">Resume/CV</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Portfolios</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">    
+        <li>
+    <a class="dropdown-item" href="../../talks.html">
+ <span class="dropdown-text">Talks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rtistry.html">
+ <span class="dropdown-text">Rtistry Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:meghanha01@gmail.com;thetidytrekker@gmail.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Tallying “Checkbox” Survey Responses: R Walkthrough</h1>
+                  <div>
+        <div class="description">
+          <p>A guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing “Checkbox” question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">data science</div>
+                <div class="quarto-category">survey processing</div>
+                <div class="quarto-category">data manipulation</div>
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">statistical programming</div>
+                <div class="quarto-category">r programming</div>
+                <div class="quarto-category">data carperntry</div>
+                <div class="quarto-category">r walkthrough</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Meghan Harris </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">March 18, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Summary</h2>
+   
+  <ul>
+  <li><a href="#the-example" id="toc-the-example" class="nav-link active" data-scroll-target="#the-example">The Example:</a></li>
+  <li><a href="#using-separate_rows-from-tidyr-and-count-from-dplyr" id="toc-using-separate_rows-from-tidyr-and-count-from-dplyr" class="nav-link" data-scroll-target="#using-separate_rows-from-tidyr-and-count-from-dplyr">Using “separate_rows” from Tidyr and “count” from Dplyr:</a></li>
+  <li><a href="#using-grepl-or-stringr-dplyr-and-tidyr" id="toc-using-grepl-or-stringr-dplyr-and-tidyr" class="nav-link" data-scroll-target="#using-grepl-or-stringr-dplyr-and-tidyr">Using Grepl (or Stringr), Dplyr, and Tidyr:</a></li>
+  </ul>
+</nav>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p><strong>The Problem:</strong> You need to tally (add) checkbox survey responses, but they are combined and comma-separated together in one string.</p>
+<p><strong>The Fix:</strong> You need to count the occurrences of each response within each observation’s string. You can do this in a few lines with tidyr and dplyr, or in a more involved way while practicing string manipulation with regex/grepl and stringr.</p>
+<section id="the-example" class="level2">
+<h2 class="anchored" data-anchor-id="the-example">The Example:</h2>
+<p>Let’s say we have a simple survey question that asks participants to select colors that they like. We allow them to “Check all that apply” and give them eight choices to choose from. It might look like this:</p>
+<center>
+<figure class="figure">
+<img src="images/snip1.png" alt="Example of a checkbox question type. The question reads 'what colors do you like?' with the answers red, blue, green, yellow, black, orange, brown, and pink" style="width:30%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“A snapshot of example checkbox survey questions”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+<p>Checkbox question-types allow participants to select multiple choices. This can be useful for building strong analyses. However, we may find that the “checkbox” question-type produces undesirable data that will have to be dealt with. Let’s explore this by setting up our R session.</p>
+<p><em>If you’d like to follow along within the R project files you can download them from the <a href="http://github.com/Meghansaha/Tallying_Checkboxes/archive/master.zip">Tidy Trekker Github Repository</a>. Be sure to fully extract the ZIP. folders for proper access. You can also download the data set used and load it into your own session for practice.</em></p>
+<center>
+<a href="http://github.com/Meghansaha/Tallying_Checkboxes/archive/master.zip"><img src="images/GHsnip.png" alt="GitHub Download"></a>
+<figcaption>
+<i>Direct <a href="http://github.com/Meghansaha/Tallying_Checkboxes/archive/master.zip">download link</a> for this post’s example data</i>
+</figcaption></center>
+
+
+<p><br></p>
+</section>
+<section id="using-separate_rows-from-tidyr-and-count-from-dplyr" class="level2">
+<h2 class="anchored" data-anchor-id="using-separate_rows-from-tidyr-and-count-from-dplyr">Using “separate_rows” from Tidyr and “count” from Dplyr:</h2>
+<p>The simplest and fastest way to tally up these results is to use tidyr and dplyr together. We start by loading in the packages we need: <a href="https://readr.tidyverse.org/">readr</a>, <a href="https://dplyr.tidyverse.org/">dplyr</a>, and <a href="https://tidyr.tidyverse.org/">tidyr</a>. These allow us to get our data into the environment and prepare it for cleaning and manipulation. We’ll name the resulting data set “Colors.”</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'readr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'tidyr' was built under R version 4.1.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Colors <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/Colors.csv"</span>, <span class="at">col_types =</span> <span class="fu">cols</span>(<span class="st">`</span><span class="at">What colors do you like?</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">col_character</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<center>
+<img src="images/careful.png" style="width:20%"><br> <em>Pay attention to the file path in the “read_csv” function. If you copy and paste that command and are not using the project files within the Github link above, you will get an error!</em>
+</center>
+<p><br></p>
+<p>We can see our data set in the data viewer. Notice that each observation has a combined, comma-separated string for each response:</p>
+<br>
+<center>
+<figure class="figure">
+<img src="images/snip2.png" alt="snapshot of the example data in a dataframe. Most observations have multiple string values comma separated and stored into each row together" style="width:30%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“A snapshot of example checkbox survey question loaded into a dataframe”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+<p>We need to tell R to separate the values in the <code>What colors do you like?</code> column into individual rows and then count and tally those occurrences. Let’s do this and store it in a data set called <code>TidyrColors</code>. The code for this can be written in one chunk with the following:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>TidyrColors <span class="ot">&lt;-</span> Colors <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_rows</span>(<span class="st">`</span><span class="at">What colors do you like?</span><span class="st">`</span>, <span class="at">sep =</span> <span class="st">", "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="st">`</span><span class="at">What colors do you like?</span><span class="st">`</span>, <span class="at">sort =</span> <span class="cn">TRUE</span>, <span class="at">name =</span> <span class="st">"Tally"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <a href="https://tidyr.tidyverse.org/reference/separate_rows.html"><code>separate_rows()</code></a> function from tidyr separates all the values in the column while using “,” as the characters to separate on. Note that we have a whitespace after the comma in the <code>sep=</code> option. This is because whitespaces are present in the original data. If you had options that were only separated by commas and no spaces, you would just need a comma there.</p>
+<p>Next, we used the <a href="https://dplyr.tidyverse.org/reference/count.html">count()</a> function from dplyr to count the occurrences of our colors. Setting the <code>sort=</code> option to TRUE will arrange the observations in descending order in the dataset. The <code>name=</code> option will allow us to set the column name that will hold the count of the values. In this case, we’ve set it to <code>Tally</code>.</p>
+<br>
+<center>
+<figure class="figure">
+<img src="images/snip3.png" alt="snapshot of the example data in a dataframe with the values separated and tallied together" style="width:30%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“A snapshot of example checkbox survey results separated and tallied together”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+<p>And that’s it! Pretty simple and straightforward. Continue on for more involved ways to do this that will give you some string/regex practice if interested!</p>
+<p><br></p>
+</section>
+<section id="using-grepl-or-stringr-dplyr-and-tidyr" class="level2">
+<h2 class="anchored" data-anchor-id="using-grepl-or-stringr-dplyr-and-tidyr">Using Grepl (or Stringr), Dplyr, and Tidyr:</h2>
+<p>There are other ways we can do this that are a bit more involved, but can provide some grepl/regex and string manipulation practice if desired. If you choose to use Stringr instead of grepl, you can load in the <a href="https://stringr.tidyverse.org/index.html">stringr</a> package as well.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If using the stringr package===</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>In order to get a tally of the individual responses, we need to break up these strings and create variables for each color. We do this by creating a new column for each of our color options available for our survey question. Let’s create a reference vector of all of our color options to help us. We’ll name it <code>Colorref</code>:</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Colorref <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Red"</span>,<span class="st">"Blue"</span>,<span class="st">"Green"</span>,<span class="st">"Yellow"</span>,<span class="st">"Black"</span>,<span class="st">"Orange"</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">"Brown"</span>,<span class="st">"Pink"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<center>
+<img src="images/careful.png" style="width:20%"><br> <em>Pay attention to the strings you enter into your reference vector. These strings need to match your survey responses/options <strong>PERFECTLY</strong>. Be mindful of any discrepancies in <strong>capitalization, spelling, spaces, or punctuations</strong>.</em>
+</center>
+<p><br></p>
+<p>Using the reference vector we just created, we can now create an empty data frame that we can populate with our color tallies. We’ll call it <code>Colorsnew</code>. We can use base functions in R to do this. To ensure the tallies are properly recorded in the new data frame, we’ll set the number of columns to match the number of options (Colors) we have and the number of rows to match the number of observations (or rows) we have in the original data set. Afterwards, we replace the column names with the name of each color choice. This can be done with the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names">names</a> function.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Colorsnew <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="fu">length</span>(Colorref), <span class="at">nrow =</span> <span class="fu">nrow</span>(Colors)))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Colorsnew) <span class="ot">&lt;-</span> Colorref</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>The next step is to simultaneously populate all the columns in the data set with an accurate tally for each response. We can do this with the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/ifelse">ifelse</a> and <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/grep">grepl</a> functions within one single “for-loop.” This will populate our currently empty <code>Colorsnew</code> data set so we can easily see our changes. The for-loop function will run iterations along the length of the <code>Colorref</code> vector and use the vector’s values to fill in the column names of our data. At the same time we’ll be getting getting a count of how often each color is present in the original <code>Colors</code> dataset with the <code>grepl</code> function. Detailed information about for-loops can be found in the Iteration chapter in the free textbook <a href="https://r4ds.had.co.nz/index.html">R for Data Science</a> (<em>written by <a href="https://github.com/hadley">Hadley Wickham</a> and <a href="https://github.com/garrettgman">Garrett Grolemund</a></em>) :</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(Colorref)){</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  Colorsnew[i] <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(Colorref[i],Colors<span class="sc">$</span><span class="st">`</span><span class="at">What colors do you like?</span><span class="st">`</span>),<span class="dv">1</span>,<span class="dv">0</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>To reiterate, this code uses the <code>i</code> variable as a placeholder to rename the columns within the <code>Colorsnew</code> data set with the strings found in <code>Colorref</code> (All of our color options.) For each column, we are using an <code>ifelse()</code> test to scan the original strings in the <code>What colors do you like</code> column from the <code>Colors</code> data set (Colors$<code>What colors do you like?</code>). Simultaneously, we check for matches using the <code>grepl</code> function. If you aren’t a fan of using grepl, you can also opt for Stringr’s <a href="https://stringr.tidyverse.org/reference/str_detect.html"><code>str_detect()</code></a> function that performs the same action.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(Colorref)){</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  Colorsnew[i] <span class="ot">=</span> <span class="fu">ifelse</span>(<span class="fu">str_detect</span>(Colors<span class="sc">$</span><span class="st">`</span><span class="at">What colors do you like?</span><span class="st">`</span>,Colorref[i]),<span class="dv">1</span>,<span class="dv">0</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Whether you use grepl or stringr, the result will be the same. Each match will produce a “1” while non-matches produce a “0.” The result is a matrix of observations for all of our color choices:</p>
+<br>
+<center>
+<figure class="figure">
+<img src="images/snip4.png" alt="snapshot of the example data in a dataframe with the values separated" style="width:90%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“A snapshot of example checkbox survey results separated”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+<p>Our last step will be to transpose this wide data into a long data format for easier graphing and analyses. (You can check out a tutorial on wide and long data in R from DataCamp <a href="https://www.datacamp.com/community/tutorials/long-wide-data-R">here</a>.) We do this using the <a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a>, <a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a>, and <a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a> functions from the dplyr and tidyr packages. In our pivot_longer function, we tell R we want to transpose all of the columns in the “Colorsnew” dataset with dplyr’s <a href="https://dplyr.tidyverse.org/reference/select.html?q=everything">everything()</a> option. We tell R that we want all of our current column names to be put into one variable called <code>Color</code> and that we want the values in these columns to be put into its own column called <code>Tally</code>. Finally, we want to group the data set observations by the “Color” column and add all of the tallies up so we get a sum for each value within the <code>Tally</code> column. This will produce a data frame with a complete tabulation of all the color choices that were picked in our survey.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>Colorsnew <span class="ot">&lt;-</span> Colorsnew <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">names_to =</span> <span class="st">"Color"</span>, </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">values_to =</span> <span class="st">"Tally"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Color) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Tally =</span> <span class="fu">sum</span>(Tally))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<br>
+<center>
+<figure class="figure">
+<img src="images/snip5.png" alt="snapshot of the example data in a dataframe with the values separated and tallied together" style="width:30%" class="figure-img">
+<figcaption class="figure-caption">
+<center>
+<i>“A snapshot of example checkbox survey results separated and tallied together”</i>
+</center>
+</figcaption>
+</figure>
+</center>
+<p><br></p>
+<p><em>Have any thoughts or suggestions? Know of a better solution or way to make this process more efficient? Feel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

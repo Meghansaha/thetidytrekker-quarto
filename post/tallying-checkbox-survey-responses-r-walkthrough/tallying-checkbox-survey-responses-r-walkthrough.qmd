@@ -1,0 +1,228 @@
+---
+title: "Tallying \"Checkbox\" Survey Responses: R Walkthrough"
+description: |
+  A guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing "Checkbox" question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions.
+author:
+  - name: Meghan Harris
+date: 03-18-2021
+output:
+    toc: true
+image: images/Tallying Checkboxes.png
+categories:
+  - data science
+  - survey processing
+  - data manipulation
+  - r
+  - statistical programming
+  - r programming
+  - data carperntry
+  - r walkthrough
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+**The Problem:** You need to tally (add) checkbox survey responses, but they are combined and comma-separated together in one string.
+
+
+**The Fix:** You need to count the occurrences of each response within each observation's string. You can do this in a few lines with tidyr and dplyr, or in a more involved way while practicing string manipulation with regex/grepl and stringr.
+
+
+##    The Example:
+
+Let's say we have a simple survey question that asks participants to select colors that they like. We allow them to "Check all that apply" and give them eight choices to choose from. It might look like this:
+
+<center>
+<figure>
+  <img src="images/snip1.png" alt="Example of a checkbox question type. The question reads 'what colors do you like?' with the answers red, blue, green, yellow, black, orange, brown, and pink" style="width:30%">
+  <figcaption><center><i>"A snapshot of example checkbox survey questions"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+Checkbox question-types allow participants to select multiple choices. This can be useful for building strong analyses. However, we may find that the "checkbox" question-type produces undesirable data that will have to be dealt with. Let's explore this by setting up our R session. 
+
+
+*If you'd like to follow along within the R project files you can download them from the [Tidy Trekker Github Repository](http://github.com/Meghansaha/Tallying_Checkboxes/archive/master.zip). Be sure to fully extract the ZIP. folders for proper access. You can also download the data set used and load it into your own session for practice.*
+
+<center>
+
+[<img src="images/GHsnip.png" alt ="GitHub Download">](http://github.com/Meghansaha/Tallying_Checkboxes/archive/master.zip)
+  <figcaption><i>Direct [download link](http://github.com/Meghansaha/Tallying_Checkboxes/archive/master.zip) for this post's example data</i></center></figcaption>
+
+</center>
+
+<br>
+
+##    Using "separate_rows" from Tidyr and "count" from Dplyr:
+
+
+The simplest and fastest way to tally up these results is to use tidyr and dplyr together. We start by loading in the packages we need: [readr](https://readr.tidyverse.org/), [dplyr](https://dplyr.tidyverse.org/), and [tidyr](https://tidyr.tidyverse.org/). These allow us to get our data into the environment and prepare it for cleaning and manipulation. We'll name the resulting data set "Colors."
+
+<br>
+
+```{r codesnip1}
+
+library(readr)
+library(dplyr)
+library(tidyr)
+Colors <- read_csv("Data/Colors.csv", col_types = cols(`What colors do you like?` = col_character()))
+
+```
+
+<br>
+
+<center>
+<img src="images/careful.png" style = "width:20%"><br>
+*Pay attention to the file path in the "read_csv" function. If you copy and paste that command and are not using the project files within the Github link above, you will get an error!*
+</center>
+<br>
+
+We can see our data set in the data viewer. Notice that each observation has a combined, comma-separated string for each response:
+
+<br>
+<center>
+<figure>
+  <img src="images/snip2.png" alt="snapshot of the example data in a dataframe. Most observations have multiple string values comma separated and stored into each row together" style="width:30%">
+  <figcaption><center><i>"A snapshot of example checkbox survey question loaded into a dataframe"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+We need to tell R to separate the values in the `What colors do you like?` column into individual rows and then count and tally those occurrences. Let's do this and store it in a data set called `TidyrColors`. The code for this can be written in one chunk with the following:
+
+<br>
+```{r codesnip2}
+TidyrColors <- Colors %>%
+  separate_rows(`What colors do you like?`, sep = ", ") %>%
+  count(`What colors do you like?`, sort = TRUE, name = "Tally")
+
+```
+
+The [`separate_rows()`](https://tidyr.tidyverse.org/reference/separate_rows.html) function from tidyr separates all the values in the column while using ", " as the characters to separate on. Note that we have a whitespace after the comma in the `sep=` option. This is because whitespaces are present in the original data. If you had options that were only separated by commas and no spaces, you would just need a comma there.
+
+Next, we used the [count()](https://dplyr.tidyverse.org/reference/count.html) function from dplyr to count the occurrences of our colors. Setting the `sort=` option to TRUE will arrange the observations in descending order in the dataset. The `name=` option will allow us to set the column name that will hold the count of the values. In this case, we've set it to `Tally`. 
+
+<br>
+<center>
+<figure>
+  <img src="images/snip3.png" alt="snapshot of the example data in a dataframe with the values separated and tallied together" style="width:30%">
+  <figcaption><center><i>"A snapshot of example checkbox survey results separated and tallied together"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+And that's it! Pretty simple and straightforward. Continue on for more involved ways to do this that will give you some string/regex practice if interested!
+
+<br>
+
+##    Using Grepl (or Stringr), Dplyr, and Tidyr:
+
+
+There are other ways we can do this that are a bit more involved, but can provide some grepl/regex and string manipulation practice if desired. If you choose to use Stringr instead of grepl, you can load in the [stringr](https://stringr.tidyverse.org/index.html) package as well. 
+
+<br>
+
+```{r codesnip3}
+# If using the stringr package===
+library(stringr)
+
+```
+
+<br>
+
+
+In order to get a tally of the individual responses, we need to break up these strings and create variables for each color. We do this by creating a new column for each of our color options available for our survey question. Let's create a reference vector of all of our color options to help us. We'll name it `Colorref`:
+
+<br>
+
+```{r codesnip4}
+Colorref <- c("Red","Blue","Green","Yellow","Black","Orange",
+"Brown","Pink")
+
+```
+
+<br>
+
+<center>
+<img src="images/careful.png" style = "width:20%"><br>
+*Pay attention to the strings you enter into your reference vector. These strings need to match your survey responses/options **PERFECTLY**. Be mindful of any discrepancies in **capitalization, spelling, spaces, or punctuations**.*
+</center>
+<br>
+
+Using the reference vector we just created, we can now create an empty data frame that we can populate with our color tallies. We'll call it `Colorsnew`. We can use base functions in R to do this. To ensure the tallies are properly recorded in the new data frame, we'll set the number of columns to match the number of options (Colors) we have and the number of rows to match the number of observations (or rows) we have in the original data set. Afterwards, we replace the column names with the name of each color choice. This can be done with the [names](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/names) function.
+
+<br>
+
+```{r codesnip5}
+Colorsnew <- as.data.frame(matrix(ncol = length(Colorref), nrow = nrow(Colors)))
+names(Colorsnew) <- Colorref
+
+```
+
+<br>
+
+The next step is to simultaneously populate all the columns in the data set with an accurate tally for each response. We can do this with the [ifelse](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/ifelse) and [grepl](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/grep) functions within one single "for-loop." This will populate our currently empty `Colorsnew` data set so we can easily see our changes. The for-loop function will run iterations along the length of the `Colorref` vector and use the vector's values to fill in the column names of our data. At the same time we'll be getting getting a count of how often each color is present in the original `Colors` dataset with the `grepl` function. Detailed information about for-loops can be found in the Iteration chapter in the free textbook [R for Data Science](https://r4ds.had.co.nz/index.html) (*written by [Hadley Wickham](https://github.com/hadley) and [Garrett Grolemund](https://github.com/garrettgman)*) :
+
+<br>
+
+```{r codesnip6}
+for (i in seq_along(Colorref)){
+  Colorsnew[i] = ifelse(grepl(Colorref[i],Colors$`What colors do you like?`),1,0)}
+
+```
+
+<br>
+
+To reiterate, this code uses the `i` variable as a placeholder to rename the columns within the `Colorsnew` data set with the strings found in `Colorref` (All of our color options.) For each column, we are using an `ifelse()` test to scan the original strings in the `What colors do you like` column from the `Colors` data set (Colors$`What colors do you like?`). Simultaneously, we check for matches using the `grepl` function. If you aren't a fan of using grepl, you can also opt for Stringr's [`str_detect()`](https://stringr.tidyverse.org/reference/str_detect.html) function that performs the same action.
+
+<br>
+
+```{r codesnip7}
+for (i in seq_along(Colorref)){
+  Colorsnew[i] = ifelse(str_detect(Colors$`What colors do you like?`,Colorref[i]),1,0)}
+
+```
+
+Whether you use grepl or stringr, the result will be the same. Each match will produce a "1" while non-matches produce a "0." The result is a matrix of observations for all of our color choices:
+
+<br>
+<center>
+<figure>
+  <img src="images/snip4.png" alt="snapshot of the example data in a dataframe with the values separated" style="width:90%">
+  <figcaption><center><i>"A snapshot of example checkbox survey results separated"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+Our last step will be to transpose this wide data into a long data format for easier graphing and analyses. (You can check out a tutorial on wide and long data in R from DataCamp [here](https://www.datacamp.com/community/tutorials/long-wide-data-R).) We do this using the [pivot_longer](https://tidyr.tidyverse.org/reference/pivot_longer.html), [group_by](https://dplyr.tidyverse.org/reference/group_by.html), and [summarise](https://dplyr.tidyverse.org/reference/summarise.html) functions from the dplyr and tidyr packages. In our pivot_longer function, we tell R we want to transpose all of the columns in the "Colorsnew" dataset with dplyr's [everything()](https://dplyr.tidyverse.org/reference/select.html?q=everything) option. We tell R that we want all of our current column names to be put into one variable called `Color` and that we want the values in these columns to be put into its own column called `Tally`. Finally, we want to group the data set observations by the "Color" column and add all of the tallies up so we get a sum for each value within the `Tally` column. This will produce a data frame with a complete tabulation of all the color choices that were picked in our survey.
+
+<br>
+
+```{r codesnip8}
+Colorsnew <- Colorsnew %>% 
+  pivot_longer(everything(),
+  names_to = "Color", 
+  values_to = "Tally") %>%
+  group_by(Color) %>%
+  summarise(Tally = sum(Tally))
+
+```
+
+<br>
+<center>
+<figure>
+  <img src="images/snip5.png" alt="snapshot of the example data in a dataframe with the values separated and tallied together" style="width:30%">
+  <figcaption><center><i>"A snapshot of example checkbox survey results separated and tallied together"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+*Have any thoughts or suggestions? Know of a better solution or way to make this process more efficient? Feel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!* 

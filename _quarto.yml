@@ -1,0 +1,55 @@
+project:
+  type: website
+
+website:
+  navbar:
+    logo: "images/TTTdark.png"
+    left:
+      - href: index.qmd
+        text: Home 
+      - href: about.qmd
+        text: About Me
+      - href: blog.qmd
+        text: Exploration Corner
+      - href: resumecv.html
+        text: Resume/CV
+      - text: Portfolios
+        menu:
+          - text: Talks
+            href: talks.qmd
+          #- text: "Tidy Tuesdays"
+            #href: tidytuesdays.html
+          - text: Rtistry Gallery
+            href: rtistry.html
+          #- text: "Project Portfolio"
+            #href: projects.html
+    
+    right:
+      - icon: envelope-fill
+        href: "mailto:meghanha01@gmail.com;thetidytrekker@gmail.com"
+      - icon: github
+        href: https://github.com/Meghansaha
+      - icon: linkedin
+        href: https://www.linkedin.com/in/meghan-harris/
+      - icon: twitter
+        href: https://twitter.com/meghansharris
+      - icon: mastodon
+        href: https://fosstodon.org/@meghansharris
+      #- icon: bag-heart-fill
+        #href: https://www.etsy.com/shop/TidyTreks?
+      #- icon: fa fa-rss
+        #href: index.xml
+
+title-block-banner: "#27445C"
+format: 
+  html:
+    smooth-scroll: true
+    fontcolor: black
+    toc: true
+    toc-location: left
+    toc-title: Summary
+    toc-depth: 3
+css: assets/styles.css
+theme:
+  light: [cosmo, assets/scripts/lightstyle.scss]
+  dark: [cosmo, assets/scripts/darkstyle.scss]

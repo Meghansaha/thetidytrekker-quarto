@@ -1,0 +1,148 @@
+---
+title:  'How I Became A "Not-Beginner" in R'
+description: 'Some thoughts I have on being a "Not-beginner" (Intermediate) R programmer/Data Scientist.'
+author:
+  - name: Meghan Harris
+date: 02-20-2021
+image: images/lightbulb.png
+categories:
+  - data science
+  - imposter syndrome
+  - r programming
+  - r
+  - statistical programming
+  - not-beginner
+  - beginner
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+<div id = "post" style = "overflow: hidden;">
+I've been in my current position as a Data Integration Specialist for about nine months now and **I absolutely love it!** I have achieved a lot of professional development that intertwined perfectly with my actual position. I've learned how to clean data more efficiently, deal with multiple data sources, and even learned how to create automated reports and dashboards in R and R Markdown.
+
+ 
+
+More recently, I've had a local opioid dashboard (that I created in R) featured on our local news station. [Like on actual TV](https://www.wkbw.com/news/local-news/overdose-deaths-rise-in-erie-county-during-pandemic) (yeah, I'm still in shock about that one.)  
+
+ 
+
+It was then that I realized: *I'm not a beginner in R anymore*
+
+
+<figure>
+  <img src="images/mindblown.gif" alt="mindblown" style="width:100%">
+  <figcaption><center><i>"Me realizing I'm not a beginner anymore"</i></center></figcaption>
+</figure>
+
+That realization made me think about things though. It was clear that I wasn't a beginner anymore, but if I wasn't a beginner, what was I? I suddenly had an existential moment where I realized I needed to have a conversation with Data Science and R programming (as if they were actual people) and ask them about our relationship status. I had to ask them: 
+
+<center>
+ <b>"What are we?"</b>
+</center><br>
+
+I'm definitely **not an expert**, not by a long shot, but I can do A LOT of really essential things in R now. Whenever I'm interacting with others in the field, or assisting others with their programming, I always felt I needed to give a disclaimer that “I’m still learning.” People would then kind of roll their eyes at me after I explain things by telling me I’m a “wizard” or “expert” and to stop being modest. So that made me think about it. How should I be labeling myself? The more I tried to put a label on my data science/R programming proficiency, the more I realized that I'm currently in some weird gray area of my journey; and honestly? I don't think it's talked about enough.
+
+
+There's a wide range of resources out there for aspiring R programmers and data scientists. The first thing everyone tells you to do (myself included) is to start reading [R for Data Science](https://r4ds.had.co.nz/) and to just [practice](https://www.r-exercises.com/start-here-to-learn-r/?__cf_chl_jschl_tk__=fc94d2586bba2c2a9a144f64b85da815ebdb1fd7-1613591190-0-AZy69AhWgoRCeqDS4XLA_wG0zU2Z7BbPCXmUX0Lz_wEK8xcoSdUTRMi5BqX9nYu0tHWvdMZaTfgFB4elHHMBgVz0Xp2bUYsjxoNTW-htgBCAO0aBRb14hLAmrsrnrgxb8TA9FDyYLf3fh4bsQ6H9F6QM9moGz6QqBAJr1m_FDuQIwvDtiJA4ubTea0w-k_PEwvBISqCJU1ArQnY_ZSQTyCuNIDmh4S2PFb_PZ0cj8_Agl-DHtx4NRHb80nIB7wXlwgYl21HMq0WkaqSqU9AkuctVOakoEiv7i5wTDEJKePHKU2kfUCzvuT6SbYjwUf2vrf6_9vjvVCAdbUCQXfDIhgA). There's also a wealth of information about more advanced R topics like modeling and advanced Shiny app development. I remember longing to join discussions about these things at the [RStudio::Global](https://rstudio.com/resources/rstudioglobal-2021/) conference this year, but I ultimately felt like I wasn't quite ready to join those conversations yet. This made me feel like the space wasn't for me and that I couldn't really participate or engage with anyone. I found myself asking “where are the resources for people who aren't beginners or experts?”
+
+<figure>
+  <img src="images/confused.gif" alt="confused" style="width:100%">
+  <figcaption><center><i>"Me looking for something labeled 'Intermediate R Resources'"</i></center></figcaption>
+</figure>
+
+So it's not like there aren't any resources available at an intermediate level. [DataCamp](https://www.datacamp.com/courses/intermediate-r) has a course (if you're willing to pay) and there are also other resources crafted by wonderful heroes in the field that can be found by googling. But there isn't a lot of consistency between the resources available.
+
+These inconsistencies are to be expected though because there isn't a standardized guideline that lets you know how you're doing in the field or in R programming in general. How do aspiring data scientists/R programmers know when they're experts? Do we ever know? Or do we have to wait until enough people deem us as "experts"? Context also matters. The set of skills one person may have may be above-and-beyond what's needed at one company but might not cut it at another.
+
+I also spent way too much time thinking about when you can officially "earn" the right to call yourself a data scientist. Do you absolutely need to master machine learning and [AWS](https://aws.amazon.com/) before doing so? How do you know you're not crossing into data engineering territory as those lines are kind of murky as well? Do you need to actually go out and get a degree in data science? <i><sub>(My opinion on that is no by the way, although for students who know this is what they want to do, it can't hurt to get that degree if you like the program?)</sub></i>
+
+Toward the end of my existential crises, I asked myself if thinking about all of this was worth it. Is it really important to label myself? Does it matter if I’m seen as an expert in the field? Does it matter if people say I’m not a data scientist until I learn more things? As long as I’m employed, probably not. What I do think is important to realize is that the climate of the data science field in general is very fluid. Especially when bringing R proficiency into the mix. I mean think about it: if you want to be a doctor, or a lawyer, or many other professions, you normally have some sort of standardized “guide” to let you know if you’re proficient in what you do. You may have options to be certified in specialized domains as well as obtain a degree to “prove” what you can do. In Data Science and R Programming, it’s a bit different. 
+
+You can get [certified to be a tidyverse instructor](https://education.rstudio.com/trainers/#info). But from what I could tell, there’s no “official” or standardized certifications that exist globally for R programming. The certifications that I could find were either a part of newly designed data science programs at various universities, or certifications from Massive Open Online Courses (MOOC) on sites like Coursera or Udemy. I wonder if this is because R is an open-sourced program. 
+
+Well, after spending a good week thinking about all of this, I came to the conclusion that I didn’t really determine too much of anything. The only thing that I ***WAS*** able to determine is this:
+
+<center>
+I'm not a beginner anymore... I'm a "**Not-Beginner**"
+</center><br>
+
+I use the term “Not-Beginner” because I don’t know if I could even call myself intermediate! I know a lot about some things, and little about others. So I am fully comfortable and proud to use this term to describe myself!
+
+So how did I do it? How did I cross the imaginary boundary into "Not-Beginner" territory in data science/R programming? Keep in mind that we're all different. Everyone learns and operates differently, but I can retrospectively tell you how I think I got here: 
+
+<br>
+
+###    Environment 
+
+
+This was absolutely the **BIGGEST** factor for me. I fell in love with R programming/Data Science in a past position while attending an [AEA](https://www.eval.org/) conference a few years back. When I returned to work, I was bursting with motivation and energy and was itching to put all of my time and effort into learning R and Data Science. The environment I was in allowed me to do this to some degree, but it wasn't sustainable. I found myself putting in LOADS of overtime for professional development and I always felt like others in the environment didn't have the bandwidth to really help guide me on the journey. 
+Although it's understandable (due to the initial learning curve you need to get over with R), that work environment left me feeling unsupported and stagnated in the process. I was forced to continue working on my skills outside of work to eventually get to the position I'm in now because it turns out it is really hard to learn new things if you're constantly in daily Zoom meetings (I partially blame COVID on that one).
+
+While I'm the only person utilizing R in my department now, the current environment I work in is conducive to my development. It's nurturing, flexible, and supportive which I think helps a lot.
+
+<center><i><sub>(Also not spending 70% of my time in meetings is a big help.
+This is a PSA and plea to abolish unnecessary meetings ✊🏾)</sub></i></center>
+
+<br>
+
+<center>
+<figure>
+  <img src="images/excited.gif" alt="excited" style="width:60%">
+  <figcaption><center><i>"How I feel logging into work most days"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+###   Community/Online Presence  
+
+I mentioned I'm the only one that uses R in my department and that's totally OK. (Absolutely nothing wrong with Excel, SAS, and other data tools.) Consequently, I was prompted to create an online presence for myself to get some support. Along with the Tidy Trekker site, I also joined Twitter and made more of an effort to join data science/R programming groups on Facebook and LinkedIn. Being engaged in a community can give an extra level of support that you might not be able to get within your department. Sometimes (if data agreements allow) it can be so helpful to get outside opinions on visualizations or general assistance with programming. In particular, the [#rstats](https://twitter.com/search?q=rstats&src=spelling_expansion_revert_click) and [#r4ds](https://twitter.com/search?q=r4ds&src=typed_query) Twitter communities are places that should be cherished and treasured.
+
+<br>
+
+<center>
+<figure>
+  <img src="images/twitter.gif" alt="excited" style="width:60%">
+  <figcaption><center><i>Come hang out on Twitter if you aren't already there (<a href="https://twitter.com/meghansharris">@meghansharris</a>)</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+###   Passion/Motivation
+
+I recently saw a post on Twitter that stated that you should not get into the Data Science field if you're just in it for the money, and I fully agree. I cannot tell you how many nights I accidentally stayed up coding and learning for hours. Not because I "had" to, but because I absolutely *wanted* to. People that are here because they are passionate about the field can understand. There were times where I had to sit and ask myself if this career choice was what I wanted purely because the process of getting through those initial phases of R programming/data science were **BRUTAL**. If you're trying to get your way out of the “beginner” phases of your journey, or even if you're just beginning, you have to be honest with yourself and make sure that it is something you truly want to do. That passion is what's going to excel you forward in your journey.
+
+Back in a past position, I was overworked and sick as a result. This was around the time I was learning R. I remembered having a legitimate fever dream about coding. I would close my eyes and see the [RStudio IDE](https://rstudio.com/products/rstudio/) staring back at me. Once that fever broke, I was thrilled to return to whatever script I was working on at the time. That's when I knew this was for me. Now you don't have to be at the same level of insanity that I am, clearly, but this isn't something you should fake. If you're not passionate about it, get out while you still can!
+
+<br>
+
+<center>
+<figure>
+  <img src="images/typing.gif" alt="Cat typing furiously on a laptop." style="width:60%">
+  <figcaption><center><i>"Me grinding everyday because 'coding is a lifestyle'"</i></center></figcaption>
+</figure>
+</center>
+
+<br>
+
+###   Patience
+
+This is the one I hate the most. I am admittedly NOT a patient person. I want to be a data science/R wizard and I wanted that status ***yesterday***. I think of a personal example whenever this comes to mind.
+
+When I first started learning to program in R, I immediately tried to make a [Shiny](https://shiny.rstudio.com/) app. Needless to say I failed miserably and had almost quit the journey entirely. I felt so inadequate and not smart at all. I gave R a break for a week or two and realized I *really* wanted to learn. So I restarted the “right” way and started with the basics. I can't tell you how long it took to get the basics down, but one day, it really did seem like things were starting to click together.
+
+Soon, daunting data wrangling and mining became a breeze and an enjoyable puzzle to solve. And while I am far from where I began in my journey, I still have to remember to have patience; especially as I try to navigate these murky "not-beginner" waters. Having this level of discipline can ensure that you are learning things effectively. For me personally? I just reached the point where I am finally ready to dig into the basics of machine learning and Shiny app development. I'll be sure to document these endeavors as I trek through them.
+
+<br>
+
+*Are you a "Not-Beginner?" How did you know you weren't a beginner anymore? If you ARE a beginner, what do you think will put you into that next category of data science "proficiency"? Feel free to leave a comment below to share or contact me directly! Respectful discourse is always welcomed!*
+
+</div>
+
+
+
+

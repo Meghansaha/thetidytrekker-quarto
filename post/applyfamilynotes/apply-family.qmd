@@ -1,0 +1,884 @@
+---
+title: "Apply Family Notebook"
+description: |
+  An apply() function notebook to explore the different apply functions in Base R
+author:
+  - name: Meghan Harris
+date: 01-23-2021
+output:
+    toc: true
+preview: images/applyfamily.png
+categories:
+  - r
+  - r programming
+  - base r
+  - apply
+  - lapply
+  - sapply
+  - functional programming
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Apply Family Notes
+
+# **Purpose**
+
+In this notebook session, I'll be going over the "Apply" Family in base
+R. The "Apply Functions" refer to a group of functions that come with
+base R that allow you to do repetitive actions within different
+objects(i.e. data frames, lists, etc.)
+
+The functions I'll go over will be:
+
+-   apply()
+-   lapply()
+-   mapply()
+-   rapply()
+-   sapply()
+-   tapply()
+-   vapply()
+
+<br>
+
+**Packages Used & Loaded:**
+
+    ## [1] "tidyverse"  "knitr"      "kableExtra"
+
+<br>
+
+------------------------------------------------------------------------
+
+# **Apply Functions, Inputs, & Outputs**
+
+A quick overview:
+
+``` r
+kable(applychart) %>%
+   kable_minimal()
+```
+
+| Name     | What it does                                                                                                   | Input                                                                | Output                                              |
+|:----------------|:----------------|:----------------|:----------------|
+| apply()  | Applies a function to the rows or columns of the object                                                        | Data Frame or Matrix                                                 | Matrix or Array                                     |
+| lapply() | Applies a function to all elements within the input                                                            | Data Frame, List, Vector                                             | List                                                |
+| mapply() | Applies a function to multiple lists or vectors - can be considered a multivariate version of 'sapply'         | Multiple Lists or Vectors (i.e. a Data Frame)                        | List or Vector                                      |
+| rapply() | Applies a function recursively through a list - nested lists                                                   | Nested Lists                                                         | Nested List or Vector depending on arguments passed |
+| sapply() | A simpler version of 'lapply' that works on lists, data frames, and vectors                                    | Data Frame, List, Vector                                             | Matrix or Vector                                    |
+| tapply() | Applies a function over a ragged/jagged array (an array that has more than one dimension with varying lengths) | Data Frame or Vector that can be split (divided into groups/factors) | Array                                               |
+| vapply() | Similar to 'sapply', but you can pre-specify the type of value that is output, making it a bit faster          | Data Frame, List, Vector                                             | Data Frame, List, Vector                            |
+
+<br>
+
+------------------------------------------------------------------------
+
+# **Apply Function: apply()**
+
+The **apply()** function is used to apply a function to **a**ll rows or
+columns of an object. Consequently, only objects with more than one
+dimension can be used with apply, so a data frame or matrix.
+
+<br>
+
+`apply(X, MARGIN, FUN)`
+
+<br>
+
+Where:
+
+| Argument | Description                                                                 |
+|:--------------|:------------------------------------------------------|
+| X        | Data Frame or Matrix                                                        |
+| MARGIN   | '1' or '2' or 'c(1,2)' where 1 = Rows and 2 = Columns                       |
+| FUN      | The function you want to be applied to the data frame or matrix in question |
+
+## **Data Frame Example**
+
+``` r
+#Creating a mock data frame
+City <- c("Buffalo","NYC","Seattle","Austin","Orlando","Minneapolis")
+Cases <- c(500,2012,1876,635,4512,823)
+Controls <- c(3426,5210,6753,5633,2013,1890)
+
+records <- data.frame(City,Cases,Controls, row.names = NULL)
+
+records
+```
+
+    ##          City Cases Controls
+    ## 1     Buffalo   500     3426
+    ## 2         NYC  2012     5210
+    ## 3     Seattle  1876     6753
+    ## 4      Austin   635     5633
+    ## 5     Orlando  4512     2013
+    ## 6 Minneapolis   823     1890
+
+<br>
+
+We can use the apply function to calculate column sums...
+
+<br>
+
+``` r
+#Calculating the column sum of all applicable columns
+apply(records[,2:3], 2,sum)
+```
+
+    ##    Cases Controls 
+    ##    10358    24925
+
+<br>
+
+...Or row sums. (Note that these both produce vectors and that we subset
+the dataframe with **`[,2:3]`** to avoid R throwing an error for the
+first column that has strings in it. Can't perform a mathematical
+function on character strings)
+
+<br>
+
+``` r
+#Calculating row sums
+apply(records[,2:3], 1,sum)
+```
+
+    ## [1] 3926 7222 8629 6268 6525 2713
+
+<br>
+
+We can name the vectors in one line of code with the `names<-` function:
+
+<br>
+
+``` r
+#Calculating row sums, but applying names from the "City" column
+`City Totals` <-  `names<-`(apply(records[,2:3], 1,sum), records$City)
+
+`City Totals`
+```
+
+    ##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis 
+    ##        3926        7222        8629        6268        6525        2713
+
+## **Applying Statistic (More Complex) Functions**
+
+<br>
+
+We can also do different statistical procedures based on each test's
+requirement. Let's do a T-test:
+
+<br>
+
+``` r
+#Making a mock data set for T-test
+Ex1_grades <- c(67,53)
+Ex2_grades <- c(90,89)
+Ex3_grades <- c(89,95)
+Ex4_grades <- c(95,87)
+Ex5_grades <- c(100,99)
+Student <- c("Student1","Student2")
+
+Grades <- tibble(Student,Ex1_grades,Ex2_grades,Ex3_grades,Ex4_grades,Ex5_grades)
+
+Grades
+```
+
+    ## # A tibble: 2 x 6
+    ##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades
+    ##   <chr>         <dbl>      <dbl>      <dbl>      <dbl>      <dbl>
+    ## 1 Student1         67         90         89         95        100
+    ## 2 Student2         53         89         95         87         99
+
+<br>
+
+Let's just say we want the P.value of one sample T-tests for each
+student and we want to place it in this dataset as a new column. What's
+important to note is that arguments that would normally be passed
+through to your functions, go as separate arguments at the end of the
+apply function, after you declare which function you want used.
+
+<br>
+
+``` r
+#Turning off scientific notation formatting
+options(scipen = 999)
+
+#Getting index of columns that end with the word "grades"
+Gradeindexes <- grep(("grades$"),names(Grades))
+
+#Using apply to apply the t.test.
+testresults <- apply(Grades[,Gradeindexes],1,t.test, alternative = "two.sided", conf.level = 0.95)
+
+#Using do.call to bind p values to the data set. Because results are in a list, we can use lapply and wrap it in "as.vector" for clean transfer into the dataframe
+
+Grades$`P Values` <- as.vector(format(do.call(rbind, lapply(testresults, function(x){x$p.value})), digits = 2))
+
+Grades
+```
+
+    ## # A tibble: 2 x 7
+    ##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades `P Values`
+    ##   <chr>         <dbl>      <dbl>      <dbl>      <dbl>      <dbl> <chr>     
+    ## 1 Student1         67         90         89         95        100 0.000098  
+    ## 2 Student2         53         89         95         87         99 0.000494
+
+------------------------------------------------------------------------
+
+# **Lapply Function: lapply()**
+
+The **lapply()** function is used to apply a function to all elements of
+a **l**ist.
+
+<br>
+
+`lapply(X, FUN)`
+
+<br>
+
+Where:
+
+| Argument | Description                                                                 |
+|:--------------|:------------------------------------------------------|
+| X        | Data Frame, List, Vector                                                    |
+| FUN      | The function you want to be applied to the data frame or matrix in question |
+
+## **Data Frame Example**
+
+<br>
+
+We can use lapply to make changes to a data frame.
+
+<br>
+
+``` r
+# Changing column names in the "records" data frame to be all CAPS
+
+names(records) <- lapply(names(records),str_to_upper)
+
+records
+```
+
+    ##          CITY CASES CONTROLS
+    ## 1     Buffalo   500     3426
+    ## 2         NYC  2012     5210
+    ## 3     Seattle  1876     6753
+    ## 4      Austin   635     5633
+    ## 5     Orlando  4512     2013
+    ## 6 Minneapolis   823     1890
+
+## **List Example**
+
+<br>
+
+We can use lapply to make changes to a list. Need to create a mock list.
+
+<br>
+
+``` r
+#Creating list from randomly sampled numbers, then adding names from the "fruit" constant that comes with base R
+
+#Setting a seed for reproducibility
+set.seed(555)
+
+#Generating the random sample of numbers
+stock <- sample(1:50,5)
+
+#Pulling the first five strings of the fruit constant from base R
+fruits <- fruit[1:5]
+
+#Coercing the sampled numbers into a list  
+Inventory <- as.list(as.numeric(stock))
+
+#Setting the names of each randomly sampled number to each string in out fruits vector
+names(Inventory) <- fruits
+
+Inventory
+```
+
+    ## $apple
+    ## [1] 42
+    ## 
+    ## $apricot
+    ## [1] 49
+    ## 
+    ## $avocado
+    ## [1] 24
+    ## 
+    ## $banana
+    ## [1] 16
+    ## 
+    ## $`bell pepper`
+    ## [1] 29
+
+<br>
+
+We can alter the list by adding 100 to each fruit's count and assigning
+the result back to `Inventory`:
+
+<br>
+
+``` r
+Inventory <- lapply(Inventory, function(x) (x+100))
+
+Inventory
+```
+
+    ## $apple
+    ## [1] 142
+    ## 
+    ## $apricot
+    ## [1] 149
+    ## 
+    ## $avocado
+    ## [1] 124
+    ## 
+    ## $banana
+    ## [1] 116
+    ## 
+    ## $`bell pepper`
+    ## [1] 129
+
+------------------------------------------------------------------------
+
+# **Mapply Function: mapply()**
+
+The **Mapply()** function applies a function to **m**ultiple lists or
+vectors. This can be considered a multivariate version of 'sapply.'
+
+<br>
+
+`mapply(FUN, X, MoreArgs)`
+
+<br>
+
+Where:
+
+| Argument | Description                                                                                          |
+|:--------------|:------------------------------------------------------|
+| FUN      | The function you want to be applied to the lists or vectors in question                              |
+| X        | The lists or vectors you want to the function applied to (normally wrapped within the 'c()' function |
+| MoreArgs | A list (wrapped in the 'list() function) of additional arguments to pass to the function             |
+
+<br>
+
+## **Multiple List Example**
+
+We can use mapply() to alter different elements within multiple lists,
+as oppose to *`lapply()`* which only works within one list. Let's create
+multiple lists to test `mapply()` out.
+
+``` r
+#Want to take these separate list, add th last name "Smith" to all the names, then get the final result in one place (a list)
+
+names1 <- list("John", "Abigail", "Sam","Judy")
+names2 <- list("Mary", "Lauri", "Gus")
+names3 <- list("Harold", "Peter", "Natalie","Scott","Fatima")
+
+`Names List` <- mapply(function(x) paste(x,"Smith"), c(names1,names2,names3))
+
+`Names List`
+```
+
+    ##  [1] "John Smith"    "Abigail Smith" "Sam Smith"     "Judy Smith"    "Mary Smith"    "Lauri Smith"   "Gus Smith"     "Harold Smith"  "Peter Smith"   "Natalie Smith" "Scott Smith"   "Fatima Smith"
+
+## **Multiple Vector Example**
+
+Mapply() can be used to vectorize function results from multiple
+vectors.
+
+Let's same we have vectors of numbers and we want to know the mean of
+all of them separately:
+
+<br>
+
+``` r
+#Making mock vectors, setting a seed for reproducibility.
+set.seed(321)
+
+#Assigning the vectors
+vector1 <- sample(1:100,12)
+vector2 <- sample(1:100,5)
+vector3 <- sample(1:100,9)
+
+vector1
+```
+
+    ##  [1] 54 77 88 80 58 17 47 11 25 31 82 79
+
+``` r
+vector2
+```
+
+    ## [1] 98 75 31 82 36
+
+``` r
+vector3
+```
+
+    ## [1] 78 87 34 84  4 48 51 80 13
+
+<br>
+
+Because we want summaries (the mean) of each vector, we can use the
+**`list()`** function instead of the **`c()`** function. We can use the
+**`MoreArgs`** argument to pass the `trim` argument to the **`mean()`**
+function. By default, this is set at zero, but passing it through to
+demonstrate.
+
+<br>
+
+``` r
+#Calculating the mean of each vector
+vectormeans <-mapply(mean,list(vector1,vector2,vector3), MoreArgs = list(trim = 0))
+
+#Setting names to the results
+names(vectormeans) <- c("vector1","vector2","vector3")
+
+vectormeans
+```
+
+    ##  vector1  vector2  vector3 
+    ## 54.08333 64.40000 53.22222
+
+------------------------------------------------------------------------
+
+# **Rapply Function: rapply()**
+
+The **rapply()** function is used to apply a function **r**ecursively to
+all elements in a nested list.
+
+<br>
+
+`rapply(object, f, classes, how)`
+
+<br>
+
+Where:
+
+| Argument | Description                                                                                          |
+|:--------------|:------------------------------------------------------|
+| Object   | Nested Lists                                                                                         |
+| f        | The function you want to be applied to the nested list in question                                   |
+| classes  | Classes of elements to match on ex: 'numeric' , 'character'                                          |
+| how      | Sets the action in which the function is executed. Standard options are: 'replace', 'unlist', 'list' |
+
+## **Nested list example**
+
+Let's say we have a list of cities that have a list of restaurant types
+embedded in them:
+
+``` r
+Restaurantdata <- list("Buffalo" = list("italian","mexican","japanese","puerto rican"),
+                       "Seattle" = list("japanese","chinese","southern","steakhouse"),
+                       "Miami" = list("seafood","cuban","italian","polish"))
+
+Restaurantdata
+```
+
+    ## $Buffalo
+    ## $Buffalo[[1]]
+    ## [1] "italian"
+    ## 
+    ## $Buffalo[[2]]
+    ## [1] "mexican"
+    ## 
+    ## $Buffalo[[3]]
+    ## [1] "japanese"
+    ## 
+    ## $Buffalo[[4]]
+    ## [1] "puerto rican"
+    ## 
+    ## 
+    ## $Seattle
+    ## $Seattle[[1]]
+    ## [1] "japanese"
+    ## 
+    ## $Seattle[[2]]
+    ## [1] "chinese"
+    ## 
+    ## $Seattle[[3]]
+    ## [1] "southern"
+    ## 
+    ## $Seattle[[4]]
+    ## [1] "steakhouse"
+    ## 
+    ## 
+    ## $Miami
+    ## $Miami[[1]]
+    ## [1] "seafood"
+    ## 
+    ## $Miami[[2]]
+    ## [1] "cuban"
+    ## 
+    ## $Miami[[3]]
+    ## [1] "italian"
+    ## 
+    ## $Miami[[4]]
+    ## [1] "polish"
+
+<br>
+
+We want to change all of the elements so that each restaurant type is
+capitalized. We can do this with either the `tools` or `stringr`
+packages. I'll use the `stringr` package for this example. Note that the
+`"replace"` option in the `how` argument will actually alter the
+`Restaurantdata` list, but in order to save it as such, we have to
+assign in back to the `Restaurantdata` object.
+
+<br>
+
+``` r
+Restaurantdata <- rapply(Restaurantdata,stringr::str_to_title,how = "replace")
+
+
+Restaurantdata
+```
+
+    ## $Buffalo
+    ## $Buffalo[[1]]
+    ## [1] "Italian"
+    ## 
+    ## $Buffalo[[2]]
+    ## [1] "Mexican"
+    ## 
+    ## $Buffalo[[3]]
+    ## [1] "Japanese"
+    ## 
+    ## $Buffalo[[4]]
+    ## [1] "Puerto Rican"
+    ## 
+    ## 
+    ## $Seattle
+    ## $Seattle[[1]]
+    ## [1] "Japanese"
+    ## 
+    ## $Seattle[[2]]
+    ## [1] "Chinese"
+    ## 
+    ## $Seattle[[3]]
+    ## [1] "Southern"
+    ## 
+    ## $Seattle[[4]]
+    ## [1] "Steakhouse"
+    ## 
+    ## 
+    ## $Miami
+    ## $Miami[[1]]
+    ## [1] "Seafood"
+    ## 
+    ## $Miami[[2]]
+    ## [1] "Cuban"
+    ## 
+    ## $Miami[[3]]
+    ## [1] "Italian"
+    ## 
+    ## $Miami[[4]]
+    ## [1] "Polish"
+
+<br>
+
+We can also get a vector of our results by using the `unlist` option in
+the `how` function instead. Let's add the word "restaurants" to each of
+these elements then `unlist` the object to place it in a vector.
+
+<br>
+
+``` r
+Restaurantvector <- rapply(Restaurantdata,function(x) paste(x,"restaurants"),how = "unlist")
+
+
+Restaurantvector
+```
+
+    ##                   Buffalo1                   Buffalo2                   Buffalo3                   Buffalo4                   Seattle1                   Seattle2                   Seattle3                   Seattle4                     Miami1                     Miami2                     Miami3                     Miami4 
+    ##      "Italian restaurants"      "Mexican restaurants"     "Japanese restaurants" "Puerto Rican restaurants"     "Japanese restaurants"      "Chinese restaurants"     "Southern restaurants"   "Steakhouse restaurants"      "Seafood restaurants"        "Cuban restaurants"      "Italian restaurants"       "Polish restaurants"
+
+------------------------------------------------------------------------
+
+# **Sapply Function: sapply()**
+
+<br>
+
+The **sapply()** function is a **s**impler version of 'lapply' that
+works to apply functions across all elements of lists, data frames, and
+vectors.
+
+<br>
+
+`sapply(X, FUN, simplify, USE.NAMES)`
+
+<br>
+
+Where:
+
+| Argument | Description                                                                        |
+|:--------------|:------------------------------------------------------|
+| X        | Data Frame, List, Vector                                                           |
+| FUN      | The function you want to be applied to the data frame, list, or vector in question |
+| simplify | Determines if the result should be simplified to a vector, matrix, or array        |
+
+<br>
+
+For this example, let's work with the `records` set form earlier. In
+order to get an error-free compilation, row names have to be set:
+
+<br>
+
+``` r
+#Pulling cities names and placing it into a vector
+cities <- records$CITY
+  
+#Removing the CITY variable from the frame to isolate the numeric values
+records <- records[,2:3]
+
+records
+```
+
+    ##   CASES CONTROLS
+    ## 1   500     3426
+    ## 2  2012     5210
+    ## 3  1876     6753
+    ## 4   635     5633
+    ## 5  4512     2013
+    ## 6   823     1890
+
+<br>
+
+Let's divide the numbers in the dataset for each city by 10. We can
+store the results in a list by setting `simplify = FALSE`:
+
+<br>
+
+``` r
+#Dividing each number by 10 and setting the names of the elements in the list
+recordslist <- sapply(records, function(x) x/10, simplify = FALSE)
+
+#setting the names for each element in the list. We use the a for loop to subset the two objects in the list (CASES and CONTROLS) while using the "names" function to copy the city names over
+
+for (i in seq_along(names(recordslist))){
+names(recordslist[[i]]) <- cities
+}
+
+recordslist
+```
+
+    ## $CASES
+    ##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis 
+    ##        50.0       201.2       187.6        63.5       451.2        82.3 
+    ## 
+    ## $CONTROLS
+    ##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis 
+    ##       342.6       521.0       675.3       563.3       201.3       189.0
+
+<br>
+
+If we set `simplify = TRUE` we can get an array instead:
+
+<br>
+
+``` r
+#Dividing each number by 10 and setting the names of the elements in the list
+recordsarray <- sapply(records, function(x) x/10, simplify = TRUE)
+
+row.names(recordsarray) <- cities
+
+recordsarray
+```
+
+    ##             CASES CONTROLS
+    ## Buffalo      50.0    342.6
+    ## NYC         201.2    521.0
+    ## Seattle     187.6    675.3
+    ## Austin       63.5    563.3
+    ## Orlando     451.2    201.3
+    ## Minneapolis  82.3    189.0
+
+------------------------------------------------------------------------
+
+# **Tapply Function: tapply()**
+
+<br>
+
+**Tapply()** can be used when we want to perform a function over a
+ragged/jagged array (an array that has more than one dimension with
+varying lengths). It is best used to apply functions across a vector (or
+column in a data frame) and producing the result by factors
+(categories).
+
+<br>
+
+`tapply(X, INDEX, FUN)`
+
+<br>
+
+Where:
+
+| Argument | Description                                                                       |
+|:--------------|:------------------------------------------------------|
+| X        | Data Frame or Vector that can be \`split\` (has factors/categories to split on)   |
+| INDEX    | A list or vector of one or more factors or groupings that is the SAME length as X |
+| FUN      | The function you want to be applied to the data frame or vector in question       |
+
+## **Data Frame Example**
+
+We can use `tapply()` to apply a function across a column in a
+dataframe. Let's make a simple data frame:
+
+``` r
+# Setting a seed for reproducibility
+set.seed(789)
+
+Teams <- c("UK","USA","Egypt","Ireland","UK","USA","USA")
+Seconds <- runif(length(Teams), min=30, max = 240)
+Runners <- data.frame(Teams,Seconds)
+
+Runners
+```
+
+    ##     Teams   Seconds
+    ## 1      UK 176.97782
+    ## 2     USA  49.63476
+    ## 3   Egypt  32.49623
+    ## 4 Ireland 154.23733
+    ## 5      UK 133.35138
+    ## 6     USA  34.23435
+    ## 7     USA 150.25773
+
+<br>
+
+Let's say we want to calculate the average time (seconds) for each Team.
+We can use `tapply()` for this.
+
+<br>
+
+``` r
+Runner_means <- tapply(Runners$Seconds, Runners$Teams, mean)
+
+Runner_means
+```
+
+    ##     Egypt   Ireland        UK       USA 
+    ##  32.49623 154.23733 155.16460  78.04228
+
+<br>
+
+The results are stored into an array. If a new table is desired it can
+be manipulated to do so:
+
+<br>
+
+``` r
+Runners_summary <- data.frame(Team = names(Runner_means), Mean =Runner_means, row.names = NULL)
+
+Runners_summary
+```
+
+    ##      Team      Mean
+    ## 1   Egypt  32.49623
+    ## 2 Ireland 154.23733
+    ## 3      UK 155.16460
+    ## 4     USA  78.04228
+
+## **Jagged Vectors Example**
+
+<br>
+
+We can use `tapply()` to also preform tasks across multiple vectors of
+different lengths as long as the amount of factors matches the amount of
+the elements overall in each vector
+
+<br>
+
+``` r
+#Create a list of factors 
+Names <- c("Meghan","Gus","Jennifer","Gus","Jennifer","Natalie","Meghan","Jennifer","Gus","Natalie")
+
+Scores1 <- c(90,67,88,99,100)
+Scores2 <- c(99,99,78)
+Scores3 <- c(100,78)
+
+#Placing them together gives us a vector that has a length of 10. Same as the "Names" vector
+Test_scores <- c(Scores1,Scores2,Scores3)
+
+#We can now apply the same function across this vectors and get summarized results
+Test_averages <- tapply(Test_scores,Names,mean)
+
+Test_averages
+```
+
+    ##      Gus Jennifer   Meghan  Natalie 
+    ## 88.66667 88.66667 94.50000 88.50000
+
+------------------------------------------------------------------------
+
+# **Vapply Function: vapply**
+
+<br>
+
+**Vapply()** is similar to 'sapply', but you can pre-specify the type of
+**v**alue that is output, making it a bit faster.
+
+<br>
+
+`vapply(X, INDEX, FUN)`
+
+<br>
+
+Where:
+
+| Argument  | Description                                                                 |
+|:---------------|:-----------------------------------------------------|
+| X         | Data Frame, List, Vector                                                    |
+| FUN       | The function you want to be applied to the data frame or vector in question |
+| FUN.VALUE | A template for the value you want returned                                  |
+
+<br>
+
+So let's look at our `records` data set again. We can use `vapply()` to
+compute the sum of each group (Cases and Controls) We can use vapply to
+ensure the result we get is numeric. Vapply is said to be a "safer"
+alternative to sapply because it will ensure you're getting the results
+you are expecting. If you don't set the `FUN.VALUE` argument in the
+function, it will throw an error, whereas sapply would automatically
+produce a result:
+
+<br>
+
+``` r
+records
+```
+
+    ##   CASES CONTROLS
+    ## 1   500     3426
+    ## 2  2012     5210
+    ## 3  1876     6753
+    ## 4   635     5633
+    ## 5  4512     2013
+    ## 6   823     1890
+
+``` r
+#Using vapply to get the sums. We place a "1" in the numeric argument to tell R we are expecting a non-zero number
+vapply(records, sum, FUN.VALUE = numeric(1))
+```
+
+    ##    CASES CONTROLS 
+    ##    10358    24925
+
+``` r
+#Without the FUN.VALUE argument, vapply will throw an error
+vapply(records, sum)
+```
+
+    ## Error in vapply(records, sum): argument "FUN.VALUE" is missing, with no default
+
+``` r
+#In comparison, sapply will give us the result without specifying the output type
+sapply(records, sum)
+```
+
+    ##    CASES CONTROLS 
+    ##    10358    24925
