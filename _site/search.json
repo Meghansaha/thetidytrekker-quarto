@@ -490,6 +490,13 @@
     "text": "Recorded Presentation\nThe recorded presentation for this talk is available on YouTube here."
   },
   {
+    "objectID": "talks/intro_to_rtistry/intro_to_rtistry.html#github-repository-with-example-code",
+    "href": "talks/intro_to_rtistry/intro_to_rtistry.html#github-repository-with-example-code",
+    "title": "An Introduction to Rtistry Using ggplot2 in R",
+    "section": "GitHub Repository with Example Code",
+    "text": "GitHub Repository with Example Code\nThe example R script for the live-coded piece for this talk is available on GitHub here."
+  },
+  {
     "objectID": "talks/pipelines_in_r/pipeline_in_r.html#description",
     "href": "talks/pipelines_in_r/pipeline_in_r.html#description",
     "title": "Making Data Pipelines in R: A Story from a Self-Taught Perspective",

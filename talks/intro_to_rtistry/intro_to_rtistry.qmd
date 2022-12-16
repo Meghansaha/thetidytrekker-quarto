@@ -20,3 +20,7 @@ The slides for the presentation is available in a PDF format [here](https://lnkd
 ## Recorded Presentation
 
 The recorded presentation for this talk is available on YouTube [here](https://lnkd.in/gDcQTK5d).
+
+## GitHub Repository with Example Code
+
+The example R script for the live-coded piece for this talk is available on GitHub [here](https://github.com/Meghansaha/Data_Art/blob/master/creations/Collages/Mountains/Mountains.R).
