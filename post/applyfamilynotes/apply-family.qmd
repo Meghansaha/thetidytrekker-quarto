@@ -7,7 +7,7 @@ author:
 date: 01-23-2021
 output:
     toc: true
-preview: images/applyfamily.png
+image: images/applyfamily.png
 categories:
   - r
   - r programming

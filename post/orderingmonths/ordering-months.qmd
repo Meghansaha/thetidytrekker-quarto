@@ -6,7 +6,7 @@ author: Meghan Harris
 date: 01-23-2021
 output:
     toc: true
-imaage: images/ordering_months.png
+image: images/ordering_months.png
 categories:
   - data manipulation
   - data carpentry
