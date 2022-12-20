@@ -11,8 +11,8 @@ website:
         text: About Me
       - href: blog.qmd
         text: Exploration Corner
-      - href: resumecv.html
-        text: Resume/CV
+      #- href: resumecv.html
+        #text: Resume/CV
       - text: Portfolios
         menu:
           - text: Talks
