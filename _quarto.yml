@@ -1,7 +1,9 @@
 project:
   type: website
 
+
 website:
+  site-url: https://www.thetidytrekker.com/blog.html
   navbar:
     logo: "images/TTTdark.png"
     left:
@@ -11,8 +13,8 @@ website:
         text: About Me
       - href: blog.qmd
         text: Exploration Corner
-      - href: resumecv.html
-        text: Resume/CV
+      #- href: resumecv.html
+        #text: Resume/CV
       - text: Portfolios
         menu:
           - text: Talks
