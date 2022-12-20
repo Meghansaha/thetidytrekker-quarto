@@ -20,7 +20,7 @@ website:
           #- text: "Tidy Tuesdays"
             #href: tidytuesdays.html
           - text: Rtistry Gallery
-            href: rtistry.html
+            href: rtistry.qmd
     
     right:
       - icon: envelope-fill
@@ -47,7 +47,7 @@ format:
     toc-location: left
     toc-title: Summary
     toc-depth: 3
-css: assets/styles.css
+css: assets/scripts/styles.css
 theme:
   light: [cosmo, assets/scripts/lightstyle.scss]
   dark: [cosmo, assets/scripts/darkstyle.scss]

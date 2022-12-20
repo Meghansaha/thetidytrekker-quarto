@@ -1,6 +1,5 @@
 ---
 page-layout: custom
-classoption: "test"
 title-block-banner: false
 logo: "images/TTTlight.png"
 

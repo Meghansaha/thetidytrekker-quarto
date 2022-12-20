@@ -1,0 +1,106 @@
+---
+title: Rtistry Gallery
+execute:
+  echo: false
+  warning: false
+
+---
+
+```{r}
+library(tidyverse)
+
+paths <- list.files("gallery_imgs", full.names = TRUE)
+
+img_names <- str_remove(list.files("gallery_imgs", full.names = FALSE), "\\.\\w*$")
+
+img_paths <- map2_chr(paths, img_names, ~paste0("<div class = 'imgwrap'><a href='",.x,"'><img src='",.x,"'><p class = 'imgname'>'",.y,"'</p></a></div>", collapse = ""))
+
+```
+
+
+**"Rtistry"** is a term that is used to refer to generative art that's
+created by coding in the R programming language. Here you'll find
+various Rtistry pieces I've created as I continue to explore and learn
+how to create aRt. I have publicly shared some code for certain pieces
+in my [Data Art repository](https://github.com/Meghansaha/Data_Art) on
+GitHub. If you're a beginner interested in getting started in Rtistry,
+you may find my [Intro to Data Art](post/thinking-outside-the-grid.html) blog
+post helpful.</font>
+
+---
+
+<br>
+
+<div id="gallery">
+
+`r img_paths`
+
+</div>
+
+```{css}
+#gallery {
+   line-height:0;
+   -webkit-column-count:5; /* split it into 5 columns */
+   -webkit-column-gap:5px; /* give it a 5px gap between columns */
+   -moz-column-count:5;
+   -moz-column-gap:5px;
+   column-count:5;
+   column-gap:5px;
+}
+
+#gallery img {
+   width: 100% !important;
+   height: auto !important;
+   margin-bottom:5px; /* to match column gap */
+   filter: grayscale(100%); 
+   filter: blur(1px);
+
+}
+
+#gallery img:hover {
+   filter:none;
+}
+
+
+@media (max-width: 1200px) {
+   #gallery {
+    -moz-column-count:    4;
+    -webkit-column-count: 4;
+    column-count:         4;
+   }
+}
+
+@media (max-width: 1000px) {
+   #gallery {
+    -moz-column-count:    3;
+    -webkit-column-count: 3;
+    column-count:         3;
+   }
+}
+
+@media (max-width: 800px) {
+   #gallery {
+    -moz-column-count:    2;
+    -webkit-column-count: 2;
+    column-count:         2;
+   }
+}
+
+@media (max-width: 400px) {
+   #gallery {
+    -moz-column-count:    1;
+    -webkit-column-count: 1;
+    column-count:         1;
+   }
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+
+```
+
