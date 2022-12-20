@@ -24,7 +24,7 @@ various Rtistry pieces I've created as I continue to explore and learn
 how to create aRt. I have publicly shared some code for certain pieces
 in my [Data Art repository](https://github.com/Meghansaha/Data_Art) on
 GitHub. If you're a beginner interested in getting started in Rtistry,
-you may find my [Intro to Data Art](post/thinking-outside-the-grid/thinking-outside-the-grid) blog
+you may find my [Intro to Data Art](post/thinking-outside-the-grid/thinking-outside-the-grid.html) blog
 post helpful.</font>
 
 ---
