@@ -36,7 +36,7 @@ website:
       - icon: mastodon
         href: https://fosstodon.org/@meghansharris
       - icon: rss-fill
-        href: https://www.thetidytrekker.com/blog.html
+        href: https://www.thetidytrekker.com/blog.xml
       #- icon: bag-heart-fill
         #href: https://www.etsy.com/shop/TidyTreks?
 
