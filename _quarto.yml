@@ -35,10 +35,11 @@ website:
         href: https://twitter.com/meghansharris
       - icon: mastodon
         href: https://fosstodon.org/@meghansharris
+      - icon: rss-fill
+        href: index.xml
       #- icon: bag-heart-fill
         #href: https://www.etsy.com/shop/TidyTreks?
-      - icon: fa fa-rss
-        #href: index.xml
+
 
 title-block-banner: "#27445C"
 format: 
