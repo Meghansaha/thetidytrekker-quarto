@@ -39,3 +39,7 @@ html, body {
 #quarto-margin-sidebar{
   height: 100%;
 }
+
+#quarto-header > nav > div > div.navbar-brand-container > a:nth-child(2) > span{
+  visibility: hidden;
+}
