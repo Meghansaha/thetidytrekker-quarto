@@ -44,3 +44,7 @@ html, body {
   visibility: hidden;
   width: 0px;
 }
+
+#quarto-search-results{
+  background: #000000;
+}
