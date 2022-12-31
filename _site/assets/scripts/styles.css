@@ -35,3 +35,7 @@ html, body {
 #navbarCollapse > ul > li:nth-child(even) > a {
   color:white;
 }
+
+#quarto-margin-sidebar{
+  height: 100%;
+}

@@ -1,10 +1,10 @@
 ---
+title: The Exploration Corner
 include-in-header: assets/blogbanner.html
 listing:
   contents: post
   sort: "date desc"
   type: default
-  categories: cloud
   feed: true
 ---
 

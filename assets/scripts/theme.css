@@ -145,4 +145,6 @@ body > header > nav > div.nav-left > span{
 
 /*-- Additional custom styles --*/
 /* Add any additional CSS rules below                      */
-
+#quarto-margin-sidebar{
+  height: 100%;
+}

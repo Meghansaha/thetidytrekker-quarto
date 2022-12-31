@@ -78,5 +78,18 @@ $code-block-bg-alpha: -.8;
   border-radius: 5px;
 }
 
+#quarto-margin-sidebar{
+  height: 100%;
+}
+
+#quarto-margin-sidebar > div.quarto-listing-category.category-default > div:nth-child(odd){
+  font-size: 10px;
+}
+
+#quarto-margin-sidebar > div.quarto-listing-category.category-default > div:nth-child(even){
+  font-size: 10px;
+}
+
+
 
 

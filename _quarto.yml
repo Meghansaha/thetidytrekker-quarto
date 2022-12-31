@@ -3,6 +3,7 @@ project:
 
 
 website:
+  margin-header: subscribe.html
   site-url: https://www.thetidytrekker.com
   navbar:
     logo: "images/TTTdark.png"
@@ -36,7 +37,7 @@ website:
       - icon: mastodon
         href: https://fosstodon.org/@meghansharris
       - icon: rss-fill
-        href: https://www.thetidytrekker.com/blog.xml
+        href: blog.xml
       #- icon: bag-heart-fill
         #href: https://www.etsy.com/shop/TidyTreks?
 
