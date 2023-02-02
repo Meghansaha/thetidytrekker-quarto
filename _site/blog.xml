@@ -10,7 +10,79 @@
 <atom:link href="https://www.thetidytrekker.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.2.269</generator>
-<lastBuildDate>Wed, 24 Nov 2021 05:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 23 Jan 2023 05:00:00 GMT</lastBuildDate>
+<item>
+  <title>Let’s Talk About 2022</title>
+  <dc:creator>Meghan Harris</dc:creator>
+  <link>https://www.thetidytrekker.com/post/lets-talk-about-2022/lets-talk-about-2022.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>Yes, hello. It’s been a while. I have been neglecting The Tidy Trekker as of late (and to be honest, I still might this year after this overhaul is done, but we’ll see.) I had all the intentions of being super active here in 2022, but life happened. The good news is, instead of the usual negative BS, I was inundated with EXCELLENT things in 2022. I was afraid to even step into 2023 for fear that all my good luck would “run out” this year. (<em>I’m joking btw, life is what you make it and your enjoyment of it depends on a lot of things like perspective, if you need/go to therapy, circumstances, etc.)</em></p>
+<p><br></p>
+<p>But enough general rambling; let’s start with some targeted rambling. <strong>So what happened in 2022?</strong></p>
+<p><br></p>
+<p><strong>In this post:</strong></p>
+<ul>
+<li><p>Conferences and Talks</p></li>
+<li><p>Job Change</p></li>
+<li><p>Family and Home Changes</p></li>
+<li><p>So, What About 2023?</p></li>
+</ul>
+<hr>
+<section id="conferences-and-talks" class="level1">
+<h1>Conferences and Talks</h1>
+<p>So this one is probably the most known. The fact that I had A LOT of talks to prepare for and do. Some of you may have found out about me through&nbsp;<a href="talks.qmd">one of the various talks</a>&nbsp;I did in 2022. Most of the talks were about #rtistry (generative art in the R language) but I did give more practical ones as well. The biggest one was obviously RStudio::Conf(2022). This was BY FAR the best conference experience I ever had despite being pregnant and in the middle of so many life-changing things all at once. I was literally onboarding at my new job and had jumped on a plane to D.C. less than a few days after unexpectedly closing on my first home. It was an absolute cluster of chaotic good.</p>
+<p>At the conference I assisted with the <a href="https://art-from-code.netlify.app/">Making Art From Code workshop</a>, was a diversity scholar, and gave my own talk, “<a href="talks/pipelines_in_r/pipelines_in_r.qmd">Making Data Pipelines in R.</a>”</p>
+<center>
+<em><img src="https://www.thetidytrekker.com/post/lets-talk-about-2022/images/conf_2.png" class="img-fluid" alt="Three pictures I took at RStudio conf 2022. An Orange entry sign of a Workshop title Making Art from Code, a 2022 conference schedule, and the title screen of my conference presentation, Making Data Pipelines in R."></em> <sub>Had to take pictures so I could know it was ✨real.✨</sub> <br>
+</center>
+<p><br></p>
+<p>Side note. If you LOVE R and on the fence about ever going to a (Now Posit) conference, you should absolutely go if you can! In the past, if you submit a presentation, or even a lightning talk, Posit has provided travelling and boarding assistance. If you are from an underrepresented group in tech (POC, identify as a woman, LGBQTIA+ etc.) you can also apply for a diversity scholarship to gain assistance that way as well. Just like how Twitter used to be awesome <em>(before the exodus I mean)</em>, imagine having that in real life for a few days. It was awesome. And I mean, come on, who doesn’t like stickers???</p>
+<center>
+<p><img src="https://www.thetidytrekker.com/post/lets-talk-about-2022/images/conf_1.png" class="img-fluid" alt="Three pictures I've taken at the 2022 RStudio conference. A pile of hex stickers on a table, a bathroom mirror selfie of me showing my baby bump before I gave my presentation, and a pile of souvenirs on a bed including generative art pictures, a R Studio cheat sheet, my badge, and some hex stickers."></p>
+<p><sub><em>So…Many…STICKERS!!!!</em></sub></p>
+</center>
+</section>
+<section id="job-change" class="level1">
+<h1>Job Change</h1>
+<p>One of the cool things about going to the conference was that I was able to meet some of my co-workers in real life! I recently changed jobs in 2022. I now work at the Prostate Cancer Clinical Trials Consortium (PCCTC) within Memorial Sloan Kettering Cancer Center. This has been a wonderful change so far as it had allowed me to really stop working so much. I was able to go to from having three jobs to one full time one (and a Per Diem contract one if needed from time to time.)</p>
+<p>I am obviously on parental leave now, but when I get back, I’m excited to get to work. Some of my work is going to focus on streamlining internal stuff for reporting on prostate cancer studies and I’m SUPER hyped about it. I’ve been using R for about four, going on five years now, and I think I’m finally starting to hone in on my “niche.” Besides making art with R, I get so much satisfaction out of automating things. Building (hopefully) seamless pipelines that makes work easier for people. I realized I’d rather spend months building up pipelines than doing things like analyses, external client-facing, and the like. In other words, my current role as a data scientist in this capacity lines up perfectly with my pragmatic interests, and honestly, I’m super lucky there.</p>
+</section>
+<section id="family-and-home-changes" class="level1">
+<h1>Family and Home Changes</h1>
+<p>Working at the PCCTC also went perfectly with home life. For those of you that missed it, I was very open about my <a href="https://meghansharris.shinyapps.io/A_Fertility_Journey/?_ga=2.49472864.796738959.1675303563-1161739068.1675303563">infertility struggles</a> after I got pregnant. But as life would have it, after trying aggressively for three years, I got pregnant right before I found out about the open position at the PCCTC, and I honestly almost didn’t apply for it because it felt wrong to do so knowing that I would have to leave for parental leave.</p>
+<p>Looking back on it, switching jobs was the absolute best thing I could have done. I was able to support myself financially, close on my first home, buy a car that wouldn’t break down me, and support others in my family when they needed it the most. Even now, I’ve been able to spend time getting to know my son, and just being grateful that all the years of feeling like I was working myself to death eventually paid off (yes, even during late nights while I was on the verge of tears trying to console a crying baby 😅)</p>
+<p>I have a lot to be grateful for. I feel like I have changed so much as a person and that I am really coming into the best version of myself that I can be. Whether we’re talking professionally or personally.</p>
+</section>
+<section id="so-what-about-2023" class="level1">
+<h1>So, What About 2023?</h1>
+<p>So… what’s next? Honestly, this year I’d like to “lay low.” I want to actively just stay home, study up on things, be a mother, and just work. That’s all I want. Professionally speaking, this is what I’ve got on my to-do list for 2023:</p>
+<ul>
+<li><p>Get projects done/foundations started at work <sub><em>(This has to be done as I have to work lol)</em></sub></p></li>
+<li><p>Open up my online art store <sub><em>(This doesn’t have to be done, but I probably should since I already made the store and everything.)</em></sub></p></li>
+<li><p>Re-launch the new version of my website <sub><em>(If you’re reading this, that means I did this! Go Me!!!)</em></sub></p></li>
+<li><p>Contribute to the textbook <a href="https://twitter.com/meghansharris/status/1620256954433273859?s=20&amp;t=D2O6oV0SAKmRK4nmZwK_hg"><em>“Rtistry: Methods for Visual Generative Art Using R”</em></a> along with <a href="https://fosstodon.org/@paezha@mastodon.online">Antonio Paez</a>, <a href="https://twitter.com/aschinchon">Antonio Sanchez</a>, and <a href="https://fosstodon.org/@jacquietran@mastodon.social">Jacquie Tran</a>. <sub><em>(This has to be done as a contract was signed)</em></sub></p></li>
+</ul>
+<p>That’s it. If I have energy for a blog post here or there, or if my job wants to send me to Chicago for Posit Conf this year (Travis pls.) Then I’ll do that. But the goal is to work passively this year (if that makes any sense at all.)</p>
+
+
+</section>
+
+ ]]></description>
+  <category>personal</category>
+  <category>intentions</category>
+  <category>life</category>
+  <category>r</category>
+  <category>rtistry</category>
+  <category>talks</category>
+  <category>conferences</category>
+  <guid>https://www.thetidytrekker.com/post/lets-talk-about-2022/lets-talk-about-2022.html</guid>
+  <pubDate>Mon, 23 Jan 2023 05:00:00 GMT</pubDate>
+  <media:content url="https://www.thetidytrekker.com/post/lets-talk-about-2022/images/lta2022.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
 <item>
   <title>Making Waves in ggplot: An Rtistry Tutorial</title>
   <dc:creator>Meghan Harris</dc:creator>
@@ -3624,6 +3696,21 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
   <guid>https://www.thetidytrekker.com/post/setting-intentions/setting-intentions.html</guid>
   <pubDate>Thu, 31 Dec 2020 05:00:00 GMT</pubDate>
   <media:content url="https://www.thetidytrekker.com/post/setting-intentions/images/fireworks.png" medium="image" type="image/png" height="63" width="144"/>
+</item>
+<item>
+  <title>Making Circular Map Cutouts in R</title>
+  <link>https://www.thetidytrekker.com/post/making-circular-maps/making-circular-maps.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+
+ ]]></description>
+  <guid>https://www.thetidytrekker.com/post/making-circular-maps/making-circular-maps.html</guid>
+  <pubDate>Thu, 02 Feb 2023 02:37:12 GMT</pubDate>
 </item>
 </channel>
 </rss>

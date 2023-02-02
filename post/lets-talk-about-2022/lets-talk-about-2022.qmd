@@ -1,0 +1,88 @@
+---
+title: "Let's Talk About 2022"
+description: |
+  Yes. Hi. Hello. It's been over a year since I've blogged. Let's have a chat about 2022. 
+author:
+  - name: Meghan Harris
+date: 01-23-2023
+output:
+    toc: true
+image: images/lta2022.png
+categories:
+  - personal
+  - intentions
+  - life
+  - r
+  - rtistry
+  - talks
+  - conferences
+editor: visual
+---
+
+Yes, hello. It's been a while. I have been neglecting The Tidy Trekker as of late (and to be honest, I still might this year after this overhaul is done, but we'll see.) I had all the intentions of being super active here in 2022, but life happened. The good news is, instead of the usual negative BS, I was inundated with EXCELLENT things in 2022. I was afraid to even step into 2023 for fear that all my good luck would "run out" this year. (*I'm joking btw, life is what you make it and your enjoyment of it depends on a lot of things like perspective, if you need/go to therapy, circumstances, etc.)*
+
+<br>
+
+But enough general rambling; let's start with some targeted rambling. **So what happened in 2022?**
+
+<br>
+
+**In this post:**
+
+-   [Conferences and Talks]
+
+-   [Job Change]
+
+-   [Family and Home Changes]
+
+-   [So, What About 2023?]
+
+------------------------------------------------------------------------
+
+# Conferences and Talks
+
+So this one is probably the most known. The fact that I had A LOT of talks to prepare for and do. Some of you may have found out about me through [one of the various talks](talks.qmd) I did in 2022. Most of the talks were about #rtistry (generative art in the R language) but I did give more practical ones as well. The biggest one was obviously RStudio::Conf(2022). This was BY FAR the best conference experience I ever had despite being pregnant and in the middle of so many life-changing things all at once. I was literally onboarding at my new job and had jumped on a plane to D.C. less than a few days after unexpectedly closing on my first home. It was an absolute cluster of chaotic good.
+
+At the conference I assisted with the [Making Art From Code workshop](https://art-from-code.netlify.app/), was a diversity scholar, and gave my own talk, "[Making Data Pipelines in R.](talks/pipelines_in_r/pipelines_in_r.qmd)"
+
+<center>*![Three pictures I took at RStudio conf 2022. An Orange entry sign of a Workshop title Making Art from Code, a 2022 conference schedule, and the title screen of my conference presentation, Making Data Pipelines in R.](images/conf_2.png)* <sub>Had to take pictures so I could know it was ✨real.✨</sub> <br></center>
+
+<br>
+
+Side note. If you LOVE R and on the fence about ever going to a (Now Posit) conference, you should absolutely go if you can! In the past, if you submit a presentation, or even a lightning talk, Posit has provided travelling and boarding assistance. If you are from an underrepresented group in tech (POC, identify as a woman, LGBQTIA+ etc.) you can also apply for a diversity scholarship to gain assistance that way as well. Just like how Twitter used to be awesome *(before the exodus I mean)*, imagine having that in real life for a few days. It was awesome. And I mean, come on, who doesn't like stickers???
+
+<center>
+
+![](images/conf_1.png){fig-alt="Three pictures I've taken at the 2022 RStudio conference. A pile of hex stickers on a table, a bathroom mirror selfie of me showing my baby bump before I gave my presentation, and a pile of souvenirs on a bed including generative art pictures, a R Studio cheat sheet, my badge, and some hex stickers."}
+
+<sub>*So...Many...STICKERS!!!!*</sub>
+
+</center>
+
+# Job Change
+
+One of the cool things about going to the conference was that I was able to meet some of my co-workers in real life! I recently changed jobs in 2022. I now work at the Prostate Cancer Clinical Trials Consortium (PCCTC) within Memorial Sloan Kettering Cancer Center. This has been a wonderful change so far as it had allowed me to really stop working so much. I was able to go to from having three jobs to one full time one (and a Per Diem contract one if needed from time to time.)
+
+I am obviously on parental leave now, but when I get back, I'm excited to get to work. Some of my work is going to focus on streamlining internal stuff for reporting on prostate cancer studies and I'm SUPER hyped about it. I've been using R for about four, going on five years now, and I think I'm finally starting to hone in on my "niche." Besides making art with R, I get so much satisfaction out of automating things. Building (hopefully) seamless pipelines that makes work easier for people. I realized I'd rather spend months building up pipelines than doing things like analyses, external client-facing, and the like. In other words, my current role as a data scientist in this capacity lines up perfectly with my pragmatic interests, and honestly, I'm super lucky there.
+
+# Family and Home Changes
+
+Working at the PCCTC also went perfectly with home life. For those of you that missed it, I was very open about my [infertility struggles](https://meghansharris.shinyapps.io/A_Fertility_Journey/?_ga=2.49472864.796738959.1675303563-1161739068.1675303563) after I got pregnant. But as life would have it, after trying aggressively for three years, I got pregnant right before I found out about the open position at the PCCTC, and I honestly almost didn't apply for it because it felt wrong to do so knowing that I would have to leave for parental leave.
+
+Looking back on it, switching jobs was the absolute best thing I could have done. I was able to support myself financially, close on my first home, buy a car that wouldn't break down me, and support others in my family when they needed it the most. Even now, I've been able to spend time getting to know my son, and just being grateful that all the years of feeling like I was working myself to death eventually paid off (yes, even during late nights while I was on the verge of tears trying to console a crying baby 😅)
+
+I have a lot to be grateful for. I feel like I have changed so much as a person and that I am really coming into the best version of myself that I can be. Whether we're talking professionally or personally.
+
+# So, What About 2023?
+
+So... what's next? Honestly, this year I'd like to "lay low." I want to actively just stay home, study up on things, be a mother, and just work. That's all I want. Professionally speaking, this is what I've got on my to-do list for 2023:
+
+-   Get projects done/foundations started at work <sub>*(This has to be done as I have to work lol)*</sub>
+
+-   Open up my online art store <sub>*(This doesn't have to be done, but I probably should since I already made the store and everything.)*</sub>
+
+-   Re-launch the new version of my website <sub>*(If you're reading this, that means I did this! Go Me!!!)*</sub>
+
+-   Contribute to the textbook [*"Rtistry: Methods for Visual Generative Art Using R"*](https://twitter.com/meghansharris/status/1620256954433273859?s=20&t=D2O6oV0SAKmRK4nmZwK_hg) along with [Antonio Paez](https://fosstodon.org/@paezha@mastodon.online), [Antonio Sanchez](https://twitter.com/aschinchon), and [Jacquie Tran](https://fosstodon.org/@jacquietran@mastodon.social). <sub>*(This has to be done as a contract was signed)*</sub>
+
+That's it. If I have energy for a blog post here or there, or if my job wants to send me to Chicago for Posit Conf this year (Travis pls.) Then I'll do that. But the goal is to work passively this year (if that makes any sense at all.)
