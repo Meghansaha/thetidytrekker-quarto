@@ -41,9 +41,9 @@ But enough general rambling; let's start with some targeted rambling. **So what 
 
 # Conferences and Talks
 
-So this one is probably the most known. The fact that I had A LOT of talks to prepare for and do. Some of you may have found out about me through [one of the various talks](.../talks.qmd) I did in 2022. Most of the talks were about #rtistry (generative art in the R language) but I did give more practical ones as well. The biggest one was obviously RStudio::Conf(2022). This was BY FAR the best conference experience I ever had despite being pregnant and in the middle of so many life-changing things all at once. I was literally onboarding at my new job and had jumped on a plane to D.C. less than a few days after unexpectedly closing on my first home. It was an absolute cluster of chaotic good.
+So this one is probably the most known. The fact that I had A LOT of talks to prepare for and do. Some of you may have found out about me through [one of the various talks](https://thetidytrekker.com/talks.html) I did in 2022. Most of the talks were about #rtistry (generative art in the R language) but I did give more practical ones as well. The biggest one was obviously RStudio::Conf(2022). This was BY FAR the best conference experience I ever had despite being pregnant and in the middle of so many life-changing things all at once. I was literally onboarding at my new job and had jumped on a plane to D.C. less than a few days after unexpectedly closing on my first home. It was an absolute cluster of chaotic good.
 
-At the conference I assisted with the [Making Art From Code workshop](https://art-from-code.netlify.app/), was a diversity scholar, and gave my own talk, "[Making Data Pipelines in R.](.../talks/pipelines_in_r/pipelines_in_r.html)"
+At the conference I assisted with the [Making Art From Code workshop](https://art-from-code.netlify.app/), was a diversity scholar, and gave my own talk, "[Making Data Pipelines in R.](https://thetidytrekker.com/talks/pipelines_in_r/pipeline_in_r.html)"
 
 <center>*![Three pictures I took at RStudio conf 2022. An Orange entry sign of a Workshop title Making Art from Code, a 2022 conference schedule, and the title screen of my conference presentation, Making Data Pipelines in R.](images/conf_2.png)* <sub>Had to take pictures so I could know it was ✨real.✨</sub> <br></center>
 
