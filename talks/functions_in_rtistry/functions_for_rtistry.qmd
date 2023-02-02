@@ -5,6 +5,9 @@ description: "The Functions in Rtistry workshop will dive into using functions t
 date: 05-24-2022
 image: images/cover.png
 affiliation: R-Ladies Johannesburg
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 ---
 
 [![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/Functions_in_Rtistry/#1)

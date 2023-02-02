@@ -1,7 +1,9 @@
 ---
 title: "Setting Intentions"
 description: "As the fiasco that is the year 2020 comes to an end, I figured I'd set some intentions for the Tidy Trekker site moving forward."
-author: Meghan Harris
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 12-31-2020
 image: images/fireworks.png
 categories:

@@ -2,7 +2,9 @@
 title: "Ordering Months"
 description: |
   A guide on ordering month "categories" chronologically and dealing with missing month data on a ggplot using Tidyverse packages and base R constants. This guide assumes that you understand how to load data into R, work with vectors, and are somewhat familiar with subsetting and ggplot2.
-author: Meghan Harris
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 01-23-2021
 output:
     toc: true

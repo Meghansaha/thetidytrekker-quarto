@@ -4,6 +4,7 @@ description: |
   An Rtistry tutorial in ggplot about making waves in the R programming language.
 author:
   - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 11-24-2021
 output:
     toc: true

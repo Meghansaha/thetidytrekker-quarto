@@ -4,6 +4,7 @@ description: |
   An apply() function notebook to explore the different apply functions in Base R
 author:
   - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 01-23-2021
 output:
     toc: true

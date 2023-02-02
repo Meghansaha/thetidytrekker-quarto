@@ -5,6 +5,9 @@ description: "When people first learn about R’s capabilities to create fully i
 date: 07-27-2022
 image: images/cover.png
 affiliation: "RStudio::conf(2022)"
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 ---
 
 [![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/pipelines_in_R)

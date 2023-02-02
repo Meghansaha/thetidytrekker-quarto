@@ -3,6 +3,7 @@ title:  'How I Became A "Not-Beginner" in R'
 description: 'Some thoughts I have on being a "Not-beginner" (Intermediate) R programmer/Data Scientist.'
 author:
   - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 02-20-2021
 image: images/lightbulb.png
 categories:

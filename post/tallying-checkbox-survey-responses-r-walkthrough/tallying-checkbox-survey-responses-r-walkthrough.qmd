@@ -4,6 +4,7 @@ description: |
   A guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing "Checkbox" question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions.
 author:
   - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 03-18-2021
 output:
     toc: true

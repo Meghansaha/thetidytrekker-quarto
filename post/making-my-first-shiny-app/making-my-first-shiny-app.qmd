@@ -2,7 +2,9 @@
 title: "Making My First Shiny App"
 description: |
   This year was the first time that I ever competed in a RStudio Shiny competition by submitting my first ever Shiny app, the TarotreadR.
-name: Meghan Harris
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 09-04-2021
 output:
     self_contained: false

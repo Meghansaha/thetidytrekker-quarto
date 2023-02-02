@@ -5,6 +5,9 @@ description: "Have you just started creating generative art in R, or are you int
 date: 10-12-2022
 image: images/cover.png
 affiliation: R-Ladies Philly
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 ---
 
 [![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/collages_and_patterns/)

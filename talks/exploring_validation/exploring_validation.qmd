@@ -5,6 +5,9 @@ description: "Data validation is a very important component that should not be i
 date: 10-26-2022
 image: images/cover.png
 affiliation: Cleveland R User Group
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 ---
 
 [![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/exploring_validation/)

@@ -4,6 +4,7 @@ description: |
   Yes. Hi. Hello. It's been over a year since I've blogged. Let's have a chat about 2022. 
 author:
   - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 01-23-2023
 output:
     toc: true

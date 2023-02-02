@@ -4,6 +4,7 @@ description: |
   So, it has been a good five months since I last made a post on The Tidy Trekker. I can assure you that I am alive and kicking! 
 author:
   - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
 date: 09-07-2021
 output:
     toc: true
