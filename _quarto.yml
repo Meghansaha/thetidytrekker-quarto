@@ -25,6 +25,8 @@ website:
             #href: tidytuesdays.html
           - text: Rtistry Gallery
             href: rtistry.qmd
+          - text: Genuary Submissions
+            href: https://meghansaha.github.io/genuary_subs/
     
     right:
       - icon: envelope-fill
