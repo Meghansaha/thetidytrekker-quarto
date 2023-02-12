@@ -27,6 +27,9 @@ website:
             href: rtistry.qmd
           - text: Genuary Submissions
             href: https://meghansaha.github.io/genuary_subs/
+          - text: aRttools
+            href: https://www.thetidytrekker.com/arttools.html
+    
     
     right:
       - icon: envelope-fill
