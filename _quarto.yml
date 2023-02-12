@@ -27,8 +27,8 @@ website:
             href: rtistry.qmd
           - text: Genuary Submissions
             href: https://meghansaha.github.io/genuary_subs/
-          - text: aRttools
-            href: arttools/arttools.html
+          # - text: aRttools
+          #   href: arttools/arttools.html
     
     
     right:
