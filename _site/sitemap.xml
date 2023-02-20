@@ -2,98 +2,94 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.thetidytrekker.com/about.html</loc>
-    <lastmod>2023-02-19T03:29:52.491Z</lastmod>
+    <lastmod>2023-02-20T15:38:41.713Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/blog.html</loc>
-    <lastmod>2023-02-20T14:57:57.278Z</lastmod>
+    <lastmod>2023-02-20T15:38:42.715Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/index.html</loc>
-    <lastmod>2023-02-12T01:41:24.515Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/in_progress/making-circular-maps/making-circular-maps.html</loc>
-    <lastmod>2023-02-12T01:41:24.894Z</lastmod>
+    <lastmod>2023-02-20T15:38:45.501Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/applyfamilynotes/apply-family.html</loc>
-    <lastmod>2023-02-12T01:41:28.153Z</lastmod>
+    <lastmod>2023-02-20T15:38:48.994Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/dull-dashboards/dull-dashboards.html</loc>
-    <lastmod>2023-02-12T01:41:37.165Z</lastmod>
+    <lastmod>2023-02-20T15:38:59.086Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/how-i-became-a-not-beginner-in-r/not-beginner.html</loc>
-    <lastmod>2023-02-12T01:41:39.796Z</lastmod>
+    <lastmod>2023-02-20T15:39:01.933Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html</loc>
-    <lastmod>2023-02-12T01:41:43.029Z</lastmod>
+    <lastmod>2023-02-20T15:39:06.752Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/lets-talk-about-2022/lets-talk-about-2022.html</loc>
-    <lastmod>2023-02-19T03:25:10.714Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/making-my-first-shiny-app/making-my-first-shiny-app.html</loc>
-    <lastmod>2023-02-12T01:41:46.254Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/making-waves/making-waves.html</loc>
-    <lastmod>2023-02-12T01:41:55.073Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/orderingmonths/ordering-months.html</loc>
-    <lastmod>2023-02-12T01:42:00.760Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/setting-intentions/setting-intentions.html</loc>
-    <lastmod>2023-02-12T01:42:03.496Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html</loc>
-    <lastmod>2023-02-12T01:42:07.268Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/thinking-outside-the-grid/thinking-outside-the-grid.html</loc>
-    <lastmod>2023-02-12T01:42:28.381Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/post/where-have-i-been/where-have-i-been.html</loc>
-    <lastmod>2023-02-12T01:42:30.956Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/rtistry.html</loc>
-    <lastmod>2023-02-12T01:42:34.673Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/talks/collages_and_patterns/collages_and_patterns.html</loc>
-    <lastmod>2023-02-12T01:42:35.127Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/talks/exploring_validation/exploring_validation.html</loc>
-    <lastmod>2023-02-12T01:42:35.612Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/talks/functions_in_rtistry/functions_for_rtistry.html</loc>
-    <lastmod>2023-02-12T01:42:36.118Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/talks/intro_to_rtistry/intro_to_rtistry.html</loc>
-    <lastmod>2023-02-12T01:42:36.610Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/talks/pipelines_in_r/pipeline_in_r.html</loc>
-    <lastmod>2023-02-12T01:42:37.129Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.thetidytrekker.com/talks.html</loc>
-    <lastmod>2023-02-19T03:30:02.853Z</lastmod>
+    <lastmod>2023-02-20T15:39:07.467Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/making-circular-maps/making-circular-maps.html</loc>
-    <lastmod>2023-02-20T14:58:05.343Z</lastmod>
+    <lastmod>2023-02-20T15:39:19.577Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/making-my-first-shiny-app/making-my-first-shiny-app.html</loc>
+    <lastmod>2023-02-20T15:39:22.390Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/making-waves/making-waves.html</loc>
+    <lastmod>2023-02-20T15:39:32.284Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/orderingmonths/ordering-months.html</loc>
+    <lastmod>2023-02-20T15:39:39.473Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/setting-intentions/setting-intentions.html</loc>
+    <lastmod>2023-02-20T15:39:42.531Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html</loc>
+    <lastmod>2023-02-20T15:39:46.469Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/thinking-outside-the-grid/thinking-outside-the-grid.html</loc>
+    <lastmod>2023-02-20T15:40:09.686Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/where-have-i-been/where-have-i-been.html</loc>
+    <lastmod>2023-02-20T15:40:12.489Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/rtistry.html</loc>
+    <lastmod>2023-02-20T15:40:16.463Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/talks/collages_and_patterns/collages_and_patterns.html</loc>
+    <lastmod>2023-02-20T15:40:17.001Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/talks/exploring_validation/exploring_validation.html</loc>
+    <lastmod>2023-02-20T15:40:17.757Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/talks/functions_in_rtistry/functions_for_rtistry.html</loc>
+    <lastmod>2023-02-20T15:40:18.320Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/talks/intro_to_rtistry/intro_to_rtistry.html</loc>
+    <lastmod>2023-02-20T15:40:18.985Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/talks/pipelines_in_r/pipeline_in_r.html</loc>
+    <lastmod>2023-02-20T15:40:19.561Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/talks.html</loc>
+    <lastmod>2023-02-20T15:40:20.275Z</lastmod>
   </url>
 </urlset>
