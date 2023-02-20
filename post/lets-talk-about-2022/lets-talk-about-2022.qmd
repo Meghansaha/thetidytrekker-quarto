@@ -70,7 +70,7 @@ I am obviously on parental leave now, but I'm excited to get to work when I get 
 
 Working at the PCCTC also went perfectly with home life. For those of you that missed it, I was very open about my [infertility struggles](https://meghansharris.shinyapps.io/A_Fertility_Journey/?_ga=2.49472864.796738959.1675303563-1161739068.1675303563) after I got pregnant. But as life would have it, after trying aggressively for three years, I got pregnant right before I found out about the open position at the PCCTC. I almost didn't apply for it because it felt wrong to do so, knowing that I would have to leave for parental leave.
 
-Looking back, switching jobs was the best thing I could have done. I could support myself financially, close on my first home, buy a car that wouldn't break down me, and help others in my family when they needed it the most. Even now, I've been able to spend time getting to know my son and just being grateful that all the years of feeling like I was working myself to death eventually paid off (yes, even during late nights while I was on the verge of tears trying to console a crying baby 😅)
+Looking back, switching jobs was the best thing I could have done. I could support myself financially, stop trying to run a one-person data science team (like I had to do at my old job), and really just focus on working while learning new things everyday. An added bonus is being able to spend time getting to know my son and just being grateful that all the years of feeling like I was working myself to death eventually paid off (yes, even during late nights while I was on the verge of tears trying to console a crying baby 😅)
 
 I have a lot to be grateful for. I feel like I have changed so much as a person and that I am really coming into the best version of myself that I can be. Whether we're talking professionally or personally.
 
@@ -86,4 +86,4 @@ So... what's next? Honestly, this year I'd like to "lay low." I want to actively
 
 -   Contribute to the textbook [*"Rtistry: Methods for Visual Generative Art Using R"*](https://twitter.com/meghansharris/status/1620256954433273859?s=20&t=D2O6oV0SAKmRK4nmZwK_hg) along with [Antonio Paez](https://fosstodon.org/@paezha@mastodon.online), [Antonio Sanchez](https://twitter.com/aschinchon), and [Jacquie Tran](https://fosstodon.org/@jacquietran@mastodon.social). <sub>*(This has to be done as a contract was signed)*</sub>
 
-That's it. If I have energy for a blog post here or there, or if my job wants to send me to Chicago for Posit Conf this year (Travis, pls.) Then I'll do that. But the goal is to work passively this year (if that makes any sense at all.)
+That's it. If I have energy for a blog post here or there, or if my job wants to send me to Chicago for Posit Conf this year (Travis, pls.) Then I'll do that. But the goal is to work *"passively"* this year (if that makes any sense at all.)

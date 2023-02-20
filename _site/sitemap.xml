@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.thetidytrekker.com/about.html</loc>
-    <lastmod>2023-02-12T01:41:20.864Z</lastmod>
+    <lastmod>2023-02-19T03:29:52.491Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/blog.html</loc>
-    <lastmod>2023-02-12T01:41:21.811Z</lastmod>
+    <lastmod>2023-02-20T14:57:57.278Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/index.html</loc>
@@ -34,7 +34,7 @@
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/lets-talk-about-2022/lets-talk-about-2022.html</loc>
-    <lastmod>2023-02-12T01:41:43.536Z</lastmod>
+    <lastmod>2023-02-19T03:25:10.714Z</lastmod>
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/post/making-my-first-shiny-app/making-my-first-shiny-app.html</loc>
@@ -90,6 +90,10 @@
   </url>
   <url>
     <loc>https://www.thetidytrekker.com/talks.html</loc>
-    <lastmod>2023-02-12T01:42:37.785Z</lastmod>
+    <lastmod>2023-02-19T03:30:02.853Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.thetidytrekker.com/post/making-circular-maps/making-circular-maps.html</loc>
+    <lastmod>2023-02-20T14:58:05.343Z</lastmod>
   </url>
 </urlset>
