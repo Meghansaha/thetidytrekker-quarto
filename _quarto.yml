@@ -5,6 +5,7 @@ project:
 
 website:
   margin-header: subscribe.html
+  body-footer: comment.html
   site-url: https://www.thetidytrekker.com
   navbar:
     logo: "images/TTTdark.png"
