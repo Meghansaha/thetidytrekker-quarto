@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Meghan Harris">
+<meta name="dcterms.date" content="2023-02-15">
+<meta name="description" content="I made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that.">
+<title>The Tidy Trekker - Making Circular Maps in ggplot</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script><style>html{ scroll-behavior: smooth; }</style>
+<style>
+    .quarto-title-block .quarto-title-banner {
+      background: #27445C;
+    }
+    </style>
+<link rel="stylesheet" href="../../assets/scripts/styles.css">
+</head>
+<body class="floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg navbar-dark "><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../images/TTTdark.png" alt="" class="navbar-logo"></a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The Tidy Trekker</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html">
+ <span class="menu-text">Exploration Corner</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Portfolios</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">
+<li>
+    <a class="dropdown-item" href="../../talks.html">
+ <span class="dropdown-text">Talks</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../rtistry.html">
+ <span class="dropdown-text">Rtistry Gallery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://meghansaha.github.io/genuary_subs/">
+ <span class="dropdown-text">Genuary Submissions</span></a>
+  </li>  
+    </ul>
+</li>
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="mailto:meghan@thetidytrekker.com"><i class="bi bi-envelope-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="../../blog.xml"><i class="bi bi-rss-fill" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+<div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full"><div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Making Circular Maps in ggplot</h1>
+                  <div>
+        <div class="description">
+          <p>I made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that.</p>
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">printing</div>
+                <div class="quarto-category">data visualization</div>
+                <div class="quarto-category">life</div>
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">maps</div>
+                <div class="quarto-category">ggplot</div>
+                <div class="quarto-category">personal</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Meghan Harris <a href="https://orcid.org/0000-0003-3922-8101" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 15, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto"><nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Summary</h2>
+   
+  <ul>
+<li><a href="#about" id="toc-about" class="nav-link active" data-scroll-target="#about">About</a></li>
+  <li><a href="#get-your-packages" id="toc-get-your-packages" class="nav-link" data-scroll-target="#get-your-packages">Get Your Packages</a></li>
+  <li>
+<a href="#pick-a-point-of-interest-poi" id="toc-pick-a-point-of-interest-poi" class="nav-link" data-scroll-target="#pick-a-point-of-interest-poi">Pick a Point of Interest (POI)</a>
+  <ul class="collapse">
+<li><a href="#latitude-vs.-longitude" id="toc-latitude-vs.-longitude" class="nav-link" data-scroll-target="#latitude-vs.-longitude">Latitude vs.&nbsp;Longitude</a></li>
+  <li>
+<a href="#acquiring-the-latitude-and-longitude-points" id="toc-acquiring-the-latitude-and-longitude-points" class="nav-link" data-scroll-target="#acquiring-the-latitude-and-longitude-points">Acquiring the Latitude and Longitude Points</a>
+  <ul class="collapse">
+<li><a href="#google-maps-search" id="toc-google-maps-search" class="nav-link" data-scroll-target="#google-maps-search">Google Maps Search</a></li>
+  <li><a href="#the-ggmap-package" id="toc-the-ggmap-package" class="nav-link" data-scroll-target="#the-ggmap-package">The <code>ggmap</code> Package</a></li>
+  <li><a href="#the-tidygeocoder-package" id="toc-the-tidygeocoder-package" class="nav-link" data-scroll-target="#the-tidygeocoder-package">The <code>tidygeocoder</code> Package</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li><a href="#make-the-maps-bounding-box" id="toc-make-the-maps-bounding-box" class="nav-link" data-scroll-target="#make-the-maps-bounding-box">Make the Map’s Bounding Box</a></li>
+  <li><a href="#pick-your-osm-features" id="toc-pick-your-osm-features" class="nav-link" data-scroll-target="#pick-your-osm-features">Pick Your OSM Features</a></li>
+  <li><a href="#mess-with-the-crs-coordinate-reference-system" id="toc-mess-with-the-crs-coordinate-reference-system" class="nav-link" data-scroll-target="#mess-with-the-crs-coordinate-reference-system">Mess with The CRS (Coordinate Reference System)</a></li>
+  <li><a href="#carve-out-your-circle" id="toc-carve-out-your-circle" class="nav-link" data-scroll-target="#carve-out-your-circle">Carve Out Your Circle</a></li>
+  <li><a href="#set-your-colors-and-text" id="toc-set-your-colors-and-text" class="nav-link" data-scroll-target="#set-your-colors-and-text">Set Your Colors and Text</a></li>
+  <li>
+<a href="#build-the-ggplot" id="toc-build-the-ggplot" class="nav-link" data-scroll-target="#build-the-ggplot">Build the ggplot</a>
+  <ul class="collapse">
+<li>
+<a href="#alternative-aesthetics" id="toc-alternative-aesthetics" class="nav-link" data-scroll-target="#alternative-aesthetics">Alternative Aesthetics</a>
+  <ul class="collapse">
+<li><a href="#embedding-color-data-into-the-data-frame" id="toc-embedding-color-data-into-the-data-frame" class="nav-link" data-scroll-target="#embedding-color-data-into-the-data-frame">Embedding Color Data Into the Data Frame</a></li>
+  <li><a href="#leaving-data-in-a-list-and-changing-colors-in-geom_sf" id="toc-leaving-data-in-a-list-and-changing-colors-in-geom_sf" class="nav-link" data-scroll-target="#leaving-data-in-a-list-and-changing-colors-in-geom_sf">Leaving Data in a List and Changing Colors in <code>geom_sf()</code></a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  <li><a href="#save-it-out-and-get-it-printed-if-you-want" id="toc-save-it-out-and-get-it-printed-if-you-want" class="nav-link" data-scroll-target="#save-it-out-and-get-it-printed-if-you-want">Save it Out and Get it Printed (If you Want)</a></li>
+  </ul></nav>
+</nav><!-- margin-sidebar --><div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
+<p>subscribe.html</p>
+</div></div>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content"><div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/final_irl.png" class="img-fluid figure-img" alt="a picture of a wedding gift. A circular map in blue and yellow colors of the Mackey House in Savannah GA. It reads, The Mackey House, Jessica and Chris. June 10th 2022. Savannah Georgia. Latitude 32.0380. Longitude -81.1716"></p>
+</figure>
+</div>
+<center>
+<sub><em>The final result of an R script, printed onto a canvas and given as a wedding gift</em>💕🍑</sub><br>
+</center>
+<p><br></p>
+<center>
+<h2 class="anchored">
+<strong>tldr:</strong> Don’t want to read and just want the code? View it <a href="https://github.com/Meghansaha/a_wedding_gift/blob/master/scripts/processing.R"><em>here on GitHub</em></a>.
+</h2>
+</center>
+<p><br></p>
+<section id="about" class="level1"><h1>About</h1>
+<p>So I already <a href="../../post/lets-talk-about-2022/lets-talk-about-2022.html">talked about how insane 2022</a> was for me. A part of the insanity was that I traveled so much, like the most ever. A portion of my travels was to be a maid of honor for my best friend, that got married in Savannah, Georgia (US). It was my first time going to “The South”&nbsp;<em>(Because Disney doesn’t count)</em>, and it was a fun experience. Unfortunately, because I was in the middle of so many things, I didn’t get my friend her present until the end of the year because I’m terrible.</p>
+<p>Because I’m the nerd I am, of course, I had to incorporate R somehow. So I got a circular map of where she got married printed on a canvas and shipped to her. I’ll explain how this can be done.</p>
+<p><br></p>
+<hr></section><section id="get-your-packages" class="level1"><h1>Get Your Packages</h1>
+<p>First, you’ll need a few packages. What you’ll need will depend on what you want to do. At the bare minimum, you’ll need the <a href="https://r-spatial.github.io/sf/"><code>sf</code></a>, <a href="https://docs.ropensci.org/osmdata/"><code>osmdata</code></a>, and <a href="https://ggplot2.tidyverse.org/"><code>ggplot2</code></a> packages to make this happen. Despite this, I’ll simply show what I used for this particular example:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co"># Library Load-In--------------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span> <span class="co">#For getting "simple features" - It makes my maps go brrr in ggplot</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span> <span class="co">#For Everything data (dplyr and ggplot specifically)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/osmdata/">osmdata</a></span><span class="op">)</span> <span class="co">#For geodata and mapping</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/yixuan/showtext">showtext</a></span><span class="op">)</span> <span class="co"># For using pretty Google fonts</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://wilkelab.org/ggtext/">ggtext</a></span><span class="op">)</span> <span class="co">#For easier text aesthetics</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidyverse/glue">glue</a></span><span class="op">)</span> <span class="co">#Also for easier text aesthetics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<hr></section><section id="pick-a-point-of-interest-poi" class="level1"><h1>Pick a Point of Interest (POI)</h1>
+<p>We first need to pick a “center” point of interest (POI) of our map. In this example, my friend’s wedding venue was The Mackey House in Savannah, Georgia (US). So I found out those latitude and longitude points and put them in an object, <code>POI</code>, with named values <code>lat</code> and <code>long</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Map Options-------------------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span></span>
+<span><span class="co">#Map's Point of Interest (POI - Center)----------------------------------------</span></span>
+<span><span class="va">POI</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  lat <span class="op">=</span> <span class="fl">32.03825</span>,</span>
+<span>  long <span class="op">=</span> <span class="op">-</span><span class="fl">81.1716</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<section id="latitude-vs.-longitude" class="level2"><h2 class="anchored" data-anchor-id="latitude-vs.-longitude">Latitude vs.&nbsp;Longitude</h2>
+<p>As stated, you need to designate a POI that will act as the “center” of your circular map. Once you decide on a place, you’ll need to grab the latitude and longitude points and store them for use. One thing that ALWAYS trips me up without fail is discerning which value is latitude and which is longitude. It wasn’t until recently that I learned of the “ladder” memory trick:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/lat_v_long.png" class="img-fluid figure-img" alt="An image of a ladder with purple rungs and red rails making the comparison to latitude (rungs/horizontal) and longitude (rails/vertical) lines on a globe. Latitude is horizontal (east/west) like rungs on a ladder. Longitude is vertical (north/south) like rails on a ladder." width="500"></p>
+</figure>
+</div>
+<center>
+<sub><em>I’m embarrassed about how long it took me to remember this</em>🤦🏽‍♀️</sub><br>
+</center>
+<p><br></p>
+</section><section id="acquiring-the-latitude-and-longitude-points" class="level2"><h2 class="anchored" data-anchor-id="acquiring-the-latitude-and-longitude-points">Acquiring the Latitude and Longitude Points</h2>
+<p>There are multiple ways to go about figuring out the latitude and longitude points of your POI. The following is <strong>not</strong> an exhaustive list, but just what I’ve used in the past:</p>
+<p><br></p>
+<section id="google-maps-search" class="level3"><h3 class="anchored" data-anchor-id="google-maps-search">Google Maps Search</h3>
+<p>This is the “<em>Manual</em>” way and may be needed if your POI is relatively new to mapping/GPS systems or if it’s obscure. You can simply search for your POI in <a href="https://www.google.com/maps">Google Maps</a>, right-click on the exact point of the POI in the map, and click on the latitude and longitude points Google Maps provides. Clicking on this will automatically copy the values to your clipboard. Remember that these points are displayed in alphabetical order here. Meaning that latitude comes first.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/mackey_map.png" class="img-fluid figure-img" alt="A screenshot from Google Maps showing how right-clicking on a point of the map will provide latitude and longitude point that can be copied to your clipboard. The map is centered on the Mackey House in Savannah, Georgia, in the United States."></p>
+</figure>
+</div>
+<center>
+<sub><em>This is absolutely the way I did it because that’s just where my brain was at that day.</em></sub><br>
+</center>
+<p><br></p>
+</section><section id="the-ggmap-package" class="level3"><h3 class="anchored" data-anchor-id="the-ggmap-package">The <a href="https://github.com/dkahle/ggmap"><code>ggmap</code></a> Package</h3>
+<p>Suppose you’ve already got a&nbsp;<a href="https://cloud.google.com/">Google Cloud</a> Account. The <code>ggmap</code> package can help grab latitude and longitude points via its <a href="https://www.rdocumentation.org/packages/ggmap/versions/3.0.1/topics/geocode"><code>geocode</code></a> function. This package is convenient but does come with a caveat. Google has recently changed its terms of service and now requires all Google Cloud Accounts to have an active credit card on file before using any generated APIs. As of February 2023, If you have a valid credit card to use and don’t have a lot of data that needs to be geocoded, you can take advantage of a&nbsp;<a href="https://cloud.google.com/free/docs/free-cloud-features">new-member free tria</a>l of $300 worth of free credits for Google’s API services. After that, users can use up to&nbsp;<a href="https://mapsplatform.google.com/pricing/">$200 worth of Google Maps API credits</a>. (Please check this for yourself as things can always change!) This is more than enough credits for standard tasks to use the API sparingly without ever having to pay. Just be mindful not to overuse it. For example, don’t constantly re-run your entire script while debugging and forget it’s calling the API each time. If you aren’t confident about <strong>not</strong> overusing the API, you may want to avoid this option.</p>
+<p><br></p>
+</section><section id="the-tidygeocoder-package" class="level3"><h3 class="anchored" data-anchor-id="the-tidygeocoder-package">The <a href="https://jessecambon.github.io/tidygeocoder/"><code>tidygeocoder</code></a> Package</h3>
+<p>If <code>ggmap</code> is too much of a potential gamble, you can try using the&nbsp;<a href="https://jessecambon.github.io/tidygeocoder/"><code>tidygeocoder</code></a>&nbsp;package. I’m absolutely biased towards <code>tidygeocoder</code> because I used it frequently at the last job that required me to geocode thousands of addresses for my local government. It was really clutch. It also has a handful of different types of <a href="https://jessecambon.github.io/tidygeocoder/reference/index.html">geocoding functions</a> and <a href="https://jessecambon.github.io/tidygeocoder/articles/geocoder_services.html">geolocation services</a> to call from. A downside to this may be a lack of accuracy for some places (compared to Google’s service, but even Google isn’t perfect.) <code>tidygeocoder</code> is worth looking into if you’re interested in doing geospatial tasks like this in R.</p>
+<p><br></p>
+<hr></section></section></section><section id="make-the-maps-bounding-box" class="level1"><h1>Make the Map’s Bounding Box</h1>
+<p>Once we have the POI coordinates, we can make our bounding box. You can think of this as setting the limits we want to see on our map. We’ll also set a “buffer” value to adjust all of the values in our bounding box. Note that you don’t&nbsp;<em>need</em>&nbsp;a buffer value if you don’t want it, but because I’m a GIS newbie, I don’t really understand&nbsp;<a href="https://en.wikipedia.org/wiki/Geographic_coordinate_system#Length_of_a_degree">degree measurements</a>; this was nice to include in the program for trial and error tweaking after everything was finished at the end.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#Map's bounding Box "buffer" size----------------------------------------------</span></span>
+<span><span class="co">#Helps create the bounds for the entire map#</span></span>
+<span><span class="va">bb_buff</span> <span class="op">&lt;-</span> <span class="fl">.06000</span></span>
+<span></span>
+<span><span class="co">#Map's Bounding Box (mbb)------------------------------------------------------</span></span>
+<span><span class="va">mbb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  minlong <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span> <span class="op">-</span> <span class="va">bb_buff</span>, </span>
+<span>  minlat <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="va">bb_buff</span>,</span>
+<span>  maxlong <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span> <span class="op">+</span> <span class="va">bb_buff</span>, </span>
+<span>  maxlat <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">+</span> <span class="va">bb_buff</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<hr></section><section id="pick-your-osm-features" class="level1"><h1>Pick Your OSM Features</h1>
+<p>Next, we need to tell the OSM package what “features” we want on our map. These features will translate into relevant&nbsp;<a href="https://support.esri.com/en-us/gis-dictionary/geometry">geometry</a>&nbsp;data that will visually appear as structures (like bodies of water, buildings, or roads) in our image. The list of available features is MASSIVE, so I’d encourage you to view&nbsp;<a href="https://wiki.openstreetmap.org/wiki/Map_Features">this reference</a>&nbsp;and pick the relevant ones for your project. Because my computer is a potato (i.e., slow), I only included five features (buildings, landuse, leisure, natural, and highways). The more features you have and the more populated your POI is with features, the longer it will take for your computer to pull and process the data through the OSM APIs, so balance out what you include in these scripts as you see fit.</p>
+<p>I’ve placed my features into objects (<code>feature_names</code> , <code>feature_keys</code>, <code>osm_features</code>) to optimize my code and pulled the data iteratively using&nbsp;<a href="https://purrr.tidyverse.org/reference/map.html">purrr’s map</a>&nbsp;function. From the osmdata package, we’ll need to use the following functions to grab this data from the servers:</p>
+<ul>
+<li><p><code><a href="https://docs.ropensci.org/osmdata/reference/opq.html">opq()</a></code> - Builds an <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass</a> query to “talk to” the server to gain access to the Open Street Map data.</p></li>
+<li><p><code><a href="https://docs.ropensci.org/osmdata/reference/add_osm_feature.html">add_osm_feature()</a></code> - Adds selected OSM features to an existing Overpass query.</p></li>
+<li><p><code><a href="https://docs.ropensci.org/osmdata/reference/osmdata_sf.html">osmdata_sf()</a></code> - Converts the collected data from the API into Open Street Map Data that is formatted into sf format.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#Specific OSM features desired-------------------------------------------------</span></span>
+<span><span class="va">feature_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"buildings"</span>,</span>
+<span>  <span class="st">"landuse"</span>,</span>
+<span>  <span class="st">"leisure"</span>,</span>
+<span>  <span class="st">"natural"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">feature_keys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"building"</span>,</span>
+<span>  <span class="st">"landuse"</span>,</span>
+<span>  <span class="st">"leisure"</span>,</span>
+<span>  <span class="st">"natural"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Personally omitting water/rivers (won't map for me)#</span></span>
+<span><span class="co">#My bounding box data has inconsistencies#</span></span>
+<span><span class="co">#Not sure if this is just because of where I'm mapping though#</span></span>
+<span><span class="co">#It is in a rural area, so not sure if that's why#</span></span>
+<span></span>
+<span><span class="co">#OSM feature grabbing and naming-----------------------------------------------</span></span>
+<span><span class="co">#Native pipe (|&gt;) does not evaluate this properly like magrittr's#</span></span>
+<span><span class="va">osm_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">feature_keys</span>, <span class="op">~</span><span class="fu"><a href="https://docs.ropensci.org/osmdata/reference/opq.html">opq</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">mbb</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu"><a href="https://docs.ropensci.org/osmdata/reference/add_osm_feature.html">add_osm_feature</a></span><span class="op">(</span>key <span class="op">=</span> <span class="va">.x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="fu"><a href="https://docs.ropensci.org/osmdata/reference/osmdata_sf.html">osmdata_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>                      <span class="va">.</span><span class="op">$</span><span class="va">osm_polygons</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">feature_names</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>For my code below, I made a separate block of calls to collect this data for the highways/roads as I’d need that to be presented as lines and not polygons. I could have just put this into the above <code><a href="https://purrr.tidyverse.org/reference/map.html">map()</a></code> function, but I found this to be more readable (to me anyway). After we pull this data we <code><a href="https://purrr.tidyverse.org/reference/prepend.html">prepend()</a></code> it to our existing <code>osm_features</code> object:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#Road features-----------------------------------------------------------------</span></span>
+<span><span class="va">roads</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://docs.ropensci.org/osmdata/reference/opq.html">opq</a></span><span class="op">(</span>bbox <span class="op">=</span> <span class="va">mbb</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span><span class="fu"><a href="https://docs.ropensci.org/osmdata/reference/add_osm_feature.html">add_osm_feature</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">'highway'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://docs.ropensci.org/osmdata/reference/osmdata_sf.html">osmdata_sf</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="va">.</span><span class="op">$</span><span class="va">osm_lines</span></span>
+<span></span>
+<span><span class="co">#Combining all OSM features#</span></span>
+<span><span class="va">osm_features_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/prepend.html">prepend</a></span><span class="op">(</span><span class="va">osm_features</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"roads"</span> <span class="op">=</span> <span class="va">roads</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Updating feature names to include "roads"#</span></span>
+<span><span class="va">feature_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">osm_features_all</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>If we were to take the data stored in the <code>osm_features_all</code> objects, we’d see that we’ve pulled down the map data from the API that exists within the values of our bounding box in the <code>mbb</code> object:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/full_geo.png" class="img-fluid figure-img" alt="A simple map of Savannah, Georgia's (US) roads, landmarks, and other land use areas within a specified bounding box."></p>
+</figure>
+</div>
+<center>
+<sub><em>The data of the <code>osm_features_all</code> object plotted in ggplot with <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> layers.</em></sub><br>
+</center>
+<hr></section><section id="mess-with-the-crs-coordinate-reference-system" class="level1"><h1>Mess with The CRS (Coordinate Reference System)</h1>
+<p>Now that the data is pulled from the API, we need to “filter” the data that only lies in a circle in the middle of our bounding box. We can make this happen with some additional functions from the <code>sf</code> package that we can use for this type of geo data-wrangling with our Coordinate Reference System (CRS):</p>
+<ul>
+<li><p><code><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs()</a></code> - Sets/Retrieves a CRS from an object.</p></li>
+<li><p><code><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf()</a></code> - Converts and object to an <code>sf</code> object.</p></li>
+<li><p><code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_buffer()</a></code> - Used to add or subtract values from <code>sf</code> geometries.</p></li>
+<li>
+<p><code><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform()</a></code> - Transforms/converts coordinates of a <code>sf</code> object.</p>
+<p><br></p>
+</li>
+</ul>
+<p>Other general purpose functions that we’re using here are:</p>
+<ul>
+<li><p><code><a href="https://rdrr.io/r/base/unname.html">unname()</a></code> - Removes the <code>names</code> attributes of an object.</p></li>
+<li><p><code><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe()</a></code> - Converts named vectors to columns in a data frame.</p></li>
+<li><p><code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code> - Transforms data from long to wide via <a href="https://r4ds.had.co.nz/tidy-data.html#pivoting">pivoting</a>.</p></li>
+</ul>
+<p><br></p>
+<p>Below, we are setting up our CRS, taking our POI coordinates and converting it into a <code>sf</code> object. Next we set a numeric <code>dist</code> value that controls how big our “circle” is. Finally, we manipulate all of this into an updated <code>circle</code> data frame that we will use to filter out the final image from the data we pulled from the API earlier.</p>
+<p>Additionally, because I know what I’m making ahead of time, I’m adding another data frame, <code>center_POI</code> that will be used to mark our POI at the center of our map with a unicode heart symbol. We’ll talk about the specifics of that soon in the <a href="#set-your-colors-and-text">Set Your Colors and Text</a> section of this post.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Circle/Center Calculations----------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span></span>
+<span><span class="co">#Pulling the CRS---------------------------------------------------------------</span></span>
+<span><span class="co">#(Coordinate Reference System) from the "roads" polygon object#</span></span>
+<span><span class="va">crs_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">osm_features_all</span><span class="op">$</span><span class="va">roads</span><span class="op">)</span><span class="op">$</span><span class="va">wkt</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Defining the circular "view" from POI-----------------------------------------</span></span>
+<span><span class="co">#Setting a distance from the center POI----------------------------------------</span></span>
+<span><span class="co">#Affects how "big" the circle is#</span></span>
+<span><span class="va">dist</span> <span class="op">&lt;-</span>  <span class="fl">800</span></span>
+<span></span>
+<span><span class="co">#Circle "data" used to crop/filter the original OSM data "down to size"--------</span></span>
+<span><span class="va">circle</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/enframe.html">enframe</a></span><span class="op">(</span><span class="va">POI</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="va">crs_data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_buffer</a></span><span class="op">(</span>dist <span class="op">=</span> <span class="va">dist</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span>crs <span class="op">=</span> <span class="va">crs_data</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#...and adding a label for the map to mark it#</span></span>
+<span><span class="va">center_POI</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span><span class="op">(</span>long <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, </span>
+<span>                      lat <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, </span>
+<span>                      label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span><span class="op">(</span><span class="st">"\U2764"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html">st_as_sf</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"long"</span>, <span class="st">"lat"</span><span class="op">)</span>, crs <span class="op">=</span> <span class="va">crs_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/circle_boundary.png" class="img-fluid figure-img" alt="A ggplot of a circular boundary on a basic map graph."></p>
+</figure>
+</div>
+<center>
+<sub><em>The <code>circle</code> data frame plotted to show the work so far. This will act as our boundary in the next step.</em></sub><br>
+</center>
+<hr></section><section id="carve-out-your-circle" class="level1"><h1>Carve Out Your Circle</h1>
+<p>Now that we have all of the map data and the proper boundaries for the “circle” of our map, we can use the <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">st_intersection()</a></code> function to “filter” out original data to only include objects that lie in our “circle” boundaries. I’ve made a personal choice to use the <code><a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a></code> function on this cropped data simply because all of my map layers will be the same gold color on a dark blue background (My best friend’s wedding colors) If you want different layers to have different colors (i.e.&nbsp;water = blue, roads = black, etc. I’d suggest either adding these aesthetics as data in this step with the use of the <code><a href="https://purrr.tidyverse.org/reference/map2.html">map2()</a></code> or <code><a href="https://purrr.tidyverse.org/reference/pmap.html">pmap()</a></code> functions, or omit the use of the <code><a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind()</a></code> function and set the individual layers in your ggplot instead. You can see these suggestions fleshed out in the <a href="#alternative-aesthetics">Alternative Aesthetics</a> section of this post.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Cropping OSM data to fit circle-----------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span></span>
+<span><span class="co">#Calculating intersections-----------------------------------------------------</span></span>
+<span><span class="co">#Native pipe (|&gt;) does not evaluate this properly like magrittr's#</span></span>
+<span><span class="va">osm_features_cropped</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">feature_names</span>, </span>
+<span>                            <span class="op">~</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">st_intersection</a></span><span class="op">(</span><span class="va">circle</span>,<span class="va">osm_features_all</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/cropped_geo.png" class="img-fluid figure-img" alt="A basic cropped circular map of The Mackey House and it's surrounding area in Savannah, Georgia (US). Mapped in ggplot2."></p>
+</figure>
+</div>
+<center>
+<sub><em>The <code>osm_features_cropped</code> data frame plotted to show the data that was filtered from the original <code>osm_features_all</code> object to fill in the boundaries present in the <code>circle</code> data frame.</em></sub><br>
+</center>
+<hr></section><section id="set-your-colors-and-text" class="level1"><h1>Set Your Colors and Text</h1>
+<p>The hard part of grabbing the data is done. All that’s left to do is set some aesthetics. As mentioned, I kept this piece simple to mimic my friend’s wedding colors. I tend to store these colors/hex codes in separate objects. This is to make for faster editing if I want to create different pieces with different colors or options. I follow this same convention for the text options as well. In this project, I’m using the free Google fonts&nbsp;<a href="https://fonts.google.com/specimen/La+Belle+Aurore">La Belle Aurore</a>&nbsp;(For the title and annotated text) and&nbsp;<a href="https://fonts.google.com/specimen/Inter">Inter</a>&nbsp;(for the heart in the center, where the Mackey House, our POI, is.) I’m using the second font because it is Unicode-friendly. I want to place a Unicode heart ♥ on the Mackey House. This is just a hacky way to do it. I’m sure there are plenty more options, like exploring the <a href="https://emilhvitfeldt.github.io/emoji/"><code>emoji</code> package</a> that’s available on CRAN.</p>
+<p>To get the font <em>exactly</em> how I want, I’m choosing to utilize the <a href="https://glue.tidyverse.org/"><code>glue</code></a>, <a href="https://wilkelab.org/ggtext/"><code>ggtext</code></a>, and <a href="https://github.com/yixuan/showtext"><code>showtext</code></a> packages as they will allow me to use the Google fonts with some HTML/CSS syntax to get my font/words/style just right.</p>
+<p>You can replace the title and caption texts as you see fit or remove them for whatever you need.</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Map aesthetic options---------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Setting all colors#</span></span>
+<span><span class="va">map_color</span> <span class="op">&lt;-</span> <span class="st">"#e9d66b"</span> <span class="co">#Gold/Yellow color</span></span>
+<span><span class="va">map_fill</span> <span class="op">&lt;-</span> <span class="st">"#e9d66b"</span> <span class="co">#Gold/Yellow color</span></span>
+<span><span class="va">map_background</span> <span class="op">&lt;-</span> <span class="st">"#022052"</span> <span class="co">#Dark blue/Navy Blue</span></span>
+<span><span class="va">outer_ring_color</span> <span class="op">&lt;-</span> <span class="st">"#e9d66b"</span> <span class="co">#Gold/Yellow color</span></span>
+<span><span class="va">inner_ring_color</span> <span class="op">&lt;-</span> <span class="st">"#022052"</span> <span class="co">#Dark blue/Navy Blue</span></span>
+<span><span class="va">POI_fill</span> <span class="op">&lt;-</span> <span class="st">'#960503'</span> <span class="co">#Red color</span></span>
+<span><span class="va">POI_color</span> <span class="op">&lt;-</span> <span class="st">'#000000'</span> <span class="co">#Black</span></span>
+<span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Text Options------------------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Adding a pretty font from Google#</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op">(</span><span class="st">"La Belle Aurore"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op">(</span><span class="st">"Inter"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">title_text</span> <span class="op">&lt;-</span> <span class="st">"The Mackey House"</span></span>
+<span><span class="va">caption_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"Jessica and Chris&lt;br&gt;"</span>,</span>
+<span>                     <span class="st">"06 • 10 • 22&lt;br&gt;"</span>b<span class="st">"Savannah, Ga&lt;br&gt;"</span>br&gt;",</span>
+<span>                     <span class="st">"Lat:&lt;span style='color:"</span>,<span class="va">POI_fill</span>,<span class="st">"'&gt;"</span>,<span class="va">POI</span><span class="op">[[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                     <span class="st">"&lt;/span&gt; , Long:&lt;span style='color:"</span>,<span class="va">POI_fill</span>,<span class="st">"'&gt;"</span>,</span>
+<span>                     <span class="va">POI</span><span class="op">[[</span><span class="st">"long"</span><span class="op">]</span><span class="op">]</span>,<span class="st">"&lt;/span&gt;&lt;/b&gt;"</span><span class="op">)</span></span>
+<span><span class="va">map_font</span> <span class="op">&lt;-</span> <span class="st">"La Belle Aurore"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<hr></section><section id="build-the-ggplot" class="level1"><h1>Build the ggplot</h1>
+<p>Finally, we can throw this bad boy together into a single ggplot. Just like we would with any other standard ggplot visual. The key here is to use the <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> layer for all our geometry data. All of your aesthetics are mapped on the same way you would for any other type of data visualization. The only thing special or unique is the geomanipulation needed for the <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> function to read and visualize the data properly within the ggplot.</p>
+<p>You may be wondering about the border that is around the map. I’ve done some hacky stuff with <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> to achieve this. My original plan was to manually make the circle/border visual with data points; however, when I attempted this months ago, I couldn’t figure out how to correctly manipulate the coordinate system to project the circle properly, so I opted to use standard <code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code> shapes to make it happen. Both layers were figured out with trial and error based on my specific print size. Be mindful that you may need some trial and error tweaking for your particular needs.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Map Layering/Building---------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span></span>
+<span><span class="co">#Adding OSM layers to the ggplot-----------------------------------------------</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span></span>
+<span>    fill <span class="op">=</span> <span class="va">map_background</span>,</span>
+<span>    color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op">(</span></span>
+<span>          halign <span class="op">=</span> <span class="fl">.5</span>, </span>
+<span>          color <span class="op">=</span> <span class="va">map_color</span>, </span>
+<span>          family <span class="op">=</span> <span class="va">map_font</span>, </span>
+<span>          size <span class="op">=</span> <span class="fl">240</span>, </span>
+<span>          face <span class="op">=</span> <span class="st">'bold'</span>, </span>
+<span>          fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>          margin <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">margin</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">.1</span>,<span class="fl">0</span>, <span class="st">'cm'</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_features_cropped</span><span class="op">$</span><span class="va">geometry</span>,</span>
+<span>          color <span class="op">=</span> <span class="va">map_color</span>,</span>
+<span>          fill <span class="op">=</span> <span class="va">map_color</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>,</span>
+<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="va">POI_color</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">31</span>,</span>
+<span>            family <span class="op">=</span> <span class="st">"Inter"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>,</span>
+<span>            <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="va">POI_fill</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>            family <span class="op">=</span> <span class="st">"Inter"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>             color <span class="op">=</span> <span class="va">outer_ring_color</span>, </span>
+<span>             shape <span class="op">=</span> <span class="fl">21</span>, </span>
+<span>             size <span class="op">=</span> <span class="fl">399</span>, </span>
+<span>             stroke <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>             color <span class="op">=</span> <span class="va">inner_ring_color</span>, </span>
+<span>             shape <span class="op">=</span> <span class="fl">21</span>, </span>
+<span>             size <span class="op">=</span> <span class="fl">403</span>, </span>
+<span>             stroke <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">title_text</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>,</span>
+<span>                    y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
+<span>                label <span class="op">=</span> <span class="va">caption_text</span>, </span>
+<span>                text.color <span class="op">=</span> <span class="va">map_color</span>,</span>
+<span>                family <span class="op">=</span> <span class="va">map_font</span>, </span>
+<span>                lineheight <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>                size <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                hjust <span class="op">=</span> <span class="fl">.5</span>,</span>
+<span>                label.color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">+</span> <span class="fl">.008</span>,<span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.012</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#ggsave("finished map.png",</span></span>
+<span>       <span class="co">#width = 16, </span></span>
+<span>       <span class="co">#height = 20, </span></span>
+<span>       <span class="co">#dpi = 300, </span></span>
+<span>       <span class="co">#units = "in")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This results in this beauty after we use <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code> with our set output size:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/finished map.png" class="img-fluid figure-img" alt="The completed circular map of the Mackey House in Savannah, Georgia, (US) The background is a deep navy blue, all other map elements are a yellow gold color. The title reads The Mackey House. The bottom caption reads Jessica and Chris, June 10th 2022, Savannah Georgia with Latitude and Longitude degrees listed in red text. The Mackey House is marked in the center with a red heart."></p>
+</figure>
+</div>
+<center>
+<sub><em>The final result!</em></sub><br>
+</center>
+<p><br></p>
+<section id="alternative-aesthetics" class="level2"><h2 class="anchored" data-anchor-id="alternative-aesthetics">Alternative Aesthetics</h2>
+<p>So what if you don’t want to use a simple color palette? There are many ways to add variations to the aesthetics in the ggplot to introduce more complicated color schemes to your maps. For our example, though, let’s look at just two ways to do this:</p>
+<section id="embedding-color-data-into-the-data-frame" class="level3"><h3 class="anchored" data-anchor-id="embedding-color-data-into-the-data-frame">Embedding Color Data Into the Data Frame</h3>
+<p>To do it this way, we can add a vector of colors into the cropped data frame (the step where we use <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">st_intersection()</a></code> to get our final data set. We simply use <code><a href="https://purrr.tidyverse.org/reference/map2.html">map2()</a></code> and add a <code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code> line inside to add the <code>color</code> column that will store the hex color codes for each feature:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Cropping OSM data to fit circle-----------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span></span>
+<span><span class="co">#Storing the new colors#</span></span>
+<span><span class="va">feature_colors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span> <span class="st">"#43963C"</span>, <span class="st">"#FCE8E6"</span>, <span class="st">"#9e220d"</span>, <span class="st">"#9e6e0d"</span>, <span class="st">"#ffffff"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#Calculating intersections-----------------------------------------------------</span></span>
+<span><span class="co">#Native pipe (|&gt;) does not evaluate this properly like magrittr's##</span></span>
+<span><span class="va">osm_colors_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">map2</a></span><span class="op">(</span><span class="va">feature_names</span>, <span class="va">feature_colors</span>,  </span>
+<span>                             <span class="op">~</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">st_intersection</a></span><span class="op">(</span><span class="va">circle</span>, </span>
+<span>                                              <span class="va">osm_features_all</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span> <span class="op">|&gt;</span></span>
+<span>                                                <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">.y</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://purrr.tidyverse.org/reference/list_c.html">list_rbind</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Map aesthetic options---------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span></span>
+<span><span class="va">map_background</span> <span class="op">&lt;-</span> <span class="st">"#d9d1a0"</span> <span class="co">#Tan Color</span></span>
+<span><span class="va">text_color</span> <span class="op">&lt;-</span> <span class="st">"#000000"</span></span>
+<span><span class="va">outer_ring_color</span> <span class="op">&lt;-</span> <span class="st">"#000000"</span> <span class="co">#Black</span></span>
+<span><span class="va">inner_ring_color</span> <span class="op">&lt;-</span> <span class="st">"#d9d1a0"</span> <span class="co">#Tan Color</span></span>
+<span><span class="va">POI_fill</span> <span class="op">&lt;-</span> <span class="st">'#190d9e'</span> <span class="co">#Blue color</span></span>
+<span><span class="va">POI_color</span> <span class="op">&lt;-</span> <span class="st">'#000000'</span> <span class="co">#Black</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Now we can just tweak the ggplot code a bit by adding the <code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual()</a></code> function and updating our <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> function to include the new data frame <code>osm_colors_df</code> with added aesthetics for <code>geometry</code>, <code>fill</code>, and <code>color</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>        plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">map_background</span>, </span>
+<span>                                               color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op">(</span></span>
+<span>          halign <span class="op">=</span> <span class="fl">.5</span>, </span>
+<span>          color <span class="op">=</span> <span class="va">text_color</span>, </span>
+<span>          family <span class="op">=</span> <span class="va">map_font</span>, </span>
+<span>          size <span class="op">=</span> <span class="fl">240</span>, </span>
+<span>          face <span class="op">=</span> <span class="st">'bold'</span>, </span>
+<span>          fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>          height <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>          width <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span>,</span>
+<span>        legend.position <span class="op">=</span> <span class="st">"none"</span></span>
+<span>        <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rev.html">rev</a></span><span class="op">(</span><span class="va">feature_colors</span><span class="op">)</span>,</span>
+<span>                     aesthetics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fill"</span>, <span class="st">"color"</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_colors_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>geometry <span class="op">=</span> <span class="va">geometry</span>,</span>
+<span>                                    fill <span class="op">=</span> <span class="va">color</span>,</span>
+<span>                                    color <span class="op">=</span> <span class="va">color</span><span class="op">)</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>, </span>
+<span>                        color <span class="op">=</span> <span class="va">POI_color</span>, </span>
+<span>                        size <span class="op">=</span> <span class="fl">31</span>,</span>
+<span>                        family <span class="op">=</span> <span class="st">"Inter"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="va">POI_fill</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>            family <span class="op">=</span> <span class="st">"Inter"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="va">outer_ring_color</span>, </span>
+<span>            shape <span class="op">=</span> <span class="fl">21</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">399</span>, </span>
+<span>            stroke <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">)</span>, </span>
+<span>            color <span class="op">=</span> <span class="va">inner_ring_color</span>, </span>
+<span>            shape <span class="op">=</span> <span class="fl">21</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">403</span>, </span>
+<span>            stroke <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">title_text</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
+<span>                label <span class="op">=</span> <span class="va">caption_text</span>, </span>
+<span>                text.color <span class="op">=</span> <span class="va">text_color</span>,</span>
+<span>                family <span class="op">=</span> <span class="va">map_font</span>, </span>
+<span>                lineheight <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>                size <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                hjust <span class="op">=</span> <span class="fl">.5</span>,</span>
+<span>                label.color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">+</span> <span class="fl">.008</span>,<span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.012</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#ggsave("map_v2.png",</span></span>
+<span>       <span class="co">#width = 16, </span></span>
+<span>       <span class="co">#height = 20, </span></span>
+<span>       <span class="co">#dpi = 300, </span></span>
+<span>       <span class="co">#units = "in")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Which changes our colors accordingly and gives us this after we use <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code> with our set output size:</p>
+<p><img src="images/map_v2.png" class="img-fluid" alt="The completed circular map of the Mackey House in Savannah, Georgia, (US) The background is a light tan color and all other map elements are various green, orange, and white colors. The title reads The Mackey House. The bottom caption reads Jessica and Chris, June 10th 2022, Savannah Georgia with Latitude and Longitude degrees listed in red text. The Mackey House is marked in the center with a blue heart."></p>
+<center>
+<sub><em>The data of the <code>osm_colors_df</code> object plotted in ggplot with a <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> layer.</em></sub><br>
+</center>
+<p><br></p>
+</section><section id="leaving-data-in-a-list-and-changing-colors-in-geom_sf" class="level3"><h3 class="anchored" data-anchor-id="leaving-data-in-a-list-and-changing-colors-in-geom_sf">Leaving Data in a List and Changing Colors in <code>geom_sf()</code>
+</h3>
+<p>If you’re used to having multiple layers in your ggplot and would prefer to manually set each feature’s color individually without using <code>purrr</code>, you can leave your data in a list like so…</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#Calculating intersections-----------------------------------------------------</span></span>
+<span><span class="co">#Native pipe (|&gt;) does not evaluate this properly like magrittr's#</span></span>
+<span><span class="va">osm_colors_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">feature_names</span>, </span>
+<span>                            <span class="op">~</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_ops.html">st_intersection</a></span><span class="op">(</span><span class="va">circle</span>,<span class="va">osm_features_all</span><span class="op">[[</span><span class="va">.x</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html">set_names</a></span><span class="op">(</span><span class="va">.</span>, <span class="va">feature_names</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>And create separate layers for each feature in the list in your ggplot:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>        plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#82a775"</span>, </span>
+<span>                                               color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op">(</span></span>
+<span>          halign <span class="op">=</span> <span class="fl">.5</span>, </span>
+<span>          color <span class="op">=</span> <span class="st">"#ffffff"</span>, </span>
+<span>          family <span class="op">=</span> <span class="va">map_font</span>, </span>
+<span>          size <span class="op">=</span> <span class="fl">240</span>, </span>
+<span>          face <span class="op">=</span> <span class="st">'bold'</span>, </span>
+<span>          fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>          height <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>          width <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span>
+<span>        <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_colors_list</span><span class="op">$</span><span class="va">roads</span>,</span>
+<span>          color <span class="op">=</span> <span class="st">"#B05f66"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_colors_list</span><span class="op">$</span><span class="va">buildings</span>,</span>
+<span>          color <span class="op">=</span> <span class="st">"#64513b"</span>,</span>
+<span>          fill <span class="op">=</span> <span class="st">"#A68662"</span>,</span>
+<span>          linewidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_colors_list</span><span class="op">$</span><span class="va">landuse</span>,</span>
+<span>          color <span class="op">=</span> <span class="st">"#734B09"</span>,</span>
+<span>          fill <span class="op">=</span> <span class="st">"#D78C10"</span>,</span>
+<span>          linewidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_colors_list</span><span class="op">$</span><span class="va">leisure</span>,</span>
+<span>          color <span class="op">=</span> <span class="st">"#d1b39d"</span>,</span>
+<span>          fill <span class="op">=</span> <span class="st">"#4F443B"</span>,</span>
+<span>          linewidth <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">osm_colors_list</span><span class="op">$</span><span class="va">natural</span>,</span>
+<span>          color <span class="op">=</span> <span class="st">"#3b727c"</span>,</span>
+<span>          fill <span class="op">=</span> <span class="st">"#5CB2C2"</span>,</span>
+<span>          linewidth <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>          linetype <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>, </span>
+<span>                        color <span class="op">=</span> <span class="va">POI_color</span>, </span>
+<span>                        size <span class="op">=</span> <span class="fl">31</span>,</span>
+<span>                        family <span class="op">=</span> <span class="st">"Inter"</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span>, label <span class="op">=</span> <span class="va">label</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="va">POI_fill</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>            family <span class="op">=</span> <span class="st">"Inter"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>            color <span class="op">=</span> <span class="va">outer_ring_color</span>, </span>
+<span>            shape <span class="op">=</span> <span class="fl">21</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">399</span>, </span>
+<span>            stroke <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">center_POI</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span><span class="op">)</span>, </span>
+<span>            color <span class="op">=</span> <span class="va">inner_ring_color</span>, </span>
+<span>            shape <span class="op">=</span> <span class="fl">21</span>, </span>
+<span>            size <span class="op">=</span> <span class="fl">403</span>, </span>
+<span>            stroke <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">title_text</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
+<span>                label <span class="op">=</span> <span class="va">caption_text</span>, </span>
+<span>                text.color <span class="op">=</span> <span class="st">"#ffffff"</span>,</span>
+<span>                family <span class="op">=</span> <span class="va">map_font</span>, </span>
+<span>                lineheight <span class="op">=</span> <span class="fl">.1</span>,</span>
+<span>                size <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>                fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>                hjust <span class="op">=</span> <span class="fl">.5</span>,</span>
+<span>                label.color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span>ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">+</span> <span class="fl">.008</span>,<span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.012</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#ggsave("map_v2.png",</span></span>
+<span>       <span class="co">#width = 16, </span></span>
+<span>       <span class="co">#height = 20, </span></span>
+<span>       <span class="co">#dpi = 300, </span></span>
+<span>       <span class="co">#units = "in")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>Which results in this after we use <code>ggsave():</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="images/map_v3.png" class="img-fluid figure-img" alt="The completed circular map of the Mackey House in Savannah, Georgia, (US) The background is a light green color and all other map elements are various blue, brown, and pink colors. The title reads The Mackey House. The bottom caption reads Jessica and Chris, June 10th 2022, Savannah Georgia with Latitude and Longitude degrees listed in red text. The Mackey House is marked in the center with a blue heart."></p>
+</figure>
+</div>
+<center>
+<sub><em>The data of the <code>osm_colors_list</code> object plotted in ggplot with multiple <code><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf()</a></code> layers.</em></sub><br>
+</center>
+<hr></section></section></section><section id="save-it-out-and-get-it-printed-if-you-want" class="level1"><h1>Save it Out and Get it Printed (If you Want)</h1>
+<p>Because I wanted this to be a wedding gift for my friend, I had the idea to save the output with the <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code> function but then send it to a printer to get it on a canvas. I ended up using <a href="https://www.canva.com">Canva</a>’s printing services for this. While I wouldn’t use Canva for any bulk printing because of the price (say for a shop for merchandise), I will use it for one-off special things like this. My friend received it on time and the quality was great!</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#=============================================================================#</span></span>
+<span><span class="co">#Final Image Export------------------------------------------------------------</span></span>
+<span><span class="co">#=============================================================================#</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"finished map.png"</span>,</span>
+<span>       width <span class="op">=</span> <span class="fl">16</span>, </span>
+<span>       height <span class="op">=</span> <span class="fl">20</span>, </span>
+<span>       dpi <span class="op">=</span> <span class="fl">300</span>, </span>
+<span>       units <span class="op">=</span> <span class="st">"in"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>That’s it! I want to note that I came across an existing <a href="https://taraskaduk.com/posts/2021-01-18-print-street-maps/">blog</a> by <a href="https://taraskaduk.com/about">Taras Kaduk</a> and a <a href="https://github.com/ivabrunec/30daymapchallenge/blob/main/scripts/2022/day8_OSM.R">GitHub repository</a> by <a href="https://ivabrunec.github.io/">Iva Brunec</a>. I used both of these together with a lot of tweaking to get the final result here. If something wasn’t clear here, or you want to see their takes on this type of visual, go check out their work!</p>
+<p><em>If this helped you out or you made anything as a result of reading, I’d love for you to share what you’ve made! Find me on Twitter (<a href="https://twitter.com/meghansharris">@meghansharris</a>), Mastodon (<a href="https://fosstodon.org/@meghansharris">@meghansharris@fosstodon.org</a>), or LinkedIn (<a href="https://www.linkedin.com/in/meghan-harris/">meghan-harris</a>) to do so!</em></p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
