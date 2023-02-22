@@ -55,3 +55,9 @@ plotly_plot
 
 ```
 
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

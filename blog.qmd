@@ -8,7 +8,12 @@ listing:
 
 ---
 
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
 
+</style>
 
 <body onload="document.body.style.opacity=&#39;1&#39;">
 

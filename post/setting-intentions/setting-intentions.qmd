@@ -54,3 +54,10 @@ As I trek through my journey, I do plan to learn [python](https://www.python.org
 *Where are you on your data science journey? Do you have any suggestions for different blog posts? Feel free to leave a comment below to share your thoughts or contact me directly! Respectful discourse is always welcomed!*
 
 </div>
+
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

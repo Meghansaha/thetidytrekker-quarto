@@ -888,3 +888,10 @@ sapply(records, sum)
 
     ##    CASES CONTROLS 
     ##    10358    24925
+
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

@@ -925,3 +925,9 @@ This concludes The Tidy Trekker Intro to Data Art post! I really hope that those
 
 *Have you started your Rtistry journey? Do you think some crucial basics were left out of this post? Feel free to contact me directly! Respectful discourse is always welcome!*
 
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

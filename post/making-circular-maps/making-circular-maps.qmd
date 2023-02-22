@@ -669,3 +669,10 @@ ggsave("finished map.png",
 That's it! I want to note that I came across an existing [blog](https://taraskaduk.com/posts/2021-01-18-print-street-maps/) by [Taras Kaduk](https://taraskaduk.com/about) and a [GitHub repository](https://github.com/ivabrunec/30daymapchallenge/blob/main/scripts/2022/day8_OSM.R) by [Iva Brunec](https://ivabrunec.github.io/). I used both of these together with a lot of tweaking to get the final result here. If something wasn't clear here, or you want to see their takes on this type of visual, go check out their work!
 
 *If this helped you out or you made anything as a result of reading, I'd love for you to share what you've made! Find me on Twitter ([\@meghansharris](https://twitter.com/meghansharris)), Mastodon ([\@meghansharris\@fosstodon.org](https://fosstodon.org/@meghansharris)), or LinkedIn ([meghan-harris](https://www.linkedin.com/in/meghan-harris/)) to do so!*
+
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

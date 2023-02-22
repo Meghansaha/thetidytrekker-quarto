@@ -232,3 +232,10 @@ Colorsnew <- Colorsnew %>%
 <br>
 
 *Have any thoughts or suggestions? Know of a better solution or way to make this process more efficient? Feel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!* 
+
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

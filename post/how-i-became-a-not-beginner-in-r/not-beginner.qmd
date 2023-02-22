@@ -152,3 +152,9 @@ Soon, daunting data wrangling and mining became a breeze and an enjoyable puzzle
 
 
 
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

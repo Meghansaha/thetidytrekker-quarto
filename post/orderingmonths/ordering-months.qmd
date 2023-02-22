@@ -323,3 +323,9 @@ And there we are! All of our data is plotted and we can see all of the months in
 
 </div>
 
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>

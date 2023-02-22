@@ -79,4 +79,9 @@ I plan to use The Tidy Trekker to document these endeavors, but given that I am 
 
 *How has your 2021 been so far? How’s life? Got any updates you want to share? Feel free to contact me directly! Respectful discourse is always welcomed!*
 
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
 
+</style>

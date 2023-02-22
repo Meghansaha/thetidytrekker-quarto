@@ -92,3 +92,10 @@ So... what's next? Honestly, this year I'd like to "lay low." I want to actively
 -   Contribute to the textbook [*"Rtistry: Methods for Visual Generative Art Using R"*](https://twitter.com/meghansharris/status/1620256954433273859?s=20&t=D2O6oV0SAKmRK4nmZwK_hg) along with [Antonio Paez](https://fosstodon.org/@paezha@mastodon.online), [Antonio Sanchez](https://twitter.com/aschinchon), and [Jacquie Tran](https://fosstodon.org/@jacquietran@mastodon.social). <sub>*(This has to be done as a contract was signed)*</sub>
 
 That's it. If I have energy for a blog post here or there, or if my job wants to send me to Chicago for Posit Conf this year (Travis, pls.) Then I'll do that. But the goal is to work *"passively"* this year (if that makes any sense at all.)
+
+<style> 
+body {
+  overflow: hidden; /* Hide scrollbars */
+}
+
+</style>
