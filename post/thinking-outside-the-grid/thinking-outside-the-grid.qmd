@@ -16,6 +16,10 @@ categories:
   - ggplot
   - beginner
   
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 ```{r setup, include=FALSE}

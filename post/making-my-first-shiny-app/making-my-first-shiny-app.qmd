@@ -20,6 +20,11 @@ categories:
   - css
   - javascript
   - tarotreadr
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 

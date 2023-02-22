@@ -29,6 +29,10 @@ knitr:
     warning: FALSE
 execute: 
   eval: false
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 ![](images/final_irl.png){fig-alt="a picture of a wedding gift. A circular map in blue and yellow colors of the Mackey House in Savannah GA. It reads, The Mackey House, Jessica and Chris. June 10th 2022. Savannah Georgia. Latitude 32.0380. Longitude -81.1716" fig-align="center"}

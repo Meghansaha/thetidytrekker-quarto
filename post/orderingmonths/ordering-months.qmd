@@ -18,6 +18,10 @@ categories:
   - ggplot
   - r walkthrough
 
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 ```{r setup, include=FALSE}

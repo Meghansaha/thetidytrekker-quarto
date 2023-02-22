@@ -16,6 +16,11 @@ categories:
   - ggplot2
   - r walkthrough
   - statistical programming
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 
 ---
 

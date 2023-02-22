@@ -20,6 +20,11 @@ categories:
 editor: 
   markdown: 
     wrap: 72
+    
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 ```{r setup, include=FALSE}

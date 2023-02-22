@@ -18,6 +18,11 @@ categories:
   - talks
   - conferences
 editor: visual
+
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 Yes, hello. It's been a while. I have been neglecting The Tidy Trekker as of late (and to be honest, I still might this year after this overhaul is done, but we'll see.) I had all the intentions of being super active here in 2022, but life happened. The good news is, instead of the usual negative BS, I was inundated with EXCELLENT things in 2022. I was afraid to even step into 2023 for fear that all my good luck would "run out" this year. (*I'm joking, btw life is what you make it, and your enjoyment of it depends on a lot of things like perspective, if you need/go to therapy, circumstances, etc.)*

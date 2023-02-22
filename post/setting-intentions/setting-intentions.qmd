@@ -12,6 +12,11 @@ categories:
   - intentions
   - r
   - statistical programming
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 ```{r setup, include=FALSE}

@@ -21,6 +21,11 @@ categories:
   - data cleaning
   - data visualization
   - project recap
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 

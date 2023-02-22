@@ -20,6 +20,11 @@ categories:
   - flexdashboards
   - summarywidget
   - shiny
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 ```{r setup, include=FALSE, echo = FALSE}

@@ -19,6 +19,10 @@ categories:
   - sql
   - "2021"
 
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
 ---
 
 
