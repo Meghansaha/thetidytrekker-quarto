@@ -15,8 +15,6 @@ website:
         text: About Me
       - href: blog.qmd
         text: Exploration Corner
-      #- href: resumecv.html
-        #text: Resume/CV
       - text: Portfolios
         menu:
           - text: Talks
@@ -27,8 +25,8 @@ website:
             href: rtistry.qmd
           - text: Genuary Submissions
             href: https://meghansaha.github.io/genuary_subs/
-          # - text: aRttools
-          #   href: arttools/arttools.html
+      - href: https://meghansaha.github.io/artpack/
+        text: artpack 🎨
     
     
     right:
