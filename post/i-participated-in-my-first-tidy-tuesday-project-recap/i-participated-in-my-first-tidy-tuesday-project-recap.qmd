@@ -30,7 +30,7 @@ comments:
 
 
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, eval = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -41,19 +41,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 To kick off the year, I took the "leap of faith" and participated in my first [TidyTuesday](https://github.com/rfordatascience/tidytuesday/blob/master/README.md)! A weekly community activity hosted by the [R4DSCommunity](https://twitter.com/R4DScommunity) on Twitter that challenges those of all skill levels and disciplines to explore a data set and make a data visualization of it. This week's data was from the [Transit Costs Project](https://transitcosts.com/). 
 
-This Tidy Tuesday was challenging mainly because I was on a crunch for time. However, I did not want to pass up an opportunity to practice with [Plotly (for R)](https://plotly.com/r/). In my current position, I'm tasked with building some internal dashboards to keep track of a lot of opioid data. Using Plotly can allow for interactive/dynamic graphs (instead of static, non-moving graphs.) I've embedded my plotly plot for this Tidy Tuesday below in this post. 
+This Tidy Tuesday was challenging mainly because I was on a crunch for time. However, I did not want to pass up an opportunity to practice with [Plotly (for R)](https://plotly.com/r/). In my current position, I'm tasked with building some internal dashboards to keep track of a lot of opioid data. Using Plotly can allow for interactive/dynamic graphs (instead of static, non-moving graphs.)
 
 This activity was great for practicing the obvious data cleaning and wrangling skills. I also got to practice conditional formatting (colors of the lollipops), [ggplot](https://ggplot2.tidyverse.org/) manipulation, and lookup functions. Drawing conclusions from the data is not recommended due to the nature of the selected data sets. Tidy Tuesday really encourages developing your process as a data scientist to hone in on fundamental skills! That being said, don't read too much into it! If you're interested in the code used for this plotly plot, or the process used for the data, you can find it on my Github Repo [here](https://github.com/Meghansaha/TidyTuesday/tree/master/2021/Transit_Costs%201-5-21).
 
 *Feel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!*
 </div>
-
-```{r plot-loadin, echo=FALSE}
-
-plotly_plot <- readRDS("assets/transitplotly.RDS")
-plotly_plot
-
-```
 
 <style> 
 body {

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.4.528">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>The Tidy Trekker – blog</title>
+<title>The Tidy Trekker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -17,7 +17,7 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
 </style>
@@ -49,7 +49,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -58,8 +64,10 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script>
@@ -93,10 +101,11 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <style>html{ scroll-behavior: smooth; }</style>
 <style>
-    .quarto-title-block .quarto-title-banner {
-      background: #27445C;
-    }
-    </style>
+
+      .quarto-title-block .quarto-title-banner {
+        background: #27445C;
+      }
+</style>
 
 
 
@@ -104,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
   
     <meta charset="utf-8">
     <title>Exploration Corner</title>
-  <link rel="alternate" type="application/rss+xml" title="The Tidy Trekker" href="blog.xml"></head>
+  <link rel="alternate" type="application/rss+xml" title="The Tidy Trekker" href="blog.xml" data-external="1"></head>
   <body onload="document.body.style.opacity='1'" class="floating nav-fixed">
     <div class="article-header">
       <img src="assets/EC-Header.gif" class="article-banner" width="100%," height:auto="">
@@ -112,7 +121,35 @@ ul.task-list li input[type="checkbox"] {
   
 
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/scripts/styles.css">
 
@@ -120,10 +157,10 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     <img src="./images/TTTdark.png" alt="" class="navbar-logo">
     </a>
@@ -131,22 +168,23 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">The Tidy Trekker</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html">
- <span class="menu-text">Home</span></a>
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">
- <span class="menu-text">About Me</span></a>
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page">
- <span class="menu-text">Exploration Corner</span></a>
+    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+<span class="menu-text">Exploration Corner</span></a>
   </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -167,53 +205,57 @@ ul.task-list li input[type="checkbox"] {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://meghansaha.github.io/artpack/"> 
+<span class="menu-text">artpack 🎨</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:meghan@thetidytrekker.com"><i class="bi bi-envelope-fill" role="img">
+    <a class="nav-link" href="mailto:meghan@thetidytrekker.com"> <i class="bi bi-envelope-fill" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/Meghansaha"><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Meghansaha"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/meghan-harris/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/meghansharris"><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/meghansharris"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://fosstodon.org/@meghansharris"><i class="bi bi-mastodon" role="img">
+    <a class="nav-link" href="https://fosstodon.org/@meghansharris"> <i class="bi bi-mastodon" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./blog.xml"><i class="bi bi-rss-fill" role="img">
+    <a class="nav-link" href="./blog.xml"> <i class="bi bi-rss-fill" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-              <div class="quarto-toggle-container">
-                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
-              </div>
-              <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     
 </nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
 <!-- Subscription Form -->
@@ -223,6 +265,7 @@ ul.task-list li input[type="checkbox"] {
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
+
 
 
 
@@ -239,25 +282,25 @@ body {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="printing,data visualization,life,r,maps,ggplot,personal" data-listing-date-sort="1676437200000" data-listing-file-modified-sort="1677031804227" data-listing-reading-time-sort="30.605">
+<div class="quarto-post image-right" data-index="0" data-categories="printing,data visualization,life,r,maps,ggplot,personal" data-listing-date-sort="1676437200000" data-listing-file-modified-sort="1704696909796" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="31" data-listing-word-count-sort="6121">
 <div class="thumbnail">
-<p><a href="./post/making-circular-maps/making-circular-maps.html"> <img src="./post/making-circular-maps/images/makingmaps.png" class="thumnail-image"> </a></p>
+<p><a href="./post/making-circular-maps/making-circular-maps.html" class="no-external"></a></p><a href="./post/making-circular-maps/making-circular-maps.html" class="no-external">
+<p><img src="./post/making-circular-maps/images/makingmaps.png" class="thumbnail-image"></p>
+</a><p><a href="./post/making-circular-maps/making-circular-maps.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/making-circular-maps/making-circular-maps.html">
 <h3 class="no-anchor listing-title">
-Making Circular Maps in ggplot
+<a href="./post/making-circular-maps/making-circular-maps.html" class="no-external">Making Circular Maps in ggplot</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/making-circular-maps/making-circular-maps.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>I made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that.</p>
+<a href="./post/making-circular-maps/making-circular-maps.html" class="no-external">I made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/making-circular-maps/making-circular-maps.html">
+<a href="./post/making-circular-maps/making-circular-maps.html" class="no-external">
 <div class="listing-date">
 Feb 15, 2023
 </div>
@@ -267,25 +310,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="personal,intentions,life,r,rtistry,talks,conferences" data-listing-date-sort="1674450000000" data-listing-file-modified-sort="1677032163367" data-listing-reading-time-sort="5.72">
+<div class="quarto-post image-right" data-index="1" data-categories="personal,intentions,life,r,rtistry,talks,conferences" data-listing-date-sort="1674450000000" data-listing-file-modified-sort="1677032163367" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1144">
 <div class="thumbnail">
-<p><a href="./post/lets-talk-about-2022/lets-talk-about-2022.html"> <img src="./post/lets-talk-about-2022/images/lta2022.png" class="thumnail-image"> </a></p>
+<p><a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external"></a></p><a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external">
+<p><img src="./post/lets-talk-about-2022/images/lta2022.png" class="thumbnail-image"></p>
+</a><p><a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/lets-talk-about-2022/lets-talk-about-2022.html">
 <h3 class="no-anchor listing-title">
-Let’s Talk About 2022
+<a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external">Let’s Talk About 2022</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Yes. Hi. Hello. It’s been over a year since I’ve blogged. Let’s have a chat about 2022.</p>
+<a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external">Yes. Hi. Hello. It’s been over a year since I’ve blogged. Let’s have a chat about 2022. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/lets-talk-about-2022/lets-talk-about-2022.html">
+<a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external">
 <div class="listing-date">
 Jan 23, 2023
 </div>
@@ -295,25 +338,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="r,rtistry,data art,ggplot2,r walkthrough,statistical programming" data-listing-date-sort="1637730000000" data-listing-file-modified-sort="1677032188168" data-listing-reading-time-sort="15.24">
+<div class="quarto-post image-right" data-index="2" data-categories="r,rtistry,data art,ggplot2,r walkthrough,statistical programming" data-listing-date-sort="1637730000000" data-listing-file-modified-sort="1677032188168" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3048">
 <div class="thumbnail">
-<p><a href="./post/making-waves/making-waves.html"> <img src="./post/making-waves/images/makingwaves.png" class="thumnail-image"> </a></p>
+<p><a href="./post/making-waves/making-waves.html" class="no-external"></a></p><a href="./post/making-waves/making-waves.html" class="no-external">
+<p><img src="./post/making-waves/images/makingwaves.png" class="thumbnail-image"></p>
+</a><p><a href="./post/making-waves/making-waves.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/making-waves/making-waves.html">
 <h3 class="no-anchor listing-title">
-Making Waves in ggplot: An Rtistry Tutorial
+<a href="./post/making-waves/making-waves.html" class="no-external">Making Waves in ggplot: An Rtistry Tutorial</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/making-waves/making-waves.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>An Rtistry tutorial in ggplot about making waves in the R programming language.</p>
+<a href="./post/making-waves/making-waves.html" class="no-external">An Rtistry tutorial in ggplot about making waves in the R programming language. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/making-waves/making-waves.html">
+<a href="./post/making-waves/making-waves.html" class="no-external">
 <div class="listing-date">
 Nov 24, 2021
 </div>
@@ -323,25 +366,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="r,data art,rtistry,ggplot,beginner" data-listing-date-sort="1634616000000" data-listing-file-modified-sort="1677032228222" data-listing-reading-time-sort="36.12">
+<div class="quarto-post image-right" data-index="3" data-categories="r,data art,rtistry,ggplot,beginner" data-listing-date-sort="1634616000000" data-listing-file-modified-sort="1677032228222" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7224">
 <div class="thumbnail">
-<p><a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html"> <img src="./post/thinking-outside-the-grid/images/rainbowrose.png" class="thumnail-image"> </a></p>
+<p><a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external"></a></p><a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external">
+<p><img src="./post/thinking-outside-the-grid/images/rainbowrose.png" class="thumbnail-image"></p>
+</a><p><a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html">
 <h3 class="no-anchor listing-title">
-Thinking Outside The Grid - A “bare bones” intro to Rtistry concepts in R using ggplot.
+<a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external">Thinking Outside The Grid - A “bare bones” intro to Rtistry concepts in R using ggplot.</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Recently I’ve discovered the courage to dive into creative coding and generative aRt in R. Something that the R community calls “Rtistry.” My Rtistry journey so far has been an amazing and tranquil expedition into a world that seemed intimidating and scary on the outside but is honestly just a bottomless pit of fun and creativity on the inside.</p>
+<a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external">Recently I’ve discovered the courage to dive into creative coding and generative aRt in R. Something that the R community calls “Rtistry.” My Rtistry journey so far has been an amazing and tranquil expedition into a world that seemed intimidating and scary on the outside but is honestly just a bottomless pit of fun and creativity on the inside. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html">
+<a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external">
 <div class="listing-date">
 Oct 19, 2021
 </div>
@@ -351,25 +394,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="personal,intentions,life,r,machine learning,python,sql,2021" data-listing-date-sort="1630987200000" data-listing-file-modified-sort="1677032238330" data-listing-reading-time-sort="2.925">
+<div class="quarto-post image-right" data-index="4" data-categories="personal,intentions,life,r,machine learning,python,sql,2021" data-listing-date-sort="1630987200000" data-listing-file-modified-sort="1677032238330" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="585">
 <div class="thumbnail">
-<p><a href="./post/where-have-i-been/where-have-i-been.html"> <img src="./post/where-have-i-been/images/clock.png" class="thumnail-image"> </a></p>
+<p><a href="./post/where-have-i-been/where-have-i-been.html" class="no-external"></a></p><a href="./post/where-have-i-been/where-have-i-been.html" class="no-external">
+<p><img src="./post/where-have-i-been/images/clock.png" class="thumbnail-image"></p>
+</a><p><a href="./post/where-have-i-been/where-have-i-been.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/where-have-i-been/where-have-i-been.html">
 <h3 class="no-anchor listing-title">
-Where Have I Been?
+<a href="./post/where-have-i-been/where-have-i-been.html" class="no-external">Where Have I Been?</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/where-have-i-been/where-have-i-been.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>So, it has been a good five months since I last made a post on The Tidy Trekker. I can assure you that I am alive and kicking!</p>
+<a href="./post/where-have-i-been/where-have-i-been.html" class="no-external">So, it has been a good five months since I last made a post on The Tidy Trekker. I can assure you that I am alive and kicking! </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/where-have-i-been/where-have-i-been.html">
+<a href="./post/where-have-i-been/where-have-i-been.html" class="no-external">
 <div class="listing-date">
 Sep 7, 2021
 </div>
@@ -379,25 +422,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="shiny,data science,r programming,r,statistical programming,html,css,javascript,tarotreadr" data-listing-date-sort="1630728000000" data-listing-file-modified-sort="1676916994663" data-listing-reading-time-sort="13.55">
+<div class="quarto-post image-right" data-index="5" data-categories="shiny,data science,r programming,r,statistical programming,html,css,javascript,tarotreadr" data-listing-date-sort="1630728000000" data-listing-file-modified-sort="1676916994663" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2710">
 <div class="thumbnail">
-<p><a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html"> <img src="./post/making-my-first-shiny-app/images/shinyapp.png" class="thumnail-image"> </a></p>
+<p><a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external"></a></p><a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external">
+<p><img src="./post/making-my-first-shiny-app/images/shinyapp.png" class="thumbnail-image"></p>
+</a><p><a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html">
 <h3 class="no-anchor listing-title">
-Making My First Shiny App
+<a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external">Making My First Shiny App</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>This year was the first time that I ever competed in a RStudio Shiny competition by submitting my first ever Shiny app, the TarotreadR.</p>
+<a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external">This year was the first time that I ever competed in a RStudio Shiny competition by submitting my first ever Shiny app, the TarotreadR. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html">
+<a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external">
 <div class="listing-date">
 Sep 4, 2021
 </div>
@@ -407,25 +450,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="data science,survey processing,data manipulation,r,statistical programming,r programming,data carperntry,r walkthrough" data-listing-date-sort="1616040000000" data-listing-file-modified-sort="1677032220447" data-listing-reading-time-sort="7.545">
+<div class="quarto-post image-right" data-index="6" data-categories="data science,survey processing,data manipulation,r,statistical programming,r programming,data carperntry,r walkthrough" data-listing-date-sort="1616040000000" data-listing-file-modified-sort="1677032220447" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1509">
 <div class="thumbnail">
-<p><a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html"> <img src="./post/tallying-checkbox-survey-responses-r-walkthrough/images/Tallying Checkboxes.png" class="thumnail-image"> </a></p>
+<p><a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external"></a></p><a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external">
+<p><img src="./post/tallying-checkbox-survey-responses-r-walkthrough/images/Tallying Checkboxes.png" class="thumbnail-image"></p>
+</a><p><a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html">
 <h3 class="no-anchor listing-title">
-Tallying “Checkbox” Survey Responses: R Walkthrough
+<a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external">Tallying “Checkbox” Survey Responses: R Walkthrough</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>A guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing “Checkbox” question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions.</p>
+<a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external">A guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing “Checkbox” question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html">
+<a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external">
 <div class="listing-date">
 Mar 18, 2021
 </div>
@@ -435,25 +478,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="r,r markdown,markdown,dashboards,mapping,leaflet,flexdashboards,summarywidget,shiny" data-listing-date-sort="1615780800000" data-listing-file-modified-sort="1677032075537" data-listing-reading-time-sort="24.97">
+<div class="quarto-post image-right" data-index="7" data-categories="r,r markdown,markdown,dashboards,mapping,leaflet,flexdashboards,summarywidget,shiny" data-listing-date-sort="1615780800000" data-listing-file-modified-sort="1677032075537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4994">
 <div class="thumbnail">
-<p><a href="./post/dull-dashboards/dull-dashboards.html"> <img src="./post/dull-dashboards/images/dulldashes.png" class="thumnail-image"> </a></p>
+<p><a href="./post/dull-dashboards/dull-dashboards.html" class="no-external"></a></p><a href="./post/dull-dashboards/dull-dashboards.html" class="no-external">
+<p><img src="./post/dull-dashboards/images/dulldashes.png" class="thumbnail-image"></p>
+</a><p><a href="./post/dull-dashboards/dull-dashboards.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/dull-dashboards/dull-dashboards.html">
 <h3 class="no-anchor listing-title">
-Making Dull* Dashboards in R (* Without Shiny)
+<a href="./post/dull-dashboards/dull-dashboards.html" class="no-external">Making Dull* Dashboards in R (* Without Shiny)</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/dull-dashboards/dull-dashboards.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>A walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code.</p>
+<a href="./post/dull-dashboards/dull-dashboards.html" class="no-external">A walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/dull-dashboards/dull-dashboards.html">
+<a href="./post/dull-dashboards/dull-dashboards.html" class="no-external">
 <div class="listing-date">
 Mar 15, 2021
 </div>
@@ -463,25 +506,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="data science,imposter syndrome,r programming,r,statistical programming,not-beginner,beginner" data-listing-date-sort="1613797200000" data-listing-file-modified-sort="1677032091798" data-listing-reading-time-sort="10.12">
+<div class="quarto-post image-right" data-index="8" data-categories="data science,imposter syndrome,r programming,r,statistical programming,not-beginner,beginner" data-listing-date-sort="1613797200000" data-listing-file-modified-sort="1677032091798" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2024">
 <div class="thumbnail">
-<p><a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html"> <img src="./post/how-i-became-a-not-beginner-in-r/images/lightbulb.png" class="thumnail-image"> </a></p>
+<p><a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external"></a></p><a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external">
+<p><img src="./post/how-i-became-a-not-beginner-in-r/images/lightbulb.png" class="thumbnail-image"></p>
+</a><p><a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html">
 <h3 class="no-anchor listing-title">
-How I Became A “Not-Beginner” in R
+<a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external">How I Became A “Not-Beginner” in R</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Some thoughts I have on being a “Not-beginner” (Intermediate) R programmer/Data Scientist.</p>
+<a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external">Some thoughts I have on being a “Not-beginner” (Intermediate) R programmer/Data Scientist.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html">
+<a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external">
 <div class="listing-date">
 Feb 20, 2021
 </div>
@@ -491,25 +534,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="r,r programming,base r,apply,lapply,sapply,functional programming" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1677032058740" data-listing-reading-time-sort="32.605">
+<div class="quarto-post image-right" data-index="9" data-categories="r,r programming,base r,apply,lapply,sapply,functional programming" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1677032058740" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="33" data-listing-word-count-sort="6521">
 <div class="thumbnail">
-<p><a href="./post/applyfamilynotes/apply-family.html"> <img src="./post/applyfamilynotes/images/applyfamily.png" class="thumnail-image"> </a></p>
+<p><a href="./post/applyfamilynotes/apply-family.html" class="no-external"></a></p><a href="./post/applyfamilynotes/apply-family.html" class="no-external">
+<p><img src="./post/applyfamilynotes/images/applyfamily.png" class="thumbnail-image"></p>
+</a><p><a href="./post/applyfamilynotes/apply-family.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/applyfamilynotes/apply-family.html">
 <h3 class="no-anchor listing-title">
-Apply Family Notebook
+<a href="./post/applyfamilynotes/apply-family.html" class="no-external">Apply Family Notebook</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/applyfamilynotes/apply-family.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>An apply() function notebook to explore the different apply functions in Base R</p>
+<a href="./post/applyfamilynotes/apply-family.html" class="no-external">An apply() function notebook to explore the different apply functions in Base R </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/applyfamilynotes/apply-family.html">
+<a href="./post/applyfamilynotes/apply-family.html" class="no-external">
 <div class="listing-date">
 Jan 23, 2021
 </div>
@@ -519,25 +562,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="data manipulation,data carpentry,data visualization,r,statistical programming,ggplot,r walkthrough" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1677032198682" data-listing-reading-time-sort="9.135">
+<div class="quarto-post image-right" data-index="10" data-categories="data manipulation,data carpentry,data visualization,r,statistical programming,ggplot,r walkthrough" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1677032198682" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1827">
 <div class="thumbnail">
-<p><a href="./post/orderingmonths/ordering-months.html"> <img src="./post/orderingmonths/images/ordering_months.png" class="thumnail-image"> </a></p>
+<p><a href="./post/orderingmonths/ordering-months.html" class="no-external"></a></p><a href="./post/orderingmonths/ordering-months.html" class="no-external">
+<p><img src="./post/orderingmonths/images/ordering_months.png" class="thumbnail-image"></p>
+</a><p><a href="./post/orderingmonths/ordering-months.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/orderingmonths/ordering-months.html">
 <h3 class="no-anchor listing-title">
-Ordering Months
+<a href="./post/orderingmonths/ordering-months.html" class="no-external">Ordering Months</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/orderingmonths/ordering-months.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>A guide on ordering month “categories” chronologically and dealing with missing month data on a ggplot using Tidyverse packages and base R constants. This guide assumes that you understand how to load data into R, work with vectors, and are somewhat familiar with subsetting and ggplot2.</p>
+<a href="./post/orderingmonths/ordering-months.html" class="no-external">A guide on ordering month “categories” chronologically and dealing with missing month data on a ggplot using Tidyverse packages and base R constants. This guide assumes that you understand how to load data into R, work with vectors, and are somewhat familiar with subsetting and ggplot2. </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/orderingmonths/ordering-months.html">
+<a href="./post/orderingmonths/ordering-months.html" class="no-external">
 <div class="listing-date">
 Jan 23, 2021
 </div>
@@ -547,25 +590,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="data science,tidytuesday,r Programming,r,statistical programming,data carpentry,ggplot,plotly,data cleaning,data visualization,project recap" data-listing-date-sort="1609909200000" data-listing-file-modified-sort="1677032113999" data-listing-reading-time-sort="1.36">
+<div class="quarto-post image-right" data-index="11" data-categories="data science,tidytuesday,r Programming,r,statistical programming,data carpentry,ggplot,plotly,data cleaning,data visualization,project recap" data-listing-date-sort="1609909200000" data-listing-file-modified-sort="1704697840290" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="272">
 <div class="thumbnail">
-<p><a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html"> <img src="./post/i-participated-in-my-first-tidy-tuesday-project-recap/images/first_tidy_tuesday.png" class="thumnail-image"> </a></p>
+<p><a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external"></a></p><a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external">
+<p><img src="./post/i-participated-in-my-first-tidy-tuesday-project-recap/images/first_tidy_tuesday.png" class="thumbnail-image"></p>
+</a><p><a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html">
 <h3 class="no-anchor listing-title">
-I Participated in My First Tidy Tuesday! : Project Recap
+<a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external">I Participated in My First Tidy Tuesday! : Project Recap</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>I have always “hid in the shadows” with community challenges like this, but I took the leap and participated. Here’s a quick recap…</p>
+<a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external">I have always “hid in the shadows” with community challenges like this, but I took the leap and participated. Here’s a quick recap… </a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html">
+<a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external">
 <div class="listing-date">
 Jan 6, 2021
 </div>
@@ -575,25 +618,25 @@ Meghan Harris
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="data science,imposter syndrome,intentions,r,statistical programming" data-listing-date-sort="1609390800000" data-listing-file-modified-sort="1677032211571" data-listing-reading-time-sort="3.515">
+<div class="quarto-post image-right" data-index="12" data-categories="data science,imposter syndrome,intentions,r,statistical programming" data-listing-date-sort="1609390800000" data-listing-file-modified-sort="1677032211571" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="703">
 <div class="thumbnail">
-<p><a href="./post/setting-intentions/setting-intentions.html"> <img src="./post/setting-intentions/images/fireworks.png" class="thumnail-image"> </a></p>
+<p><a href="./post/setting-intentions/setting-intentions.html" class="no-external"></a></p><a href="./post/setting-intentions/setting-intentions.html" class="no-external">
+<p><img src="./post/setting-intentions/images/fireworks.png" class="thumbnail-image"></p>
+</a><p><a href="./post/setting-intentions/setting-intentions.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./post/setting-intentions/setting-intentions.html">
 <h3 class="no-anchor listing-title">
-Setting Intentions
+<a href="./post/setting-intentions/setting-intentions.html" class="no-external">Setting Intentions</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./post/setting-intentions/setting-intentions.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>As the fiasco that is the year 2020 comes to an end, I figured I’d set some intentions for the Tidy Trekker site moving forward.</p>
+<a href="./post/setting-intentions/setting-intentions.html" class="no-external">As the fiasco that is the year 2020 comes to an end, I figured I’d set some intentions for the Tidy Trekker site moving forward.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./post/setting-intentions/setting-intentions.html">
+<a href="./post/setting-intentions/setting-intentions.html" class="no-external">
 <div class="listing-date">
 Dec 31, 2020
 </div>
@@ -649,6 +692,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -717,13 +787,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -750,9 +822,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -788,10 +874,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -801,8 +886,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -817,6 +911,233 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
@@ -857,6 +1178,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
