@@ -20,6 +20,7 @@
   {
     "listing": "/talks.html",
     "items": [
+      "/talks/making_a_case/making_a_case.html",
       "/talks/exploring_validation/exploring_validation.html",
       "/talks/collages_and_patterns/collages_and_patterns.html",
       "/talks/pipelines_in_r/pipeline_in_r.html",

@@ -564,6 +564,34 @@
     "href": "talks.html",
     "title": "The Tidy Trekker",
     "section": "",
-    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n  \n\n\n\n\nExploring Data Validation With The pointblank Package\n\n\n\n\n\nData validation is a very important component that should not be ignored when working in data analytics or data science. While there are many ways to perform data validation in R, this talk will explore Rich Iannone and Mauricio Vargas’ pointblank package for this purpose.\n\n\n\n\n\n\nOct 26, 2022\n\n\nCleveland R User Group\n\n\n\n\n\n\n  \n\n\n\n\nCollages and Patterns: Making Art in R\n\n\n\n\n\nHave you just started creating generative art in R, or are you interested in starting? Have you tried to start the process but couldn’t wrap your head around how to do it? If so, “Collages and Patterns: Making art in R”, might be of interest!\n\n\n\n\n\n\nOct 12, 2022\n\n\nR-Ladies Philly\n\n\n\n\n\n\n  \n\n\n\n\nMaking Data Pipelines in R: A Story from a Self-Taught Perspective\n\n\n\n\n\nWhen people first learn about R’s capabilities to create fully integrated systems, automated visuals, and seamless data pipelines, the reaction can span from disbelief to amazement…\n\n\n\n\n\n\nJul 27, 2022\n\n\nRStudio::conf(2022)\n\n\n\n\n\n\n  \n\n\n\n\nMaking Functions For Rtistry\n\n\n\n\n\nThe Functions in Rtistry workshop will dive into using functions to create, add variation to, and streamline generative art pieces made in the R language…\n\n\n\n\n\n\nMay 24, 2022\n\n\nR-Ladies Johannesburg\n\n\n\n\n\n\n  \n\n\n\n\nAn Introduction to Rtistry Using ggplot2 in R\n\n\n\n\n\nIf you’ve ever seen pictures of generative art made in R and wondered if you could ever create art like that, the answer is “Yes.”…\n\n\n\n\n\n\nJan 13, 2022\n\n\nTunis R User Group\n\n\n\n\n\n\nNo matching items"
+    "text": "Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\n\n\n\nIt’s All About Perspective: Making A Case for Generative Art\n\n\n\n\n\nIt’s All About Perspective” is a retrospective journey that aims to invite participants to learn about generative art while focusing on “why” people should create it and its potential place in Data Science …\n\n\n\n\n\nSep 20, 2023\n\n\nPosit::conf(2023)\n\n\n\n\n\n\n\n\n\n\n\n\nExploring Data Validation With The pointblank Package\n\n\n\n\n\nData validation is a very important component that should not be ignored when working in data analytics or data science. While there are many ways to perform data validation in R, this talk will explore Rich Iannone and Mauricio Vargas’ pointblank package for this purpose.\n\n\n\n\n\nOct 26, 2022\n\n\nCleveland R User Group\n\n\n\n\n\n\n\n\n\n\n\n\nCollages and Patterns: Making Art in R\n\n\n\n\n\nHave you just started creating generative art in R, or are you interested in starting? Have you tried to start the process but couldn’t wrap your head around how to do it? If so, “Collages and Patterns: Making art in R”, might be of interest!\n\n\n\n\n\nOct 12, 2022\n\n\nR-Ladies Philly\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Data Pipelines in R: A Story from a Self-Taught Perspective\n\n\n\n\n\nWhen people first learn about R’s capabilities to create fully integrated systems, automated visuals, and seamless data pipelines, the reaction can span from disbelief to amazement…\n\n\n\n\n\nJul 27, 2022\n\n\nRStudio::conf(2022)\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Functions For Rtistry\n\n\n\n\n\nThe Functions in Rtistry workshop will dive into using functions to create, add variation to, and streamline generative art pieces made in the R language…\n\n\n\n\n\nMay 24, 2022\n\n\nR-Ladies Johannesburg\n\n\n\n\n\n\n\n\n\n\n\n\nAn Introduction to Rtistry Using ggplot2 in R\n\n\n\n\n\nIf you’ve ever seen pictures of generative art made in R and wondered if you could ever create art like that, the answer is “Yes.”…\n\n\n\n\n\nJan 13, 2022\n\n\nTunis R User Group\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "talks/making_a_case/making_a_case.html#description",
+    "href": "talks/making_a_case/making_a_case.html#description",
+    "title": "It’s All About Perspective: Making A Case for Generative Art",
+    "section": "Description",
+    "text": "Description\n\n“It’s All About Perspective” is a retrospective journey that aims to invite participants to learn about generative art while focusing on “why” people should create it and its potential place in Data Science. This talk is suitable for all disciplines and artistic abilities. This talk aims to expand the participant’s perspective on generative art with the following concepts:\n\n\nWhat is generative art and how can it be created in R or Python\nJustifications for generative art within Data Science\nExamples of programming skills that are transferable between generative art and pragmatic data science projects"
+  },
+  {
+    "objectID": "talks/making_a_case/making_a_case.html#slides",
+    "href": "talks/making_a_case/making_a_case.html#slides",
+    "title": "It’s All About Perspective: Making A Case for Generative Art",
+    "section": "Slides",
+    "text": "Slides\nThe slides for the presentation is available on GitHub here."
+  },
+  {
+    "objectID": "talks/making_a_case/making_a_case.html#recorded-presentation",
+    "href": "talks/making_a_case/making_a_case.html#recorded-presentation",
+    "title": "It’s All About Perspective: Making A Case for Generative Art",
+    "section": "Recorded Presentation",
+    "text": "Recorded Presentation\nThis presentation was recorded and is now accessible on YouTube here"
+  },
+  {
+    "objectID": "talks/making_a_case/making_a_case.html#talk-materials-and-github-repository",
+    "href": "talks/making_a_case/making_a_case.html#talk-materials-and-github-repository",
+    "title": "It’s All About Perspective: Making A Case for Generative Art",
+    "section": "Talk Materials and GitHub Repository",
+    "text": "Talk Materials and GitHub Repository\nThis talk has a supplemental GitHub repository that can be accessed here"
   }
 ]
