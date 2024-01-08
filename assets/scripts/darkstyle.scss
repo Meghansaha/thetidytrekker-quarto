@@ -188,3 +188,27 @@ center:nth-child(even) > figcaption {
 #description > blockquote{
   color: white;
 }
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(n) > div.body > h3 > a{
+  color: white;
+}
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(n) > div.body > div.listing-description > a{
+  color: white;
+}
+
+#listing-listing-sort{
+  color: white;
+}
+
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-sort > span > i{
+    color: white;
+}
+
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-filter > input{
+  color: white;
+}
+
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-sort > span > i{
+  color: black;
+}
