@@ -1,7 +1,7 @@
 ---
 title: "It's All About Perspective: Making A Case for Generative Art"
 
-description: "It’s All About Perspective” is a retrospective journey that aims to invite participants to learn about generative art while focusing on “why” people should create it and its potential place in Data Science ..."
+description: '"It’s All About Perspective” is a retrospective journey that aims to invite participants to learn about generative art while focusing on “why” people should create it and its potential place in Data Science ...'
 date: 09-20-2023
 image: images/cover.png
 affiliation: "Posit::conf(2023)"

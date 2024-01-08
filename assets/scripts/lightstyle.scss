@@ -90,6 +90,23 @@ $code-block-bg-alpha: -.8;
   font-size: 10px;
 }
 
+#listing-listing-sort{
+  color: black;
+}
+
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-filter > span > i{
+    color: black;
+}
+
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-sort > span > i{
+  color: black;
+}
 
 
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-sort > span{
+  color: black;
+}
 
+#listing-listing > div.listing-actions-group > div.input-group.input-group-sm.quarto-listing-filter > input{
+  color: black;
+}
