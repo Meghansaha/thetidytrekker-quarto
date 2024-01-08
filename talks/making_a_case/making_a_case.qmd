@@ -1,0 +1,37 @@
+---
+title: "It's All About Perspective: Making A Case for Generative Art"
+
+description: "It’s All About Perspective” is a retrospective journey that aims to invite participants to learn about generative art while focusing on “why” people should create it and its potential place in Data Science ..."
+date: 09-20-2023
+image: images/cover.png
+affiliation: "Posit::conf(2023)"
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
+---
+
+[![](images/cover.png){fig-align="center"}](https://meghansaha.github.io/a_case_for_genart/#/title-slide)
+
+## Description
+
+> “It’s All About Perspective” is a retrospective journey that aims to invite participants to learn about generative art while focusing on “why” people should create it and its potential place in Data Science. This talk is suitable for all disciplines and artistic abilities. This talk aims to expand the participant’s perspective on generative art with the following concepts:
+
+  -   What is generative art and how can it be created in R or Python
+
+  -   Justifications for generative art within Data Science
+
+  -   Examples of programming skills that are transferable between generative art and pragmatic data science projects
+
+
+
+## Slides
+
+The slides for the presentation is available on GitHub [here](https://meghansaha.github.io/a_case_for_genart/).
+
+## Recorded Presentation
+
+This presentation was recorded and is now accessible on YouTube [here](https://www.youtube.com/watch?v=48m27OWv-uw)
+
+## Talk Materials and GitHub Repository 
+
+This talk has a supplemental GitHub repository that can be accessed [here](https://github.com/Meghansaha/a_case_for_genart)

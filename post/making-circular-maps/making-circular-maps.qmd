@@ -670,9 +670,11 @@ That's it! I want to note that I came across an existing [blog](https://taraskad
 
 *If this helped you out or you made anything as a result of reading, I'd love for you to share what you've made! Find me on Twitter ([\@meghansharris](https://twitter.com/meghansharris)), Mastodon ([\@meghansharris\@fosstodon.org](https://fosstodon.org/@meghansharris)), or LinkedIn ([meghan-harris](https://www.linkedin.com/in/meghan-harris/)) to do so!*
 
+```{=html}
 <style> 
 body {
   overflow: hidden; /* Hide scrollbars */
 }
 
 </style>
+```
