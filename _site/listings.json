@@ -2,6 +2,7 @@
   {
     "listing": "/talks.html",
     "items": [
+      "/talks/please_let_me_merge/please_let_me_merge.html",
       "/talks/making_a_case/making_a_case.html",
       "/talks/exploring_validation/exploring_validation.html",
       "/talks/collages_and_patterns/collages_and_patterns.html",

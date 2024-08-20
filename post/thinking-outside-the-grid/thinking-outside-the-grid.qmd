@@ -449,7 +449,7 @@ If we try to add these together by just using a geom function ,`geom_point()`, a
 
 <br>
 
-```{r codesnip14, results='hide', fig.align="center", error = TRUE, echo = TRUE, fig.show='hide'}
+```{r codesnip14, results='hide', fig.align="center", echo = TRUE, fig.show='hide', eval = FALSE}
 
 ## Example 12: Lines_data and Circles_data error====
 Lines_data %>%
@@ -555,14 +555,14 @@ Next, we want to create the data for the stars in our backgrounds. Because I wan
 
 ```{r codesnip19,  echo = TRUE}
 # Making a data set that will be used to create all star backgrounds====
-stars <- tibble(crossing(x = seq(1,2000,100),
+df_stars <- tibble(crossing(x = seq(1,2000,100),
                          y = seq(1,2000,100)))
 
 ```
 
 <br>
 
-Next, we want to make a list because we’ll run iterations of our `stars` dataset through a ggplot call that will also iterate through our vector Space_colors. This will result in a list of four similar plots that all have a different color scheme. We’ll name this list `All_stars` and name the plots inside of the list to make it easier to track each plot as our session continues:
+Next, we want to make a list because we’ll run iterations of our `df_stars` dataset through a ggplot call that will also iterate through our vector Space_colors. This will result in a list of four similar plots that all have a different color scheme. We’ll name this list `All_stars` and name the plots inside of the list to make it easier to track each plot as our session continues:
 
 <br>
 
@@ -573,9 +573,9 @@ All_stars <- list()
 ## Iterating through the "space_colors" to make four different plots====
 for(i in seq_along(Space_colors)){
   
-  All_stars[[i]] <- stars %>%
+  All_stars[[i]] <- df_stars %>%
     ggplot(aes(x = x, y = y))+
-    geom_jitter(size = sample(c(.02,.04,.06,.8),nrow(stars), replace = TRUE), color = "white")+
+    geom_jitter(size = sample(c(.02,.04,.06,.8),nrow(df_stars), replace = TRUE), color = "white")+
     theme_void()+
     theme(plot.background = element_rect(fill = Space_colors[i], color = "#ffffff", size = 6)) 
 }
@@ -765,7 +765,7 @@ Finally, we use [pacthwork’s layout syntax](https://patchwork.data-imaginist.c
 
 <br>
 
-```{r codesnip31, fig.cap="Planet Quad - Finished", fig.align="center", echo = TRUE}
+```{r codesnip31, fig.cap="Planet Quad - Finished", fig.align="center", echo = TRUE, eval = FALSE}
 # Final output construction with patchwork functions====
 Planet_Quad <- (Topleft + Topright) / (Bottomleft + Bottomright)
 
