@@ -1,0 +1,41 @@
+---
+title: "Please Let Me Merge Before I Start Crying: And Other Things I've Said At The Git Terminal"
+
+description: "'Please Let Me Merge' is geared towards those who may feel comfortable working independently with Git but need some confidence when working collaboratively...."
+date: 08-13-2024
+image: images/cover.gif
+affiliation: "Posit::conf(2024)"
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
+---
+
+[![](images/cover.gif){fig-align="center"}](https://meghansaha.github.io/please_let_me_merge)
+
+## Description
+
+> Just like novice drivers can learn to confidently (and safely!) merge onto (seemingly) intimidating highways, those new to collaborating with Git can also conquer Git merges with some exposure and preparation.
+
+This talk will go over:
+
+-   Different ways R users can interact with Git
+
+-   What Git merges and Git merge conflicts are
+
+-   Real-life examples of Git merges
+
+-   Advice on resolving Git merges
+
+-   Suggestions for cleaner workflows to promote better Git merges
+
+## Slides
+
+The slides for the presentation is available on GitHub [here](https://meghansaha.github.io/please_let_me_merge/#/title-slide).
+
+## Recorded Presentation
+
+This presentation was recorded and will be available on YouTube at a later date.
+
+## Talk Materials and GitHub Repository
+
+This talk has a supplemental GitHub repository that can be accessed [here](https://github.com/Meghansaha/please_let_me_merge)

@@ -14,7 +14,7 @@ author:
 
 ## Description
 
-> R’s expansive capabilities can leave some feeling overwhelmed when tasked with larger projects like data pipelines. This talk invites the participant to hear the perspective of a self-taught R user who used curiosity and patience to create a functional data pipeline in R for a local health department. Specifically, this talk will touch on the following concepts:
+> R's expansive capabilities can leave some feeling overwhelmed when tasked with larger projects like data pipelines. This talk invites the participant to hear the perspective of a self-taught R user who used curiosity and patience to create a functional data pipeline in R for a local health department. Specifically, this talk will touch on the following concepts:
 
 -   Surveying Data Landscapes
 -   File Structures
@@ -31,5 +31,6 @@ The slides for the presentation is available on GitHub [here](https://meghansaha
 
 This presentation was recorded and is now accessible on the RStudio::conf(2022) website [here](https://www.rstudio.com/conference/2022/talks/making-data-pipelines-in-r/)
 
-## Talk Materials and GitHub Repository 
+## Talk Materials and GitHub Repository
+
 This talk has a supplemental GitHub repository that can be accessed [here](https://github.com/Meghansaha/pipelines_in_R)
