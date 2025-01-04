@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.24">
+<meta name="generator" content="quarto-1.6.40">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2021-03-15">
 <meta name="description" content="A walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code.">
 
-<title>The Tidy Trekker – Making Dull* Dashboards in R (* Without Shiny)</title>
+<title>Making Dull* Dashboards in R (* Without Shiny) – The Tidy Trekker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -36,7 +36,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -72,12 +72,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-a3b7acacb0a6509de0cdd56caf828225.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-5993bc2fc804d1c4623e6a402183cd6b.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Exploration Corner</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Portfolios</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">    
@@ -393,39 +393,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyverse' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.0     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.0.2     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leafem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
-which was just loaded, will retire in October 2023.
-Please refer to R-spatial evolution reports for details, especially
-https://r-spatial.org/r/2023/05/15/evolution4.html.
-It may be desirable to make the sf package available;
-package maintainers should consider adding sf to Suggests:.
-The sp package is now running under evolution status 2
-     (status 2 uses the sf package in place of rgdal)</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarywidget)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leafem)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(crosstalk)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DT)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(summarywidget)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: sp
 
@@ -442,16 +426,16 @@ The following object is masked from 'package:dplyr':
 <p>After loading in all of the libraries, we can now load in our data. The data for this project is stored as an .RDS object. The original csv file was converted to an .RDS object to ensure reproducibility and maintain integrity of the data’s structure. The <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/readRDS"><code>readRDS()</code> function</a> will automatically open the object and restore it as a data frame with all original components intact. This code stores the data frame as <code>MHprograms</code></p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Loading the datasets into the environment.#</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#MH programs with geocodes#</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>MHprograms <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/mhprogramsnyc.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Loading the datasets into the environment.#</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#MH programs with geocodes#</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>MHprograms <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">"data/mhprogramsnyc.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>Now that our data is in the environment, we can use the crosstalk package to translate our data into a shared data object. This will allow interactivity between our dashboard components.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Converting data frames into shared data objects with crosstalk. This will allow the map, filters, and tables to be interactive and dynamic.#</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Sharedgeodata <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(MHprograms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Converting data frames into shared data objects with crosstalk. This will allow the map, filters, and tables to be interactive and dynamic.#</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Sharedgeodata <span class="ot">&lt;-</span> SharedData<span class="sc">$</span><span class="fu">new</span>(MHprograms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 </section>
@@ -489,10 +473,10 @@ The following object is masked from 'package:dplyr':
 <h2 class="anchored" data-anchor-id="setting-up-our-first-column-and-map">Setting up our First Column and Map</h2>
 <p>So looking at our mock-up, we just need two columns. One on the left with just a map and one of the right with three modules and some text at the bottom. To set flexdashboard columns in markdown you need to put the following “outside” of r code chunks in the regular markdown editor:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Column {data<span class="sc">-</span>width<span class="ot">=</span><span class="dv">550</span>}</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-----------------------------------------------------------------------</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">### </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Column {data<span class="sc">-</span>width<span class="ot">=</span><span class="dv">550</span>}</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="sc">-----------------------------------------------------------------------</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">### </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Because we want the first column to be filled with our map, we’ll set the width to be a bit wider than the second column. The series of dashes (—) under the “column” option along with the three hashes (#) let’s R know to place everything underneath those hashes in it’s own column within it’s own box. The hashes are also where you can place the title of your box within your column. This one will be left blank to maximize the space for the map.</p>
 <p>Now that the column is initialized, we can place more r code chunks underneath it to get our data in. Our first chunk will be for our map. Recall that we designate the beginning of R code chunks with three back-ticks (aka: <a href="https://en.wikipedia.org/wiki/Grave_accent">Grave Accents</a>) and square brackets with options and end them with an additional three back-ticks at the bottom of the chunk:</p>
@@ -506,27 +490,27 @@ The following object is masked from 'package:dplyr':
 <p>Let’s recall what we wanted on our map. A home button and conditional formatting for program types. Let’s code for our home button to start. Say we want an actual image of a home. We’ve gone ahead and found a <a href="https://i.ibb.co/D8tSw9q/Homebutton.png">url of one</a>. To create this button, we’ll need to use the <a href="https://www.rdocumentation.org/packages/htmltools/versions/0.5.1.1/topics/HTML"><code>HTML</code> function</a> in the <a href="https://www.rdocumentation.org/packages/htmltools/versions/0.5.1.1"><code>htmltools</code> package</a> to use some HTML for this:</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Pulling a "Home" icon I've hosted on the internet===</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Homeimg <span class="ot">&lt;-</span> htmltools<span class="sc">::</span><span class="fu">HTML</span>(<span class="fu">paste</span>(<span class="st">"&lt;img src='https://i.ibb.co/D8tSw9q/Homebutton.png' width = '15', height '15', title = 'Home'&gt;"</span>))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Naming the home image for the addhomebutton function in the leaflet map===</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>Home <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Home"</span> <span class="ot">=</span> Homeimg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Pulling a "Home" icon I've hosted on the internet===</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Homeimg <span class="ot">&lt;-</span> htmltools<span class="sc">::</span><span class="fu">HTML</span>(<span class="fu">paste</span>(<span class="st">"&lt;img src='https://i.ibb.co/D8tSw9q/Homebutton.png' width = '15', height '15', title = 'Home'&gt;"</span>))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Naming the home image for the addhomebutton function in the leaflet map===</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>Home <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">"Home"</span> <span class="ot">=</span> Homeimg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>This code will show us a pretty home icon, but we’ll need to feed the button the <a href="https://wiki.openstreetmap.org/wiki/Bounding_Box">bounding box</a> (bbox) so that it knows where to set the map’s view when it’s clicked on. We can do this easily with the <a href="https://www.rdocumentation.org/packages/ggmap/versions/3.0.0/topics/make_bbox"><code>make_bbox</code> function</a> in the <a href="https://github.com/dkahle/ggmap"><code>ggmap</code> package</a> as long as our data has longitude and latitude columns with numeric values (Ours does!)</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating a bounding box of the entire data set. This will act as our "homebase" to zoom back to when the home button is clicked on===</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>homebase <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">make_bbox</span>(lon, lat, <span class="at">data =</span> MHprograms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Generating a bounding box of the entire data set. This will act as our "homebase" to zoom back to when the home button is clicked on===</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>homebase <span class="ot">&lt;-</span> ggmap<span class="sc">::</span><span class="fu">make_bbox</span>(lon, lat, <span class="at">data =</span> MHprograms)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>We may also want to designate a “center” for our map that is first shown when the dashboard is open. We can do this by using the <a href="https://www.rdocumentation.org/packages/sp/versions/1.4-5/topics/coordinates"><code>coordinates</code></a> and <a href="https://rdrr.io/cran/sp/man/is.projected.html"><code>proj4strings</code></a> functions from the <a href="https://www.rdocumentation.org/packages/sp/versions/1.4-5"><code>sp</code> package</a>, The <a href="https://www.rdocumentation.org/packages/raster/versions/3.4-5/topics/extent"><code>extent</code></a> function from the <a href="https://www.rdocumentation.org/packages/raster/versions/3.4-5"><code>raster</code> package</a>, and the <a href="https://www.rdocumentation.org/packages/methods/versions/3.6.2/topics/as"><code>as</code></a> function that comes from the <a href="https://www.rdocumentation.org/packages/methods/versions/3.6.2"><code>methods</code></a> package that usually loads in with base R.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving the center point for the map data to set the "home" view===</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(MHprograms) <span class="ot">&lt;-</span> <span class="er">~</span>lon<span class="sc">+</span>lat</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(MHprograms) <span class="ot">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>mapcenter <span class="ot">&lt;-</span> <span class="fu">coordinates</span>(<span class="fu">as</span>(<span class="fu">extent</span>(MHprograms), <span class="st">"SpatialPolygons"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Retrieving the center point for the map data to set the "home" view===</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(MHprograms) <span class="ot">&lt;-</span> <span class="er">~</span>lon<span class="sc">+</span>lat</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(MHprograms) <span class="ot">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>mapcenter <span class="ot">&lt;-</span> <span class="fu">coordinates</span>(<span class="fu">as</span>(<span class="fu">extent</span>(MHprograms), <span class="st">"SpatialPolygons"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>The options set in the <code>proj4string</code> line is referring to the Coordinate Reference System that R uses to create our maps. You can learn more about it with some reading material provided by the <a href="https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf">National Center for Ecological Analysis and Synthesis</a> if you’re interested.</p>
@@ -536,36 +520,36 @@ The following object is masked from 'package:dplyr':
 <h2 class="anchored" data-anchor-id="creating-the-actual-map">Creating the Actual Map</h2>
 <p>Now we can finally get our map into the column. The code is as follows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating the leaflet map from the shared geo data object===</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Sharedgeodata <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>OpenStreetMap) <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addAwesomeMarkers</span>(</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste0</span>(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;b&gt;&lt;h3&gt;"</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Agency Name</span><span class="st">`</span>, <span class="st">"&lt;/h3&gt;&lt;/b&gt;&lt;br&gt;"</span>,</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;h4&gt;"</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Name</span><span class="st">`</span>,<span class="st">"&lt;/h4&gt;&lt;br&gt;"</span>,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Phone: "</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Agency Phone</span><span class="st">`</span>, <span class="st">"&lt;br&gt;"</span>,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>      MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Address 1</span><span class="st">`</span>, <span class="st">"&lt;br&gt;"</span>,</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>      MHprograms<span class="sc">$</span>City, MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program State</span><span class="st">`</span>, MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Zip</span><span class="st">`</span>), </span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">icon =</span> <span class="fu">awesomeIcons</span>(</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">library =</span> <span class="st">"fa"</span>,</span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">icon =</span> <span class="fu">ifelse</span>(</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Outpatient"</span>, </span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span> <span class="st">"fa-stethoscope"</span>,</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="fu">ifelse</span>(</span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Inpatient"</span>, </span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span>  <span class="st">"fa-bed"</span>,</span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="fu">ifelse</span>(</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Emergency"</span>, </span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span> <span class="st">"fa-ambulance"</span>,</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="st">"fa-users"</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>      ))),</span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">iconColor =</span> <span class="st">"#ffffff"</span>,</span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">markerColor =</span> <span class="st">"darkpurple"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addHomeButton</span>(<span class="at">ext =</span> homebase, </span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> Home,</span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="st">"topright"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> mapcenter[<span class="dv">1</span>] , <span class="at">lat =</span> mapcenter[<span class="dv">2</span>], <span class="at">zoom =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Creating the leaflet map from the shared geo data object===</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>Sharedgeodata <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">leaflet</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addProviderTiles</span>(providers<span class="sc">$</span>OpenStreetMap) <span class="sc">%&gt;%</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addAwesomeMarkers</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">popup =</span> <span class="sc">~</span><span class="fu">paste0</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;b&gt;&lt;h3&gt;"</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Agency Name</span><span class="st">`</span>, <span class="st">"&lt;/h3&gt;&lt;/b&gt;&lt;br&gt;"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">"&lt;h4&gt;"</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Name</span><span class="st">`</span>,<span class="st">"&lt;/h4&gt;&lt;br&gt;"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Phone: "</span>,MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Agency Phone</span><span class="st">`</span>, <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Address 1</span><span class="st">`</span>, <span class="st">"&lt;br&gt;"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>      MHprograms<span class="sc">$</span>City, MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program State</span><span class="st">`</span>, MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Zip</span><span class="st">`</span>), </span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">icon =</span> <span class="fu">awesomeIcons</span>(</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">library =</span> <span class="st">"fa"</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">icon =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Outpatient"</span>, </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span> <span class="st">"fa-stethoscope"</span>,</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Inpatient"</span>, </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span>  <span class="st">"fa-bed"</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="fu">ifelse</span>(</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">test =</span> MHprograms<span class="sc">$</span><span class="st">`</span><span class="at">Program Category Description</span><span class="st">`</span> <span class="sc">==</span> <span class="st">"Emergency"</span>, </span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">yes =</span> <span class="st">"fa-ambulance"</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">no =</span> <span class="st">"fa-users"</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>      ))),</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">iconColor =</span> <span class="st">"#ffffff"</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">markerColor =</span> <span class="st">"darkpurple"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">addHomeButton</span>(<span class="at">ext =</span> homebase, </span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">group =</span> Home,</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">position =</span> <span class="st">"topright"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">setView</span>(<span class="at">lng =</span> mapcenter[<span class="dv">1</span>] , <span class="at">lat =</span> mapcenter[<span class="dv">2</span>], <span class="at">zoom =</span> <span class="dv">12</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>This part of the code starts out by using a <a href="https://uc-r.github.io/pipe">pipe operator</a> (%&gt;%) to connect our leaflet map functions to our shared data object <code>Sharedgeodata</code>. Let’s break down the main functions we have here:</p>
@@ -597,19 +581,19 @@ The following object is masked from 'package:dplyr':
 <h3 class="anchored" data-anchor-id="reactive-summary-count-of-records">Reactive Summary Count of Records</h3>
 <p>Great! Our first column is done. Now we need to create our second (right) column. Looking at our mock-up will let us know what order we wanted our elements to appear in. The first element is a reactive count of the amount of locations that are present on our map at any given time. Because we are creating a new column, we can repeat the same coding header we used for the last column with some tweaks to the sizing. We’ll make this column smaller because we want the map to take up most of the space on the page. We’ll get our reactive count by using the <strong><code>summarywidget</code></strong> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Start of the second Column</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>Column {data<span class="sc">-</span>width<span class="ot">=</span><span class="dv">450</span>}</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-----------------------------------------------------------------------</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="do">### **Total Locations Found:** {data-height=70}</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>center<span class="sc">&gt;</span><span class="er">&lt;</span>h4<span class="sc">&gt;</span><span class="er">&lt;</span>font color<span class="ot">=</span><span class="st">"#593869"</span><span class="sc">&gt;</span><span class="er">&lt;</span>b<span class="sc">&gt;</span><span class="st">`</span><span class="at">r summarywidget(Sharedgeodata, statistic='count', digits=0)</span><span class="st">`</span><span class="sc">&lt;</span><span class="er">/</span>b<span class="sc">&gt;</span><span class="er">&lt;/</span>font<span class="sc">&gt;</span><span class="er">&lt;/</span>h4<span class="sc">&gt;</span><span class="er">&lt;/</span>center<span class="sc">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Start of the second Column</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Column {data<span class="sc">-</span>width<span class="ot">=</span><span class="dv">450</span>}</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="sc">-----------------------------------------------------------------------</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">### **Total Locations Found:** {data-height=70}</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;</span>center<span class="sc">&gt;</span><span class="er">&lt;</span>h4<span class="sc">&gt;</span><span class="er">&lt;</span>font color<span class="ot">=</span><span class="st">"#593869"</span><span class="sc">&gt;</span><span class="er">&lt;</span>b<span class="sc">&gt;</span><span class="st">`</span><span class="at">r summarywidget(Sharedgeodata, statistic='count', digits=0)</span><span class="st">`</span><span class="sc">&lt;</span><span class="er">/</span>b<span class="sc">&gt;</span><span class="er">&lt;/</span>font<span class="sc">&gt;</span><span class="er">&lt;/</span>h4<span class="sc">&gt;</span><span class="er">&lt;/</span>center<span class="sc">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>Recall that we tell R that we want to create a box within our column with the three hashes (###). This time we will give it the name “Total Location Found:” and we will <strong>bold</strong> it by wrapping it in two asterisks (If you need a quick cheat sheet for R Markdown formatting, you can find one <a href="https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf">here</a>!) We will also set the height of this box which is similar to setting widths of columns.</p>
 <p>Using some HTML tags, we can center and change the size and color of the <a href="https://rmarkdown.rstudio.com/lesson-4.html">inline code</a> we are using. In R Markdown, if you would like to insert R code to be evaluated within the lines of your markdown document, you can use backticks with an “r” inside of it before the code you wish to evaluate. Let’s pull this inline code out and look at what’s happening really quick:</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">r summarywidget(Sharedgeodata, statistic='count', digits=0)</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">r summarywidget(Sharedgeodata, statistic='count', digits=0)</span><span class="st">`</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>The first backtick and “r” let’s R know that it’s about to evaluate whatever comes next and then print that result in the markdown document as if it’s not code, meaning it’ll just print out the result. The <strong>summarywidget</strong> function is interacting with our shared data object <code>Sharedgeodata</code> to grab our statistic of choice (a count) for the records that are available at any given time. Because this is the same shared data object that’s used in our map (and our data table and filters that we’ll create in a moment), whenever anything on the dashboard is changed, this value with reactively change as well. Finally, we also set the digits in this function to zero to avoid any decimal numbers.</p>
@@ -620,7 +604,7 @@ The following object is masked from 'package:dplyr':
 <p>We can now move on to our next box which is a data table. We set it up similarly with the hashes and set the data height like we did for the previous box. To display a data table, we’ll now use the <a href="https://www.rdocumentation.org/packages/DT/versions/0.19/topics/datatable"><code>datatable</code></a> function from the <a href="https://rstudio.github.io/DT/"><code>DT</code> package</a>. Note that this code will go into it’s own R code chunk named <code>datatable</code>.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="do">### **Program Information:** {data-height=200}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">### **Program Information:** {data-height=200}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>```{r datatable}
 Sharedgeodata %&gt;% 
@@ -667,8 +651,8 @@ Sharedgeodata %&gt;%
 <p>We can finally set up our filters that will interact with our map and data table. We do so by creating a new box in our dashboard. We’ll bold its title and name it “Map Filters:”.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">### **Map Filters:**</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>center<span class="sc">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">### **Map Filters:**</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&lt;</span>center<span class="sc">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <pre><code>```{r mapfilters}
 
@@ -937,18 +921,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -980,7 +953,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.thetidytrekker\.com");
@@ -1085,7 +1078,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
