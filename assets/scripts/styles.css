@@ -48,3 +48,21 @@ html, body {
 #quarto-search-results{
   background: #000000;
 }
+h1.title{
+  color:#ffffff;
+}
+#title-block-header > div.quarto-title-banner.page-columns.page-full{
+  background-color: #202124;
+}
+
+#title-block-header > div.quarto-title-banner.page-columns.page-full > div > div > div {
+  color:#ffffff;
+}
+
+#title-block-header > div.quarto-title-banner.page-columns.page-full > div > h1{
+  color:#ffffff;
+}
+#quarto-header > nav{
+  background-color: #002F56;
+  color: white;
+}
