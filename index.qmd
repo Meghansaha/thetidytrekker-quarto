@@ -13,12 +13,6 @@ logo: "images/TTTlight.png"
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
-# Learn more about creating websites with Distill at:
-# https://rstudio.github.io/distill/website.html
-
-# Learn more about publishing to GitHub Pages at:
-# https://rstudio.github.io/distill/publish_website.html#github-pages
-
 ```
 
 <script src = "assets/scripts/mobile_detect.js"></script>
@@ -31,6 +25,6 @@ htmltools::img(src = "images/homehs.png", style = "width:40%"),
 htmltools::div(class = "textbox",
                htmltools::HTML("<strong>HI, I'M MEGHAN HARRIS</strong> <img src='images/wave.png' width ='20px'><br><i>The Tidy Trekker.</i><br><br>",
                'Thanks for stopping by. Here you will find information about me, my professional experiences, and data-related musings. As a "Tidy Trekker" and data lover, it was inevitable that',
-               'I would have to find a place on the web to call "home." Please feel free to reach out to me personally through <a href="mailto:meghan@thetidytrekker.com">e-mail</a>, <a href="https://twitter.com/meghansharris">Twitter</a>, or <a rel="me" href="https://fosstodon.org/@meghansharris">Mastodon</a> to get in touch with any inquiries!')))
+               'I would have to find a place on the web to call "home." Please feel free to reach out to me personally through <a href="mailto:meghan@thetidytrekker.com">e-mail</a>, <a href="https://bsky.app/profile/meghansharris.bsky.social">Bluesky</a>, or <a rel="me" href="https://fosstodon.org/@meghansharris">Mastodon</a> to get in touch with any inquiries!')))
 ```
 

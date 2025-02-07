@@ -36,8 +36,8 @@ website:
         href: https://github.com/Meghansaha
       - icon: linkedin
         href: https://www.linkedin.com/in/meghan-harris/
-      - icon: twitter
-        href: https://twitter.com/meghansharris
+      - text: "{{< fa brands bluesky >}}"
+        href: https://bsky.app/profile/meghansharris.bsky.social
       - icon: mastodon
         href: https://fosstodon.org/@meghansharris
       - icon: rss-fill

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.24">
+<meta name="generator" content="quarto-1.6.40">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Meghan Harris">
 <meta name="dcterms.date" content="2023-02-15">
 <meta name="description" content="I made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that.">
-<title>The Tidy Trekker – Making Circular Maps in ggplot</title>
+<title>Making Circular Maps in ggplot – The Tidy Trekker</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -68,12 +68,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ea72dc5fed832574809a9c94082fbbb.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-ef998f13abdfb20e4ff4432127e5964f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-a01a824fb26ae69fc6385a32465cfd60.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -120,7 +122,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -138,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Exploration Corner</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-portfolios" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Portfolios</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-portfolios">
@@ -177,10 +179,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </i> 
 <span class="menu-text"></span></a>
   </li>  
-  <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/meghansharris"> <i class="bi bi-twitter" role="img">
-</i> 
-<span class="menu-text"></span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="https://bsky.app/profile/meghansharris.bsky.social"> 
+<span class="menu-text"><i class="fa-brands fa-bluesky" aria-label="bluesky"></i></span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://fosstodon.org/@meghansharris"> <i class="bi bi-mastodon" role="img">
@@ -546,9 +547,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#Text Options------------------------------------------------------------------</span></span>
 <span><span class="co">#=============================================================================#</span></span>
 <span><span class="co">#Adding a pretty font from Google#</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op">(</span><span class="st">"La Belle Aurore"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op">(</span><span class="st">"Inter"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">font_add_google</span><span class="op">(</span><span class="st">"La Belle Aurore"</span><span class="op">)</span></span>
+<span><span class="fu">font_add_google</span><span class="op">(</span><span class="st">"Inter"</span><span class="op">)</span></span>
+<span><span class="fu">showtext_auto</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">title_text</span> <span class="op">&lt;-</span> <span class="st">"The Mackey House"</span></span>
 <span><span class="va">caption_text</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"Jessica and Chris&lt;br&gt;"</span>,</span>
@@ -573,7 +574,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span></span>
 <span>    fill <span class="op">=</span> <span class="va">map_background</span>,</span>
 <span>    color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op">(</span></span>
+<span>        plot.title <span class="op">=</span> <span class="fu">element_textbox_simple</span><span class="op">(</span></span>
 <span>          halign <span class="op">=</span> <span class="fl">.5</span>, </span>
 <span>          color <span class="op">=</span> <span class="va">map_color</span>, </span>
 <span>          family <span class="op">=</span> <span class="va">map_font</span>, </span>
@@ -605,7 +606,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>             size <span class="op">=</span> <span class="fl">403</span>, </span>
 <span>             stroke <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">title_text</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>,</span>
+<span>  <span class="fu">geom_richtext</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>,</span>
 <span>                    y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
 <span>                label <span class="op">=</span> <span class="va">caption_text</span>, </span>
 <span>                text.color <span class="op">=</span> <span class="va">map_color</span>,</span>
@@ -671,7 +672,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
 <span>        plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">map_background</span>, </span>
 <span>                                               color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op">(</span></span>
+<span>        plot.title <span class="op">=</span> <span class="fu">element_textbox_simple</span><span class="op">(</span></span>
 <span>          halign <span class="op">=</span> <span class="fl">.5</span>, </span>
 <span>          color <span class="op">=</span> <span class="va">text_color</span>, </span>
 <span>          family <span class="op">=</span> <span class="va">map_font</span>, </span>
@@ -706,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>            size <span class="op">=</span> <span class="fl">403</span>, </span>
 <span>            stroke <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">title_text</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
+<span>  <span class="fu">geom_richtext</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
 <span>                label <span class="op">=</span> <span class="va">caption_text</span>, </span>
 <span>                text.color <span class="op">=</span> <span class="va">text_color</span>,</span>
 <span>                family <span class="op">=</span> <span class="va">map_font</span>, </span>
@@ -747,7 +748,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
 <span>        plot.background <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#82a775"</span>, </span>
 <span>                                               color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
-<span>        plot.title <span class="op">=</span> <span class="fu"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op">(</span></span>
+<span>        plot.title <span class="op">=</span> <span class="fu">element_textbox_simple</span><span class="op">(</span></span>
 <span>          halign <span class="op">=</span> <span class="fl">.5</span>, </span>
 <span>          color <span class="op">=</span> <span class="st">"#ffffff"</span>, </span>
 <span>          family <span class="op">=</span> <span class="va">map_font</span>, </span>
@@ -795,7 +796,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>            size <span class="op">=</span> <span class="fl">403</span>, </span>
 <span>            stroke <span class="op">=</span> <span class="fl">4</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="va">title_text</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
+<span>  <span class="fu">geom_richtext</span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"long"</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">POI</span><span class="op">[</span><span class="st">"lat"</span><span class="op">]</span> <span class="op">-</span> <span class="fl">.011</span><span class="op">)</span>,</span>
 <span>                label <span class="op">=</span> <span class="va">caption_text</span>, </span>
 <span>                text.color <span class="op">=</span> <span class="st">"#ffffff"</span>,</span>
 <span>                family <span class="op">=</span> <span class="va">map_font</span>, </span>
@@ -1023,18 +1024,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1066,7 +1056,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
       var filterRegex = new RegExp("https:\/\/www\.thetidytrekker\.com");
@@ -1171,7 +1181,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
