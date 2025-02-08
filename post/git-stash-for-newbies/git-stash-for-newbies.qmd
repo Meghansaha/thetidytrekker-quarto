@@ -1,0 +1,72 @@
+---
+title: "Git Stash for Newbies."
+description: |
+  In this post, we'll look at the basics of `git stash`, how to create and modify Git stashes, why you'd want to develop stashes in the first place, and other relevant things to know about using `git stash` because maybe one day, you might not feel like committing half-baked work to your repository while jumping between Git branches. 🤸🏾‍♀️
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
+date: 02-07-2025
+output:
+    toc: true
+image: images/gitstash.png
+categories:
+  - r
+  - git
+  - stash
+  - beginner
+  - terminal
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
+---
+
+**In this post:**
+
+-   [What is a Git Stash?]
+
+-   [Why Would I Want to Use `git stash`?]
+
+-   [How can I Use `git stash`?]
+
+-   [A Rundown of `git stash` Commands]
+
+-   [Potential Pain Points]
+
+------------------------------------------------------------------------
+
+# What is a Git Stash?
+
+# Why Would I Want to Use `git stash`?
+
+# How can I Use `git stash`?
+
+## I hate the Terminal, do I have to use it?
+
+# A Rundown of `git stash` Commands
+
+```{r, git-command-table, echo = FALSE}
+dplyr::tribble(
+  ~command, ~description,
+  "`push`", NA,
+  "`list`", NA,
+  "`show`", NA,
+  "`pop`", NA,
+  "`apply`", NA,
+  "`branch`", NA,
+  "`clear`", NA,
+  "`drop`", NA,
+  "`create`", NA,
+  "`store`", NA
+) |>
+  gt::gt() |>
+  gt::fmt_markdown() |>
+  gt::cols_label(
+    command = "**`git stash`<br>Command**",
+    description = "**Description**",
+    .fn = gt::md
+    ) 
+```
+
+# Potential Pain Points
