@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Meghan Harris">
-<meta name="dcterms.date" content="2025-02-07">
-<meta name="description" content="In this post, we’ll look at the basics of git stash, how to create and modify Git stashes, why you’d want to develop stashes in the first place, and other relevant things to know about using git stash because maybe one day, you might not feel like committing half-baked work to your repository while jumping between Git branches. 🤸🏾‍♀️">
+<meta name="dcterms.date" content="2025-02-17">
+<meta name="description" content="In this post, we’ll look at the basics of git stash, how to create and use Git stashes, why you’d want to use stashes in the first place, and other relevant things to know about git stash because maybe one day, you might not feel like committing half-baked work to your repository while jumping between Git branches. 🤸🏾‍♀️">
 
 <title>Git Stash for Newbies. – The Tidy Trekker</title>
 <style>
@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -43,7 +77,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap-48410bf774985012d957f7aa7fb8bba5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark-a01a824fb26ae69fc6385a32465cfd60.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-dark-f9eba9eac9321749cdda401939febe4a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -186,13 +220,13 @@ ul.task-list li input[type="checkbox"] {
       <h1 class="title">Git Stash for Newbies.</h1>
                   <div>
         <div class="description">
-          <p>In this post, we’ll look at the basics of <code>git stash</code>, how to create and modify Git stashes, why you’d want to develop stashes in the first place, and other relevant things to know about using <code>git stash</code> because maybe one day, you might not feel like committing half-baked work to your repository while jumping between Git branches. 🤸🏾‍♀️</p>
+          <p>In this post, we’ll look at the basics of <code>git stash</code>, how to create and use Git stashes, why you’d want to use stashes in the first place, and other relevant things to know about <code>git stash</code> because maybe one day, you might not feel like committing half-baked work to your repository while jumping between Git branches. 🤸🏾‍♀️</p>
         </div>
       </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">r</div>
                 <div class="quarto-category">git</div>
-                <div class="quarto-category">git stash</div>
+                <div class="quarto-category">stash</div>
                 <div class="quarto-category">beginner</div>
                 <div class="quarto-category">terminal</div>
               </div>
@@ -212,7 +246,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">February 7, 2025</p>
+        <p class="date">February 17, 2025</p>
       </div>
     </div>
     
@@ -229,16 +263,45 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#what-is-a-git-stash" id="toc-what-is-a-git-stash" class="nav-link active" data-scroll-target="#what-is-a-git-stash">What is a Git Stash?</a></li>
   <li><a href="#why-would-i-want-to-use-git-stash" id="toc-why-would-i-want-to-use-git-stash" class="nav-link" data-scroll-target="#why-would-i-want-to-use-git-stash">Why Would I Want to Use <code>git stash</code>?</a></li>
-  <li><a href="#how-can-i-use-git-stash" id="toc-how-can-i-use-git-stash" class="nav-link" data-scroll-target="#how-can-i-use-git-stash">How can I Use <code>git stash</code>?</a></li>
+  <li><a href="#how-can-i-use-git-stash" id="toc-how-can-i-use-git-stash" class="nav-link" data-scroll-target="#how-can-i-use-git-stash">How Can I Use <code>git stash</code>?</a>
+  <ul class="collapse">
+  <li><a href="#stashing-with-a-terminal" id="toc-stashing-with-a-terminal" class="nav-link" data-scroll-target="#stashing-with-a-terminal">Stashing with A Terminal</a></li>
+  <li><a href="#stashing-with-third-party-gui-clients" id="toc-stashing-with-third-party-gui-clients" class="nav-link" data-scroll-target="#stashing-with-third-party-gui-clients">Stashing with Third-party GUI Clients</a></li>
+  </ul></li>
   <li><a href="#a-rundown-of-git-stash-commands" id="toc-a-rundown-of-git-stash-commands" class="nav-link" data-scroll-target="#a-rundown-of-git-stash-commands">A Rundown of <code>git stash</code> Commands</a></li>
-  <li><a href="#potential-pain-points" id="toc-potential-pain-points" class="nav-link" data-scroll-target="#potential-pain-points">Potential Pain Points</a></li>
+  <li><a href="#stashes-in-the-wild" id="toc-stashes-in-the-wild" class="nav-link" data-scroll-target="#stashes-in-the-wild">Stashes in the Wild</a>
+  <ul class="collapse">
+  <li><a href="#making-a-stash" id="toc-making-a-stash" class="nav-link" data-scroll-target="#making-a-stash">Making a Stash</a></li>
+  <li><a href="#popping-the-last-stash-saved" id="toc-popping-the-last-stash-saved" class="nav-link" data-scroll-target="#popping-the-last-stash-saved">Popping the Last Stash Saved</a></li>
+  <li><a href="#listing-stashes" id="toc-listing-stashes" class="nav-link" data-scroll-target="#listing-stashes">Listing Stashes</a></li>
+  <li><a href="#showing-a-stash" id="toc-showing-a-stash" class="nav-link" data-scroll-target="#showing-a-stash">Showing a Stash</a></li>
+  <li><a href="#popping-a-specific-stash" id="toc-popping-a-specific-stash" class="nav-link" data-scroll-target="#popping-a-specific-stash">Popping a Specific Stash</a></li>
+  <li><a href="#branching-a-stash" id="toc-branching-a-stash" class="nav-link" data-scroll-target="#branching-a-stash">Branching a Stash</a></li>
+  <li><a href="#applying-a-stash" id="toc-applying-a-stash" class="nav-link" data-scroll-target="#applying-a-stash">Applying a Stash</a></li>
+  <li><a href="#pushing-a-stash" id="toc-pushing-a-stash" class="nav-link" data-scroll-target="#pushing-a-stash">Pushing a Stash</a></li>
+  <li><a href="#dropping-a-stash" id="toc-dropping-a-stash" class="nav-link" data-scroll-target="#dropping-a-stash">Dropping a Stash</a></li>
+  <li><a href="#clearing-a-stash" id="toc-clearing-a-stash" class="nav-link" data-scroll-target="#clearing-a-stash">Clearing a Stash</a></li>
+  </ul></li>
+  <li><a href="#some-additional-things-you-may-want-to-know" id="toc-some-additional-things-you-may-want-to-know" class="nav-link" data-scroll-target="#some-additional-things-you-may-want-to-know">Some Additional Things You May Want to Know</a>
+  <ul class="collapse">
+  <li><a href="#git-stash-apply--vs--git-stash-pop" id="toc-git-stash-apply--vs--git-stash-pop" class="nav-link" data-scroll-target="#git-stash-apply--vs--git-stash-pop"><code>git stash apply</code> -vs- <code>git stash pop</code></a></li>
+  <li><a href="#stashing-staged-changes" id="toc-stashing-staged-changes" class="nav-link" data-scroll-target="#stashing-staged-changes">Stashing Staged Changes</a></li>
+  <li><a href="#porting-stashed-changes-to-another-branch" id="toc-porting-stashed-changes-to-another-branch" class="nav-link" data-scroll-target="#porting-stashed-changes-to-another-branch">Porting Stashed Changes to Another Branch</a></li>
+  <li><a href="#naming-and-organization" id="toc-naming-and-organization" class="nav-link" data-scroll-target="#naming-and-organization">Naming and Organization</a></li>
+  <li><a href="#referencing-stashes" id="toc-referencing-stashes" class="nav-link" data-scroll-target="#referencing-stashes">Referencing Stashes</a></li>
+  <li><a href="#looking-at-the-stash-dates" id="toc-looking-at-the-stash-dates" class="nav-link" data-scroll-target="#looking-at-the-stash-dates">Looking at the Stash Dates</a></li>
+  <li><a href="#abandoning-ship" id="toc-abandoning-ship" class="nav-link" data-scroll-target="#abandoning-ship">Abandoning Ship</a></li>
+  <li><a href="#perfection-can-halt-progress" id="toc-perfection-can-halt-progress" class="nav-link" data-scroll-target="#perfection-can-halt-progress">Perfection Can Halt Progress</a></li>
+  </ul></li>
   </ul>
 </nav>
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar"><div class="quarto-margin-header"><div class="margin-header-item">
-<p>subscribe.html</p>
+<!-- Subscription Form -->
+ <style>.sp-force-hide { display: none;}.sp-form[sp-id="219228"] { display: block; background: rgba(255, 255, 255, 1); padding: 15px; width: 280px; max-width: 100%; border-radius: 8px; font-family: Verdana, Geneva, sans-serif; background-repeat: no-repeat; background-position: center; background-size: auto; border-width: 1px; border-color: #dddddd; border-style: solid;}.sp-form[sp-id="219228"] input[type="checkbox"] { display: inline-block; opacity: 1; visibility: visible;}.sp-form[sp-id="219228"] .sp-form-fields-wrapper { margin: 0 auto; width: 250px;}.sp-form[sp-id="219228"] .sp-form-control { background: #ffffff; border-color: #cccccc; border-style: solid; border-width: 1px; font-size: 15px; padding-left: 8.75px; padding-right: 8.75px; border-radius: 4px; height: 35px; width: 100%;}.sp-form[sp-id="219228"] .sp-field label { color: #444444; font-size: 13px; font-style: normal; font-weight: bold;}.sp-form[sp-id="219228"] .sp-button-messengers { border-radius: 4px;}.sp-form[sp-id="219228"] .sp-button { border-radius: 4px; background-color: #1a1a1a; color: #ffffff; width: 100%; font-weight: 700; font-style: normal; font-family: Tahoma, Geneva, sans-serif; box-shadow: inset 0 -2px 0 0 #ffffff;}.sp-form[sp-id="219228"] .sp-button-container { text-align: left; width: 100%;}</style><div class="sp-form-outer sp-force-hide"><div id="sp-form-219228" sp-id="219228" sp-hash="99d853dfd9b7b4165c0f34f63bf310a3ca27fb3660822102c4ff4241ebc0dbdb" sp-lang="en" class="sp-form sp-form-regular sp-form-embed sp-form-horizontal" sp-show-options="%7B%22satellite%22%3Afalse%2C%22maDomain%22%3A%22login.sendpulse.com%22%2C%22formsDomain%22%3A%22forms.sendpulse.com%22%2C%22condition%22%3A%22onEnter%22%2C%22scrollTo%22%3A25%2C%22delay%22%3A10%2C%22repeat%22%3A3%2C%22background%22%3A%22rgba(0%2C%200%2C%200%2C%200.5)%22%2C%22position%22%3A%22bottom-right%22%2C%22animation%22%3A%22%22%2C%22hideOnMobile%22%3Afalse%2C%22submitRedirectUrl%22%3A%22%22%2C%22urlFilter%22%3Afalse%2C%22urlFilterConditions%22%3A%5B%7B%22force%22%3A%22hide%22%2C%22clause%22%3A%22contains%22%2C%22token%22%3A%22%22%7D%5D%2C%22analytics%22%3A%7B%22ga%22%3A%7B%22eventLabel%22%3A%22Subscription_form_Blog_Subscribers%22%2C%22send%22%3Afalse%7D%2C%22ym%22%3A%7B%22counterId%22%3Anull%2C%22eventLabel%22%3Anull%2C%22targetId%22%3Anull%2C%22send%22%3Afalse%7D%7D%2C%22utmEnable%22%3Afalse%7D"><div class="sp-form-fields-wrapper"><div class="sp-message"><div></div></div><form novalidate="" class="sp-element-container sp-sm"><div class="sp-field sp-field-full-width" sp-id="sp-57a95fe8-ea58-48a2-9c23-330179b62a8b"><div style="font-family: Verdana, Geneva, sans-serif; line-height: 1;"><p><span style="font-size: 12px;">Get email notifications when new blog posts are added to The Tidy Trekker!</span></p></div></div><div class="sp-field " sp-id="sp-ecb02aba-5953-4a92-be54-384f2c14920f"><label class="sp-control-label"><span>Email</span><strong>*</strong></label><input type="email" sp-type="email" name="sform[email]" class="sp-form-control " placeholder="username@gmail.com" sp-tips="%7B%22required%22%3A%22Required%20field%22%2C%22wrong%22%3A%22Wrong%20email%22%7D" autocomplete="on" required="required"></div><div class="sp-field sp-button-container " sp-id="sp-16335021-7081-4fb2-91c4-618206ad6717"><button id="sp-16335021-7081-4fb2-91c4-618206ad6717" class="sp-button">Subscribe </button></div></form></div></div></div><script type="text/javascript" async="async" src="//web.webformscr.com/apps/fc3/build/default-handler.js?1670496749843"></script> 
+<!-- /Subscription Form -->
 </div></div>
     </div>
 <!-- main -->
@@ -254,26 +317,871 @@ ul.task-list li input[type="checkbox"] {
 <li><p><a href="#why-would-i-want-to-use-git-stash">Why Would I Want to Use <code>git stash</code>?</a></p></li>
 <li><p><a href="#how-can-i-use-git-stash">How can I Use <code>git stash</code>?</a></p></li>
 <li><p><a href="#a-rundown-of-git-stash-commands">A Rundown of <code>git stash</code> Commands</a></p></li>
-<li><p><a href="#potential-pain-points">Potential Pain Points</a></p></li>
+<li><p><a href="#stashes-in-the-wild">Stashes in the Wild</a></p></li>
+<li><p><a href="#some-additional-things-you-may-want-to-know">Some Additional Things You May Want to Know</a></p></li>
 </ul>
 <hr>
 <section id="what-is-a-git-stash" class="level1">
 <h1>What is a Git Stash?</h1>
-<p>hello?</p>
+<p>A <code>git stash</code> is exactly what it sounds like. It’s a command in Git that allows you to save (stash away) any changes that are uncomitted in your current directory. Stashes are unique and centralized to each repository. In comparison, <code>git push</code> is used to get staged changes that are committed onto the remote repository.</p>
+<center>
+<p><img src="images/pushvsstash.png" class="img-fluid" alt="a diagram showing that pushed commits go to a remote repository and stashed changes go to a local folder called .refs"></p>
+<fig><code>git push</code> moves staged changes to your remote. <code>git stash</code> can move any changes to the local <code>refs</code> folder</fig>
+</center>
+<p><br> <br></p>
 </section>
 <section id="why-would-i-want-to-use-git-stash" class="level1">
 <h1>Why Would I Want to Use <code>git stash</code>?</h1>
+<p>Git stashes can help you maintain a clean git/working environment. You would usually want to use git stashes when you need to cleanse your current directory of whatever unstaged changes you have. One of the most common use cases for git stash is when you have changes that you don’t want to commit to your current branch but need to switch to another branch. As stated in my talk, <em><a href="https://meghansaha.github.io/please_let_me_merge/#/title-slide">Please Let Me Merge Before I Start Crying</a></em>, I believe that emergencies aren’t a thing. Still, sometimes, a situation can arise when you have to stop to pivot and work on something else within the same repository.</p>
+<center>
+<p><img src="images/lisa.png" class="img-fluid" alt="An image of Lisa Simpson rock and back and forth on the floor."></p>
+<fig>POV of me when I’m asked to pivot to a different deliverable for the 5th time in a day</fig>
+</center>
+<p><br></p>
+<p>You might also want to use git stash if you’ve started working on a branch but realized you never pulled down updates from the remote repository. Instead of committing your work in progress, you can keep your commit history clean (<a href="https://happygitwithr.com/repeated-amend">which is important!</a>) by stashing your current changes, and then bringing the changes in to resolve any potential conflicts.</p>
+<p><br> <br></p>
 </section>
 <section id="how-can-i-use-git-stash" class="level1">
-<h1>How can I Use <code>git stash</code>?</h1>
+<h1>How Can I Use <code>git stash</code>?</h1>
+<p><br></p>
+<section id="stashing-with-a-terminal" class="level2">
+<h2 class="anchored" data-anchor-id="stashing-with-a-terminal">Stashing with A Terminal</h2>
+<p>If you’re an R user like myself, you may favor using the RStudio IDE (Integrated Development Environment). While great for many things, it unfortunately does not have a built-in graphical user interface (GUI) for git stashes at the time of writing this. This means there are no accessible buttons to click to create a git stash like you would for creating a commit, pushing and pulling to repositories, or other standard git functions. If you use RStudio, the most accessible way to create and use git stashes within the IDE is to use the embedded terminal:</p>
+<center>
+<img src="images/rstudioterminal.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash -m 'My first stash'"> <fig>Making a stash in RStudio’s Git Terminal</fig>
+</center>
+<p><br></p>
+<p>If you’re not using Rstudio, you can use any terminal/Command Line Interface (CLI) you’d like. This could be Powershell on Windows operating systems, Terminal on Macs, or even Bash on Linux systems. The potential benefit of using a terminal is increased functionality with the possibility of a steeper learning curve or decreased accessibility due to the difficulty of learning to script in CLIs for most users.</p>
+<p><br></p>
+</section>
+<section id="stashing-with-third-party-gui-clients" class="level2">
+<h2 class="anchored" data-anchor-id="stashing-with-third-party-gui-clients">Stashing with Third-party GUI Clients</h2>
+<p>If you don’t feel like being bothered with terminals or just want to use a pretty GUI for your Git operations, you can always use third-party programs like&nbsp;<a href="https://desktop.github.com/download/">GitHub Desktop</a>, <a href="https://www.sourcetreeapp.com">SourceTree</a>, or <a href="https://www.gitkraken.com">GitKraken</a>. These GUI clients absolutely take some of the pain out of doing the most common git procedures, stashes included.</p>
+<p>Different IDEs like Positron and VS Code can also be considered third-party GUI clients that allow you to use git stashes with git-flavored extensions from the <a href="https://open-vsx.org/">OpenVSX Marketplace</a> (for Positron) and the <a href="https://marketplace.visualstudio.com/vscode">VS Code Marketplace</a> (for VS Code).</p>
+<p>Because third-party GUI clients can vary widely in their user interfaces and functionality, this post will only go over how to create and work with stashes via the Git terminal. Even if you are using a GUI, reading about the commands a git stash can take and what each of them do can help give a better understanding of stashes and what specific actions you’ll need for your work. If you’re not using the terminal, it’s always a good idea to explore what functionalty your GUI client has as it can vary. For most users, the functionality a GUI client can provide is usually efficient for most use cases. However, if you start running into any friction while using a GUI client, it may be time to consider using a terminal if you haven’t already.</p>
+<p><br> <br></p>
+</section>
 </section>
 <section id="a-rundown-of-git-stash-commands" class="level1">
 <h1>A Rundown of <code>git stash</code> Commands</h1>
+<p>If you use the Git terminal to do your stash work, you can find the most essential commands you’ll need to know in the table below. If you’re choosing to use a GUI, you won’t have to type the inputs into a terminal, but rather, the application you’re using will be interacting with Git on your behalf to perform some of these commands for you:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="pjmgtvwcma" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pjmgtvwcma table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#pjmgtvwcma thead, #pjmgtvwcma tbody, #pjmgtvwcma tfoot, #pjmgtvwcma tr, #pjmgtvwcma td, #pjmgtvwcma th {
+  border-style: none;
+}
+
+#pjmgtvwcma p {
+  margin: 0;
+  padding: 0;
+}
+
+#pjmgtvwcma .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: 100%;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#pjmgtvwcma .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#pjmgtvwcma .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#pjmgtvwcma .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#pjmgtvwcma .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#pjmgtvwcma .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#pjmgtvwcma .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#pjmgtvwcma .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#pjmgtvwcma .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#pjmgtvwcma .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#pjmgtvwcma .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#pjmgtvwcma .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#pjmgtvwcma .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#pjmgtvwcma .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#pjmgtvwcma .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pjmgtvwcma .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#pjmgtvwcma .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#pjmgtvwcma .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#pjmgtvwcma .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pjmgtvwcma .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#pjmgtvwcma .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pjmgtvwcma .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#pjmgtvwcma .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pjmgtvwcma .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#pjmgtvwcma .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#pjmgtvwcma .gt_left {
+  text-align: left;
+}
+
+#pjmgtvwcma .gt_center {
+  text-align: center;
+}
+
+#pjmgtvwcma .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#pjmgtvwcma .gt_font_normal {
+  font-weight: normal;
+}
+
+#pjmgtvwcma .gt_font_bold {
+  font-weight: bold;
+}
+
+#pjmgtvwcma .gt_font_italic {
+  font-style: italic;
+}
+
+#pjmgtvwcma .gt_super {
+  font-size: 65%;
+}
+
+#pjmgtvwcma .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#pjmgtvwcma .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#pjmgtvwcma .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#pjmgtvwcma .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#pjmgtvwcma .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#pjmgtvwcma .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#pjmgtvwcma .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#pjmgtvwcma .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#pjmgtvwcma div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 5%">
+<col style="width: 20%">
+<col style="width: 50%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="gt_col_headings header">
+<th id="command" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong><code>git stash</code><br>Command</strong></th>
+<th id="description" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>Description</strong></th>
+<th id="input" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col"><strong>Type this into the Git Terminal</strong></th>
+<th id="why" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"><strong>So you can…</strong></th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="command"><code>push</code></td>
+<td class="gt_row gt_left" headers="description">Saves your local changes to a stash and rolls your working tree back to <code>HEAD</code></td>
+<td class="gt_row gt_center" headers="input"><code>git stash push</code></td>
+<td class="gt_row gt_left" headers="why">Return your files to what they looked like at your last saved commit before you started making changes, <strong>while</strong> saving your changes into a stash</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="command"><code>list</code></td>
+<td class="gt_row gt_left" headers="description">Lists all the stash entries that you have for your current project/repo</td>
+<td class="gt_row gt_center" headers="input"><code>git stash list</code></td>
+<td class="gt_row gt_left" headers="why">See all of the stashes you have for your repository</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="command"><code>show</code></td>
+<td class="gt_row gt_left" headers="description">Show the changes in the stash as a diff between the stash and the most recent commit back when the stash was made</td>
+<td class="gt_row gt_center" headers="input"><code>git stash show</code></td>
+<td class="gt_row gt_left" headers="why">See a quick summary in the terminal about what you’ve changed in that stash from the last commit</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="command"><code>pop</code></td>
+<td class="gt_row gt_left" headers="description">Remove a stash from the stash list and bring it’s changes back into your local directory</td>
+<td class="gt_row gt_center" headers="input"><code>git stash pop</code></td>
+<td class="gt_row gt_left" headers="why">Integrate your stash changes back into your current files, <strong>while removing</strong> the stash from the stash list because you don’t need it there anymore</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="command"><code>apply</code></td>
+<td class="gt_row gt_left" headers="description">Bring changes from a stash back into your local directory while keeping the stash in the stash list</td>
+<td class="gt_row gt_center" headers="input"><code>git stash apply</code></td>
+<td class="gt_row gt_left" headers="why">Integrate your stash changes back into your current files, <strong>while keeping</strong> the stash in the stash list because you’re not ready to get rid of it</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="command"><code>branch</code></td>
+<td class="gt_row gt_left" headers="description">Creates and checks out a new branch starting from the commit at which the stash was originally created while applying the changes of the stash and dropping the stash from the stash list</td>
+<td class="gt_row gt_center" headers="input"><code>git stash branch &lt;new_branch_name&gt;</code></td>
+<td class="gt_row gt_left" headers="why">Start working on your changes again in a version of the repository that has been rolled back to the last commit at the time the stash was made</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="command"><code>clear</code></td>
+<td class="gt_row gt_left" headers="description">Removes all stashes from the stash list</td>
+<td class="gt_row gt_center" headers="input"><code>git stash clear</code></td>
+<td class="gt_row gt_left" headers="why">Purge your repository of <strong>all</strong> stashes because you’re confident you don’t need them anymore</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="command"><code>drop</code></td>
+<td class="gt_row gt_left" headers="description">Removes one stash from the stash list</td>
+<td class="gt_row gt_center" headers="input"><code>git stash drop</code></td>
+<td class="gt_row gt_left" headers="why">Remove <strong>one</strong> of your repository’s stashes because you’re confident you don’t need it anymore</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><br> <br></p>
 </section>
-<section id="potential-pain-points" class="level1">
-<h1>Potential Pain Points</h1>
+<section id="stashes-in-the-wild" class="level1">
+<h1>Stashes in the Wild</h1>
+<p>So it’s one thing to list off the commands and tell you to go “figure it out” because there isn’t “much” to git stashes, but I feel like it would be more helpful to see some examples of using stashes in the wild. Let’s look at some scenarios in which you could use these commands.</p>
+<section id="making-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="making-a-stash">Making a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You jumped into working on a branch that hasn’t been updated from the remote in a month and of course, you forgot to pull before touching anything. You want to make a stash to keep your current work safe so you can pull the updates in and deal with any conflicts later. You save the stash with a message to give a description of the work you’re saving.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash <span class="at">-m</span> <span class="st">"premature analysis changes before pull"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/makestash.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash -m 'premature analysis changes before pull'">
+</center>
+<p><br></p>
+</section>
+<section id="popping-the-last-stash-saved" class="level2">
+<h2 class="anchored" data-anchor-id="popping-the-last-stash-saved">Popping the Last Stash Saved</h2>
+<p><strong><em>Scenario</em></strong>: So it turns out you won’t have any conflicts from that last scenario, so you simply want to throw your changes from that last stash back into your environment.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash pop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/popstash.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash pop">
+</center>
+<p><br></p>
+</section>
+<section id="listing-stashes" class="level2">
+<h2 class="anchored" data-anchor-id="listing-stashes">Listing Stashes</h2>
+<p><strong><em>Scenario</em></strong>: After doing more work, you realize that you’re missing some code you absolutely <em>did</em> write at some point… but can’t find anywhere. You suspect it’s in a different stash but don’t know which one. So you want to see all your available stashes for this project.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/liststash.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash list">
+</center>
+<p><br></p>
+</section>
+<section id="showing-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="showing-a-stash">Showing a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You think you’ve found the right stash. The one at index 2, but you’re not entirely sure. You want to see a quick summary to see what changes are on this particular stash.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash show 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/showstash.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash show 2">
+</center>
+<p><br></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sometimes, when you start using some commands like <code>git stash show</code> or <code>git log</code> the terminal may expect you to input something and won’t allow you input anything else. If this happens, you simply need to “escape” to revert the terminal back to it’s original state. You can do so by inputting the letter <code>q</code>.</p>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="popping-a-specific-stash" class="level2">
+<h2 class="anchored" data-anchor-id="popping-a-specific-stash">Popping a Specific Stash</h2>
+<p><strong><em>Scenario</em></strong>: You are sure the stash at index 2 is the correct choice, and you know that whatever work you do today will be good enough to commit to the branch, so you want to pop off that stash to continue your work while removing it from your stash list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash pop 2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/popstashspec.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash pop 2">
+</center>
+<p><br></p>
+</section>
+<section id="branching-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="branching-a-stash">Branching a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You’re starting to realize that the scope of your work has crept away a bit. It now makes sense to have a dedicated branch that’s separate from the current one to continue this work. You want to name the branch “misc-fixes.”</p>
+<p>First, make the stash…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash <span class="at">-m</span> <span class="st">"misc fixes port"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashbranchprep.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash -m 'misc fixes port'">
+</center>
+<p><br></p>
+<p>… then make the branch.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash branch misc-fixes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashbranch.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash branch misc-fixes">
+</center>
+<p><br></p>
+</section>
+<section id="applying-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="applying-a-stash">Applying a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You’re starting your work on the new “misc-fixes” branch and have made solid progress before taking a break from it. When you finally pick it up again, you realize that an ambitious function you wrote may need a tweak, but you’re unsure where or how to implement it. You apply the stash (instead of popping it) so you can freely experiment without losing the integrity of your code. If you mess up, your original code will be in the stash list.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash apply</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashapply.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash apply">
+</center>
+<p><br></p>
+</section>
+<section id="pushing-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="pushing-a-stash">Pushing a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You’ve switched to a different project someone else was working on because they asked you to help with a data-wrangling problem. Sadly, your brain is fried, and you’re just making it worse. Instead of committing wrong/incomplete code, you decide to push ALL of your changes (even untracked ones) to a stash so you can remove your embarrassment from the branch as if nothing ever happened.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash push <span class="at">-u</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashpush.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash push -u">
+</center>
+<p><br></p>
+</section>
+<section id="dropping-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="dropping-a-stash">Dropping a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You don’t know what you were thinking, bothering to push those changes to a stash. Your code is broken and makes no sense. It’s not even relevant. You want to put the stash out of its misery and ban it to the shadow realm.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash drop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashdrop.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash drop">
+</center>
+<p><br></p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span style="color:red"><strong>NOTE</strong></span>: You better be sure you want to do this. Git does not ask you if you’re sure… There are ways to recover stashes you’ve accidentally dropped, but if you’re a git newbie, it’s not pretty, and it’s out of the scope of this blog post.</p>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="clearing-a-stash" class="level2">
+<h2 class="anchored" data-anchor-id="clearing-a-stash">Clearing a Stash</h2>
+<p><strong><em>Scenario</em></strong>: You’ve persevered. Whatever seemingly impossible problem you worked on is now complete and rolled into your main branch. All of the stashes on your project are no longer needed. You want to drop ALL of your stashes in one cathartic input.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash clear</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><span style="color:red"><strong>NOTE</strong></span>: You better be sure you want to do this. Git does not ask you if you’re sure… There are ways to recover stashes you’ve accidentally cleared, but if you’re a git newbie, it’s not pretty, and it’s out of the scope of this blog post.</p>
+</div>
+</div>
+<p><br> <br></p>
+</section>
+</section>
+<section id="some-additional-things-you-may-want-to-know" class="level1">
+<h1>Some Additional Things You May Want to Know</h1>
+<p><br></p>
+<section id="git-stash-apply--vs--git-stash-pop" class="level2">
+<h2 class="anchored" data-anchor-id="git-stash-apply--vs--git-stash-pop"><code>git stash apply</code> -vs- <code>git stash pop</code></h2>
+<p>If you’re just starting to explore git stashes, it may be confusing to know when to apply or pop a stash. Just remember that both of these commands will bring your stashed changes back into your working directory but will be handled differently in your git stash list:</p>
+<center>
+<p><img src="images/gitapply.png" class="img-fluid" alt="a diagram showing that the command git stash apply copies and pastes changes back into the working directory"></p>
+<p><fig>You can think of <code>git stash apply</code> as “copying and pasting” your stashed changes into your directory. An intact copy stays in the stash list.</fig></p>
+</center>
+<p><br></p>
+<center>
+<p><img src="images/gitpop.png" class="img-fluid" alt="a diagram showing that the command git stash pop moves changes back into the working directory, while not keeping a copy in the stash list"></p>
+<p><fig>You can think of <code>git stash pop</code> as “moving” your stashed changes into your directory. The stash is removed from your stash list.</fig></p>
+</center>
+<p><br></p>
+<p>While <code>git stash apply</code> could be good for the cautious newbie who doesn’t want to get rid of something they may need, know that <code>git stash pop</code> or <code>git stash drop</code> is also important as you don’t want to bloat your git stash list with stale work. You should make it a habit to periodically check your stashes to make sure they’re still needed. In other words, don’t hoard your stashes! <br></p>
+</section>
+<section id="stashing-staged-changes" class="level2">
+<h2 class="anchored" data-anchor-id="stashing-staged-changes">Stashing Staged Changes</h2>
+<p>You may have so many changes in your environment at the moment but only want to save/stash a few of them. You can stage those changes and stash them. By default, git does not stash staged changes. You can use this to your advantage to quickly group changes together for a stash:</p>
+<p>Either stage them via a GUI, or in the terminal with the <code>-S</code> option:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file-to-keep-1.R</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add file-to-keep-2.R</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash <span class="at">-m</span> <span class="st">"two important updates"</span> <span class="at">-S</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashstaged.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with three commands: git add file-to-keep-1.R, git add file-to-keep-2.R, git stash -m 'two important updates' -S ">
+</center>
+<p><br></p>
+</section>
+<section id="porting-stashed-changes-to-another-branch" class="level2">
+<h2 class="anchored" data-anchor-id="porting-stashed-changes-to-another-branch">Porting Stashed Changes to Another Branch</h2>
+<p>If, for any reason, you want to bring stashed changes into another branch that is already created, you can do so by switching to (checking out) the branch you want to bring the changes to and either pop or apply the changes to the branch.</p>
+<p>If you’re using a GUI, switch to the desired branch. If using the terminal, check the branch out:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> checkout the-other-branch</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashportprep.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git checkout the-other-branch">
+</center>
+<p><br></p>
+<p>Then pop or apply the stash (In this case, the stash at index 3):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash pop 3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashport.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash pop 3">
+</center>
+<p><br></p>
+</section>
+<section id="naming-and-organization" class="level2">
+<h2 class="anchored" data-anchor-id="naming-and-organization">Naming and Organization</h2>
+<p>The <code>-m</code> option lets you attach a message to a stash. This is a wonderful capability that can help you stay organized. Here’s just an example of some things you can insert into a stash message:</p>
+<ul>
+<li>The date you’re creating the stash</li>
+<li>A brief description of the work</li>
+<li>Action items/project statuses</li>
+<li>Challenges/things or people you’re waiting on before work can continue</li>
+<li>What branch you need to move the changes to if applicable</li>
+</ul>
+<p><br></p>
+</section>
+<section id="referencing-stashes" class="level2">
+<h2 class="anchored" data-anchor-id="referencing-stashes">Referencing Stashes</h2>
+<p>Whenever you use any stash command/option without referencing a specific stash, git will always choose the stash at index 0 in the stash list, which is whatever stash you saved last. The easiest way to reference your stashes is by index. You can easily see which stash is at which index with <code>git stash list</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/liststash.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash list">
+</center>
+<p><br></p>
+<p>Although not as easy as just referencing the index, you <em>can</em> search for your git stashes via <a href="https://en.wikipedia.org/wiki/Grep#:~:text=grep%20is%20a%20command-line,which%20has%20the%20same%20effect.">grep</a> if you get in the habit of attaching messages to your stashes:</p>
+<p>Let’s say you have a stash that you tagged as “IMPORTANT”. When using grep, it is case-sensitive. Meaning we’d input this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash list <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"IMPORTANT"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To find the stash/index we’re looking for (Index 1 in this case):</p>
+<center>
+<img src="images/stashgrep.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash list | grep 'IMPORTANT'">
+</center>
+<p><br></p>
+</section>
+<section id="looking-at-the-stash-dates" class="level2">
+<h2 class="anchored" data-anchor-id="looking-at-the-stash-dates">Looking at the Stash Dates</h2>
+<p>Although it’s an option for the <code>git log</code> command, you can use <code>--date</code> to display the date and time the stashes in the stash list were created:</p>
+<p>Use <code>--date=local</code> to see the full day and time the stashes were created.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash list <span class="at">--date</span><span class="op">=</span>local</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashdatelocal.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash list ==date=local">
+</center>
+<p><br></p>
+<p>Use <code>--date=relative</code> to see a relative time calculation like “35 minutes ago”. This could come in handy if you’ve made a lot of stashes without labeling them well, as you can gauge the time on the stash you’re looking for.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> stash list <span class="at">--date</span><span class="op">=</span>relative</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<center>
+<img src="images/stashdaterel.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash list --date=relative">
+</center>
+<p><br></p>
+</section>
+<section id="abandoning-ship" class="level2">
+<h2 class="anchored" data-anchor-id="abandoning-ship">Abandoning Ship</h2>
+<p>Sometimes, popping or applying stashes into your environment may lead to some merge conflicts:</p>
+<center>
+<img src="images/abandonshipprep.png" class="img-fluid" alt="A screenshot of an RStudio Git Terminal with the command: git stash apply 2 that has resulted in a merge conflict.">
+</center>
+<p><br></p>
+<p>If this happens, don’t forget that the first rule of resolving conflicts is to NOT panic. If for some reason you can’t help but panic, you can always tell git “nevermind” so you can deal with it later with the following command:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> reset <span class="at">--merge</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+</section>
+<section id="perfection-can-halt-progress" class="level2">
+<h2 class="anchored" data-anchor-id="perfection-can-halt-progress">Perfection Can Halt Progress</h2>
+<p>One last bit of advice I want you to take from this is to not let fear or perfection stop you from making meaningful contributions to your project. Remember that the utility of git stashes lies in its ability to help you maintain a clean git/project environment. Don’t fall victim to hoarding your work.</p>
+<center>
+<p><img src="images/charlie.gif" class="img-fluid" alt="That one scene from it's always sunny in philadelphia where Charlie is stressed in front of his planner board."></p>
+<fig>POV: Me explaining to someone why I can’t push my work up to the remote yet.</fig>
+</center>
+<p><br></p>
+<p>I am absolutely guilty of waiting to make commits/push work to remotes because it’s not perfect. Things don’t have to be perfect, especially for larger projects. The best approach to tackling large projects that will take a while to complete is designating project milestones/checkpoints. These can be agreed upon “stopping points” in which you will determine whether your work is “good enough for now” so it can be committed instead of stashed away.</p>
+<p><br> <br></p>
+<p>Hopefully, I’ve given you enough information to start using some git stashes. If you’d like to read the official git stash documentation yourself, you can do so <a href="https://git-scm.com/docs/git-stash">here</a>. If you’d like more resources on git workflows in general, you can checkout the README for my 2024 Posit Conf talk “<em>Please let me Merge Before I Start Crying</em>,” which has <a href="https://github.com/Meghansaha/please_let_me_merge?tab=readme-ov-file#supplemental-resources">plenty of supplemental links</a> to explore.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

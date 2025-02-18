@@ -231,6 +231,230 @@
     "text": "To kick off the year, I took the “leap of faith” and participated in my first TidyTuesday! A weekly community activity hosted by the R4DSCommunity on Twitter that challenges those of all skill levels and disciplines to explore a data set and make a data visualization of it. This week’s data was from the Transit Costs Project.\nThis Tidy Tuesday was challenging mainly because I was on a crunch for time. However, I did not want to pass up an opportunity to practice with Plotly (for R). In my current position, I’m tasked with building some internal dashboards to keep track of a lot of opioid data. Using Plotly can allow for interactive/dynamic graphs (instead of static, non-moving graphs.)\nThis activity was great for practicing the obvious data cleaning and wrangling skills. I also got to practice conditional formatting (colors of the lollipops), ggplot manipulation, and lookup functions. Drawing conclusions from the data is not recommended due to the nature of the selected data sets. Tidy Tuesday really encourages developing your process as a data scientist to hone in on fundamental skills! That being said, don’t read too much into it! If you’re interested in the code used for this plotly plot, or the process used for the data, you can find it on my Github Repo here.\nFeel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!"
   },
   {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html",
+    "title": "Git Stash for Newbies.",
+    "section": "",
+    "text": "In this post:"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#stashing-with-a-terminal",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#stashing-with-a-terminal",
+    "title": "Git Stash for Newbies.",
+    "section": "Stashing with A Terminal",
+    "text": "Stashing with A Terminal\nIf you’re an R user like myself, you may favor using the RStudio IDE (Integrated Development Environment). While great for many things, it unfortunately does not have a built-in graphical user interface (GUI) for git stashes at the time of writing this. This means there are no accessible buttons to click to create a git stash like you would for creating a commit, pushing and pulling to repositories, or other standard git functions. If you use RStudio, the most accessible way to create and use git stashes within the IDE is to use the embedded terminal:\n\n Making a stash in RStudio’s Git Terminal\n\n\nIf you’re not using Rstudio, you can use any terminal/Command Line Interface (CLI) you’d like. This could be Powershell on Windows operating systems, Terminal on Macs, or even Bash on Linux systems. The potential benefit of using a terminal is increased functionality with the possibility of a steeper learning curve or decreased accessibility due to the difficulty of learning to script in CLIs for most users."
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#stashing-with-third-party-gui-clients",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#stashing-with-third-party-gui-clients",
+    "title": "Git Stash for Newbies.",
+    "section": "Stashing with Third-party GUI Clients",
+    "text": "Stashing with Third-party GUI Clients\nIf you don’t feel like being bothered with terminals or just want to use a pretty GUI for your Git operations, you can always use third-party programs like GitHub Desktop, SourceTree, or GitKraken. These GUI clients absolutely take some of the pain out of doing the most common git procedures, stashes included.\nDifferent IDEs like Positron and VS Code can also be considered third-party GUI clients that allow you to use git stashes with git-flavored extensions from the OpenVSX Marketplace (for Positron) and the VS Code Marketplace (for VS Code).\nBecause third-party GUI clients can vary widely in their user interfaces and functionality, this post will only go over how to create and work with stashes via the Git terminal. Even if you are using a GUI, reading about the commands a git stash can take and what each of them do can help give a better understanding of stashes and what specific actions you’ll need for your work. If you’re not using the terminal, it’s always a good idea to explore what functionalty your GUI client has as it can vary. For most users, the functionality a GUI client can provide is usually efficient for most use cases. However, if you start running into any friction while using a GUI client, it may be time to consider using a terminal if you haven’t already."
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#making-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#making-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Making a Stash",
+    "text": "Making a Stash\nScenario: You jumped into working on a branch that hasn’t been updated from the remote in a month and of course, you forgot to pull before touching anything. You want to make a stash to keep your current work safe so you can pull the updates in and deal with any conflicts later. You save the stash with a message to give a description of the work you’re saving.\n\ngit stash -m \"premature analysis changes before pull\""
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#popping-the-last-stash-saved",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#popping-the-last-stash-saved",
+    "title": "Git Stash for Newbies.",
+    "section": "Popping the Last Stash Saved",
+    "text": "Popping the Last Stash Saved\nScenario: So it turns out you won’t have any conflicts from that last scenario, so you simply want to throw your changes from that last stash back into your environment.\n\ngit stash pop"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#listing-stashes",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#listing-stashes",
+    "title": "Git Stash for Newbies.",
+    "section": "Listing Stashes",
+    "text": "Listing Stashes\nScenario: After doing more work, you realize that you’re missing some code you absolutely did write at some point… but can’t find anywhere. You suspect it’s in a different stash but don’t know which one. So you want to see all your available stashes for this project.\n\ngit stash list"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#showing-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#showing-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Showing a Stash",
+    "text": "Showing a Stash\nScenario: You think you’ve found the right stash. The one at index 2, but you’re not entirely sure. You want to see a quick summary to see what changes are on this particular stash.\n\ngit stash show 2\n\n\n\n\n\n\n\n\n\n\n\nImportant\n\n\n\nSometimes, when you start using some commands like git stash show or git log the terminal may expect you to input something and won’t allow you input anything else. If this happens, you simply need to “escape” to revert the terminal back to it’s original state. You can do so by inputting the letter q."
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#popping-a-specific-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#popping-a-specific-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Popping a Specific Stash",
+    "text": "Popping a Specific Stash\nScenario: You are sure the stash at index 2 is the correct choice, and you know that whatever work you do today will be good enough to commit to the branch, so you want to pop off that stash to continue your work while removing it from your stash list.\n\ngit stash pop 2"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#branching-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#branching-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Branching a Stash",
+    "text": "Branching a Stash\nScenario: You’re starting to realize that the scope of your work has crept away a bit. It now makes sense to have a dedicated branch that’s separate from the current one to continue this work. You want to name the branch “misc-fixes.”\nFirst, make the stash…\n\ngit stash -m \"misc fixes port\"\n\n\n\n\n\n… then make the branch.\n\ngit stash branch misc-fixes"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#applying-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#applying-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Applying a Stash",
+    "text": "Applying a Stash\nScenario: You’re starting your work on the new “misc-fixes” branch and have made solid progress before taking a break from it. When you finally pick it up again, you realize that an ambitious function you wrote may need a tweak, but you’re unsure where or how to implement it. You apply the stash (instead of popping it) so you can freely experiment without losing the integrity of your code. If you mess up, your original code will be in the stash list.\n\ngit stash apply"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#pushing-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#pushing-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Pushing a Stash",
+    "text": "Pushing a Stash\nScenario: You’ve switched to a different project someone else was working on because they asked you to help with a data-wrangling problem. Sadly, your brain is fried, and you’re just making it worse. Instead of committing wrong/incomplete code, you decide to push ALL of your changes (even untracked ones) to a stash so you can remove your embarrassment from the branch as if nothing ever happened.\n\ngit stash push -u"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#dropping-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#dropping-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Dropping a Stash",
+    "text": "Dropping a Stash\nScenario: You don’t know what you were thinking, bothering to push those changes to a stash. Your code is broken and makes no sense. It’s not even relevant. You want to put the stash out of its misery and ban it to the shadow realm.\n\ngit stash drop\n\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nNOTE: You better be sure you want to do this. Git does not ask you if you’re sure… There are ways to recover stashes you’ve accidentally dropped, but if you’re a git newbie, it’s not pretty, and it’s out of the scope of this blog post."
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#clearing-a-stash",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#clearing-a-stash",
+    "title": "Git Stash for Newbies.",
+    "section": "Clearing a Stash",
+    "text": "Clearing a Stash\nScenario: You’ve persevered. Whatever seemingly impossible problem you worked on is now complete and rolled into your main branch. All of the stashes on your project are no longer needed. You want to drop ALL of your stashes in one cathartic input.\n\ngit stash clear\n\n\n\n\n\n\n\nWarning\n\n\n\nNOTE: You better be sure you want to do this. Git does not ask you if you’re sure… There are ways to recover stashes you’ve accidentally cleared, but if you’re a git newbie, it’s not pretty, and it’s out of the scope of this blog post."
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#git-stash-apply--vs--git-stash-pop",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#git-stash-apply--vs--git-stash-pop",
+    "title": "Git Stash for Newbies.",
+    "section": "git stash apply -vs- git stash pop",
+    "text": "git stash apply -vs- git stash pop\nIf you’re just starting to explore git stashes, it may be confusing to know when to apply or pop a stash. Just remember that both of these commands will bring your stashed changes back into your working directory but will be handled differently in your git stash list:\n\n\nYou can think of git stash apply as “copying and pasting” your stashed changes into your directory. An intact copy stays in the stash list.\n\n\n\n\nYou can think of git stash pop as “moving” your stashed changes into your directory. The stash is removed from your stash list.\n\n\nWhile git stash apply could be good for the cautious newbie who doesn’t want to get rid of something they may need, know that git stash pop or git stash drop is also important as you don’t want to bloat your git stash list with stale work. You should make it a habit to periodically check your stashes to make sure they’re still needed. In other words, don’t hoard your stashes!"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#stashing-staged-changes",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#stashing-staged-changes",
+    "title": "Git Stash for Newbies.",
+    "section": "Stashing Staged Changes",
+    "text": "Stashing Staged Changes\nYou may have so many changes in your environment at the moment but only want to save/stash a few of them. You can stage those changes and stash them. By default, git does not stash staged changes. You can use this to your advantage to quickly group changes together for a stash:\nEither stage them via a GUI, or in the terminal with the -S option:\n\ngit add file-to-keep-1.R\ngit add file-to-keep-2.R\ngit stash -m \"two important updates\" -S"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#porting-stashed-changes-to-another-branch",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#porting-stashed-changes-to-another-branch",
+    "title": "Git Stash for Newbies.",
+    "section": "Porting Stashed Changes to Another Branch",
+    "text": "Porting Stashed Changes to Another Branch\nIf, for any reason, you want to bring stashed changes into another branch that is already created, you can do so by switching to (checking out) the branch you want to bring the changes to and either pop or apply the changes to the branch.\nIf you’re using a GUI, switch to the desired branch. If using the terminal, check the branch out:\n\ngit checkout the-other-branch\n\n\n\n\n\nThen pop or apply the stash (In this case, the stash at index 3):\n\ngit stash pop 3"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#naming-and-organization",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#naming-and-organization",
+    "title": "Git Stash for Newbies.",
+    "section": "Naming and Organization",
+    "text": "Naming and Organization\nThe -m option lets you attach a message to a stash. This is a wonderful capability that can help you stay organized. Here’s just an example of some things you can insert into a stash message:\n\nThe date you’re creating the stash\nA brief description of the work\nAction items/project statuses\nChallenges/things or people you’re waiting on before work can continue\nWhat branch you need to move the changes to if applicable"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#referencing-stashes",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#referencing-stashes",
+    "title": "Git Stash for Newbies.",
+    "section": "Referencing Stashes",
+    "text": "Referencing Stashes\nWhenever you use any stash command/option without referencing a specific stash, git will always choose the stash at index 0 in the stash list, which is whatever stash you saved last. The easiest way to reference your stashes is by index. You can easily see which stash is at which index with git stash list:\n\ngit stash list\n\n\n\n\n\nAlthough not as easy as just referencing the index, you can search for your git stashes via grep if you get in the habit of attaching messages to your stashes:\nLet’s say you have a stash that you tagged as “IMPORTANT”. When using grep, it is case-sensitive. Meaning we’d input this:\n\ngit stash list | grep \"IMPORTANT\"\n\nTo find the stash/index we’re looking for (Index 1 in this case):"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#looking-at-the-stash-dates",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#looking-at-the-stash-dates",
+    "title": "Git Stash for Newbies.",
+    "section": "Looking at the Stash Dates",
+    "text": "Looking at the Stash Dates\nAlthough it’s an option for the git log command, you can use --date to display the date and time the stashes in the stash list were created:\nUse --date=local to see the full day and time the stashes were created.\n\ngit stash list --date=local\n\n\n\n\n\nUse --date=relative to see a relative time calculation like “35 minutes ago”. This could come in handy if you’ve made a lot of stashes without labeling them well, as you can gauge the time on the stash you’re looking for.\n\ngit stash list --date=relative"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#abandoning-ship",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#abandoning-ship",
+    "title": "Git Stash for Newbies.",
+    "section": "Abandoning Ship",
+    "text": "Abandoning Ship\nSometimes, popping or applying stashes into your environment may lead to some merge conflicts:\n\n\n\n\nIf this happens, don’t forget that the first rule of resolving conflicts is to NOT panic. If for some reason you can’t help but panic, you can always tell git “nevermind” so you can deal with it later with the following command:\n\ngit reset --merge"
+  },
+  {
+    "objectID": "post/git-stash-for-newbies/git-stash-for-newbies.html#perfection-can-halt-progress",
+    "href": "post/git-stash-for-newbies/git-stash-for-newbies.html#perfection-can-halt-progress",
+    "title": "Git Stash for Newbies.",
+    "section": "Perfection Can Halt Progress",
+    "text": "Perfection Can Halt Progress\nOne last bit of advice I want you to take from this is to not let fear or perfection stop you from making meaningful contributions to your project. Remember that the utility of git stashes lies in its ability to help you maintain a clean git/project environment. Don’t fall victim to hoarding your work.\n\n\nPOV: Me explaining to someone why I can’t push my work up to the remote yet.\n\n\nI am absolutely guilty of waiting to make commits/push work to remotes because it’s not perfect. Things don’t have to be perfect, especially for larger projects. The best approach to tackling large projects that will take a while to complete is designating project milestones/checkpoints. These can be agreed upon “stopping points” in which you will determine whether your work is “good enough for now” so it can be committed instead of stashed away.\n \nHopefully, I’ve given you enough information to start using some git stashes. If you’d like to read the official git stash documentation yourself, you can do so here. If you’d like more resources on git workflows in general, you can checkout the README for my 2024 Posit Conf talk “Please let me Merge Before I Start Crying,” which has plenty of supplemental links to explore."
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#data-frame-example",
+    "href": "post/applyfamilynotes/apply-family.html#data-frame-example",
+    "title": "Apply Family Notebook",
+    "section": "Data Frame Example",
+    "text": "Data Frame Example\n#Creating a mock data frame\nCity &lt;- c(\"Buffalo\",\"NYC\",\"Seattle\",\"Austin\",\"Orlando\",\"Minneapolis\")\nCases &lt;- c(500,2012,1876,635,4512,823)\nControls &lt;- c(3426,5210,6753,5633,2013,1890)\n\nrecords &lt;- data.frame(City,Cases,Controls, row.names = NULL)\n\nrecords\n##          City Cases Controls\n## 1     Buffalo   500     3426\n## 2         NYC  2012     5210\n## 3     Seattle  1876     6753\n## 4      Austin   635     5633\n## 5     Orlando  4512     2013\n## 6 Minneapolis   823     1890\n\nWe can use the apply function to calculate column sums…\n\n#Calculating the column sum of all applicable columns\napply(records[,2:3], 2,sum)\n##    Cases Controls \n##    10358    24925\n\n…Or row sums. (Note that these both produce vectors and that we subset the dataframe with [,2:3] to avoid R throwing an error for the first column that has strings in it. Can’t perform a mathematical function on character strings)\n\n#Calculating row sums\napply(records[,2:3], 1,sum)\n## [1] 3926 7222 8629 6268 6525 2713\n\nWe can name the vectors in one line of code with the names&lt;- function:\n\n#Calculating row sums, but applying names from the \"City\" column\n`City Totals` &lt;-  `names&lt;-`(apply(records[,2:3], 1,sum), records$City)\n\n`City Totals`\n##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis \n##        3926        7222        8629        6268        6525        2713"
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#applying-statistic-more-complex-functions",
+    "href": "post/applyfamilynotes/apply-family.html#applying-statistic-more-complex-functions",
+    "title": "Apply Family Notebook",
+    "section": "Applying Statistic (More Complex) Functions",
+    "text": "Applying Statistic (More Complex) Functions\n\nWe can also do different statistical procedures based on each test’s requirement. Let’s do a T-test:\n\n#Making a mock data set for T-test\nEx1_grades &lt;- c(67,53)\nEx2_grades &lt;- c(90,89)\nEx3_grades &lt;- c(89,95)\nEx4_grades &lt;- c(95,87)\nEx5_grades &lt;- c(100,99)\nStudent &lt;- c(\"Student1\",\"Student2\")\n\nGrades &lt;- tibble(Student,Ex1_grades,Ex2_grades,Ex3_grades,Ex4_grades,Ex5_grades)\n\nGrades\n## # A tibble: 2 x 6\n##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades\n##   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;\n## 1 Student1         67         90         89         95        100\n## 2 Student2         53         89         95         87         99\n\nLet’s just say we want the P.value of one sample T-tests for each student and we want to place it in this dataset as a new column. What’s important to note is that arguments that would normally be passed through to your functions, go as separate arguments at the end of the apply function, after you declare which function you want used.\n\n#Turning off scientific notation formatting\noptions(scipen = 999)\n\n#Getting index of columns that end with the word \"grades\"\nGradeindexes &lt;- grep((\"grades$\"),names(Grades))\n\n#Using apply to apply the t.test.\ntestresults &lt;- apply(Grades[,Gradeindexes],1,t.test, alternative = \"two.sided\", conf.level = 0.95)\n\n#Using do.call to bind p values to the data set. Because results are in a list, we can use lapply and wrap it in \"as.vector\" for clean transfer into the dataframe\n\nGrades$`P Values` &lt;- as.vector(format(do.call(rbind, lapply(testresults, function(x){x$p.value})), digits = 2))\n\nGrades\n## # A tibble: 2 x 7\n##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades `P Values`\n##   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     \n## 1 Student1         67         90         89         95        100 0.000098  \n## 2 Student2         53         89         95         87         99 0.000494"
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#data-frame-example-1",
+    "href": "post/applyfamilynotes/apply-family.html#data-frame-example-1",
+    "title": "Apply Family Notebook",
+    "section": "Data Frame Example",
+    "text": "Data Frame Example\n\nWe can use lapply to make changes to a data frame.\n\n# Changing column names in the \"records\" data frame to be all CAPS\n\nnames(records) &lt;- lapply(names(records),str_to_upper)\n\nrecords\n##          CITY CASES CONTROLS\n## 1     Buffalo   500     3426\n## 2         NYC  2012     5210\n## 3     Seattle  1876     6753\n## 4      Austin   635     5633\n## 5     Orlando  4512     2013\n## 6 Minneapolis   823     1890"
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#list-example",
+    "href": "post/applyfamilynotes/apply-family.html#list-example",
+    "title": "Apply Family Notebook",
+    "section": "List Example",
+    "text": "List Example\n\nWe can use lapply to make changes to a list. Need to create a mock list.\n\n#Creating list from randomly sampled numbers, then adding names from the \"fruit\" constant that comes with base R\n\n#Setting a seed for reproducibility\nset.seed(555)\n\n#Generating the random sample of numbers\nstock &lt;- sample(1:50,5)\n\n#Pulling the first five strings of the fruit constant from base R\nfruits &lt;- fruit[1:5]\n\n#Coercing the sampled numbers into a list  \nInventory &lt;- as.list(as.numeric(stock))\n\n#Setting the names of each randomly sampled number to each string in out fruits vector\nnames(Inventory) &lt;- fruits\n\nInventory\n## $apple\n## [1] 42\n## \n## $apricot\n## [1] 49\n## \n## $avocado\n## [1] 24\n## \n## $banana\n## [1] 16\n## \n## $`bell pepper`\n## [1] 29\n\nWe can alter the list by adding 100 to each fruit’s count and assigning the result back to Inventory:\n\nInventory &lt;- lapply(Inventory, function(x) (x+100))\n\nInventory\n## $apple\n## [1] 142\n## \n## $apricot\n## [1] 149\n## \n## $avocado\n## [1] 124\n## \n## $banana\n## [1] 116\n## \n## $`bell pepper`\n## [1] 129"
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#multiple-list-example",
+    "href": "post/applyfamilynotes/apply-family.html#multiple-list-example",
+    "title": "Apply Family Notebook",
+    "section": "Multiple List Example",
+    "text": "Multiple List Example\nWe can use mapply() to alter different elements within multiple lists, as oppose to lapply() which only works within one list. Let’s create multiple lists to test mapply() out.\n#Want to take these separate list, add th last name \"Smith\" to all the names, then get the final result in one place (a list)\n\nnames1 &lt;- list(\"John\", \"Abigail\", \"Sam\",\"Judy\")\nnames2 &lt;- list(\"Mary\", \"Lauri\", \"Gus\")\nnames3 &lt;- list(\"Harold\", \"Peter\", \"Natalie\",\"Scott\",\"Fatima\")\n\n`Names List` &lt;- mapply(function(x) paste(x,\"Smith\"), c(names1,names2,names3))\n\n`Names List`\n##  [1] \"John Smith\"    \"Abigail Smith\" \"Sam Smith\"     \"Judy Smith\"    \"Mary Smith\"    \"Lauri Smith\"   \"Gus Smith\"     \"Harold Smith\"  \"Peter Smith\"   \"Natalie Smith\" \"Scott Smith\"   \"Fatima Smith\""
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#multiple-vector-example",
+    "href": "post/applyfamilynotes/apply-family.html#multiple-vector-example",
+    "title": "Apply Family Notebook",
+    "section": "Multiple Vector Example",
+    "text": "Multiple Vector Example\nMapply() can be used to vectorize function results from multiple vectors.\nLet’s same we have vectors of numbers and we want to know the mean of all of them separately:\n\n#Making mock vectors, setting a seed for reproducibility.\nset.seed(321)\n\n#Assigning the vectors\nvector1 &lt;- sample(1:100,12)\nvector2 &lt;- sample(1:100,5)\nvector3 &lt;- sample(1:100,9)\n\nvector1\n##  [1] 54 77 88 80 58 17 47 11 25 31 82 79\nvector2\n## [1] 98 75 31 82 36\nvector3\n## [1] 78 87 34 84  4 48 51 80 13\n\nBecause we want summaries (the mean) of each vector, we can use the list() function instead of the c() function. We can use the MoreArgs argument to pass the trim argument to the mean() function. By default, this is set at zero, but passing it through to demonstrate.\n\n#Calculating the mean of each vector\nvectormeans &lt;-mapply(mean,list(vector1,vector2,vector3), MoreArgs = list(trim = 0))\n\n#Setting names to the results\nnames(vectormeans) &lt;- c(\"vector1\",\"vector2\",\"vector3\")\n\nvectormeans\n##  vector1  vector2  vector3 \n## 54.08333 64.40000 53.22222"
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#nested-list-example",
+    "href": "post/applyfamilynotes/apply-family.html#nested-list-example",
+    "title": "Apply Family Notebook",
+    "section": "Nested list example",
+    "text": "Nested list example\nLet’s say we have a list of cities that have a list of restaurant types embedded in them:\nRestaurantdata &lt;- list(\"Buffalo\" = list(\"italian\",\"mexican\",\"japanese\",\"puerto rican\"),\n                       \"Seattle\" = list(\"japanese\",\"chinese\",\"southern\",\"steakhouse\"),\n                       \"Miami\" = list(\"seafood\",\"cuban\",\"italian\",\"polish\"))\n\nRestaurantdata\n## $Buffalo\n## $Buffalo[[1]]\n## [1] \"italian\"\n## \n## $Buffalo[[2]]\n## [1] \"mexican\"\n## \n## $Buffalo[[3]]\n## [1] \"japanese\"\n## \n## $Buffalo[[4]]\n## [1] \"puerto rican\"\n## \n## \n## $Seattle\n## $Seattle[[1]]\n## [1] \"japanese\"\n## \n## $Seattle[[2]]\n## [1] \"chinese\"\n## \n## $Seattle[[3]]\n## [1] \"southern\"\n## \n## $Seattle[[4]]\n## [1] \"steakhouse\"\n## \n## \n## $Miami\n## $Miami[[1]]\n## [1] \"seafood\"\n## \n## $Miami[[2]]\n## [1] \"cuban\"\n## \n## $Miami[[3]]\n## [1] \"italian\"\n## \n## $Miami[[4]]\n## [1] \"polish\"\n\nWe want to change all of the elements so that each restaurant type is capitalized. We can do this with either the tools or stringr packages. I’ll use the stringr package for this example. Note that the \"replace\" option in the how argument will actually alter the Restaurantdata list, but in order to save it as such, we have to assign in back to the Restaurantdata object.\n\nRestaurantdata &lt;- rapply(Restaurantdata,stringr::str_to_title,how = \"replace\")\n\n\nRestaurantdata\n## $Buffalo\n## $Buffalo[[1]]\n## [1] \"Italian\"\n## \n## $Buffalo[[2]]\n## [1] \"Mexican\"\n## \n## $Buffalo[[3]]\n## [1] \"Japanese\"\n## \n## $Buffalo[[4]]\n## [1] \"Puerto Rican\"\n## \n## \n## $Seattle\n## $Seattle[[1]]\n## [1] \"Japanese\"\n## \n## $Seattle[[2]]\n## [1] \"Chinese\"\n## \n## $Seattle[[3]]\n## [1] \"Southern\"\n## \n## $Seattle[[4]]\n## [1] \"Steakhouse\"\n## \n## \n## $Miami\n## $Miami[[1]]\n## [1] \"Seafood\"\n## \n## $Miami[[2]]\n## [1] \"Cuban\"\n## \n## $Miami[[3]]\n## [1] \"Italian\"\n## \n## $Miami[[4]]\n## [1] \"Polish\"\n\nWe can also get a vector of our results by using the unlist option in the how function instead. Let’s add the word “restaurants” to each of these elements then unlist the object to place it in a vector.\n\nRestaurantvector &lt;- rapply(Restaurantdata,function(x) paste(x,\"restaurants\"),how = \"unlist\")\n\n\nRestaurantvector\n##                   Buffalo1                   Buffalo2                   Buffalo3                   Buffalo4                   Seattle1                   Seattle2                   Seattle3                   Seattle4                     Miami1                     Miami2                     Miami3                     Miami4 \n##      \"Italian restaurants\"      \"Mexican restaurants\"     \"Japanese restaurants\" \"Puerto Rican restaurants\"     \"Japanese restaurants\"      \"Chinese restaurants\"     \"Southern restaurants\"   \"Steakhouse restaurants\"      \"Seafood restaurants\"        \"Cuban restaurants\"      \"Italian restaurants\"       \"Polish restaurants\""
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#data-frame-example-2",
+    "href": "post/applyfamilynotes/apply-family.html#data-frame-example-2",
+    "title": "Apply Family Notebook",
+    "section": "Data Frame Example",
+    "text": "Data Frame Example\nWe can use tapply() to apply a function across a column in a dataframe. Let’s make a simple data frame:\n# Setting a seed for reproducibility\nset.seed(789)\n\nTeams &lt;- c(\"UK\",\"USA\",\"Egypt\",\"Ireland\",\"UK\",\"USA\",\"USA\")\nSeconds &lt;- runif(length(Teams), min=30, max = 240)\nRunners &lt;- data.frame(Teams,Seconds)\n\nRunners\n##     Teams   Seconds\n## 1      UK 176.97782\n## 2     USA  49.63476\n## 3   Egypt  32.49623\n## 4 Ireland 154.23733\n## 5      UK 133.35138\n## 6     USA  34.23435\n## 7     USA 150.25773\n\nLet’s say we want to calculate the average time (seconds) for each Team. We can use tapply() for this.\n\nRunner_means &lt;- tapply(Runners$Seconds, Runners$Teams, mean)\n\nRunner_means\n##     Egypt   Ireland        UK       USA \n##  32.49623 154.23733 155.16460  78.04228\n\nThe results are stored into an array. If a new table is desired it can be manipulated to do so:\n\nRunners_summary &lt;- data.frame(Team = names(Runner_means), Mean =Runner_means, row.names = NULL)\n\nRunners_summary\n##      Team      Mean\n## 1   Egypt  32.49623\n## 2 Ireland 154.23733\n## 3      UK 155.16460\n## 4     USA  78.04228"
+  },
+  {
+    "objectID": "post/applyfamilynotes/apply-family.html#jagged-vectors-example",
+    "href": "post/applyfamilynotes/apply-family.html#jagged-vectors-example",
+    "title": "Apply Family Notebook",
+    "section": "Jagged Vectors Example",
+    "text": "Jagged Vectors Example\n\nWe can use tapply() to also preform tasks across multiple vectors of different lengths as long as the amount of factors matches the amount of the elements overall in each vector\n\n#Create a list of factors \nNames &lt;- c(\"Meghan\",\"Gus\",\"Jennifer\",\"Gus\",\"Jennifer\",\"Natalie\",\"Meghan\",\"Jennifer\",\"Gus\",\"Natalie\")\n\nScores1 &lt;- c(90,67,88,99,100)\nScores2 &lt;- c(99,99,78)\nScores3 &lt;- c(100,78)\n\n#Placing them together gives us a vector that has a length of 10. Same as the \"Names\" vector\nTest_scores &lt;- c(Scores1,Scores2,Scores3)\n\n#We can now apply the same function across this vectors and get summarized results\nTest_averages &lt;- tapply(Test_scores,Names,mean)\n\nTest_averages\n##      Gus Jennifer   Meghan  Natalie \n## 88.66667 88.66667 94.50000 88.50000"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "The Tidy Trekker",
+    "section": "",
+    "text": "Git Stash for Newbies.\n\n\n\n\n\nIn this post, we’ll look at the basics of git stash, how to create and use Git stashes, why you’d want to use stashes in the first place, and other relevant things to know about git stash because maybe one day, you might not feel like committing half-baked work to your repository while jumping between Git branches. 🤸🏾‍♀️ \n\n\n\n\n\nFeb 17, 2025\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Circular Maps in ggplot\n\n\n\n\n\nI made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that. \n\n\n\n\n\nFeb 15, 2023\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s Talk About 2022\n\n\n\n\n\nYes. Hi. Hello. It’s been over a year since I’ve blogged. Let’s have a chat about 2022. \n\n\n\n\n\nJan 23, 2023\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Waves in ggplot: An Rtistry Tutorial\n\n\n\n\n\nAn Rtistry tutorial in ggplot about making waves in the R programming language. \n\n\n\n\n\nNov 24, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nThinking Outside The Grid - A “bare bones” intro to Rtistry concepts in R using ggplot.\n\n\n\n\n\nRecently I’ve discovered the courage to dive into creative coding and generative aRt in R. Something that the R community calls “Rtistry.” My Rtistry journey so far has been an amazing and tranquil expedition into a world that seemed intimidating and scary on the outside but is honestly just a bottomless pit of fun and creativity on the inside. \n\n\n\n\n\nOct 19, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nWhere Have I Been?\n\n\n\n\n\nSo, it has been a good five months since I last made a post on The Tidy Trekker. I can assure you that I am alive and kicking! \n\n\n\n\n\nSep 7, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking My First Shiny App\n\n\n\n\n\nThis year was the first time that I ever competed in a RStudio Shiny competition by submitting my first ever Shiny app, the TarotreadR. \n\n\n\n\n\nSep 4, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nTallying “Checkbox” Survey Responses: R Walkthrough\n\n\n\n\n\nA guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing “Checkbox” question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions. \n\n\n\n\n\nMar 18, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Dull* Dashboards in R (* Without Shiny)\n\n\n\n\n\nA walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code. \n\n\n\n\n\nMar 15, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nHow I Became A “Not-Beginner” in R\n\n\n\n\n\nSome thoughts I have on being a “Not-beginner” (Intermediate) R programmer/Data Scientist.\n\n\n\n\n\nFeb 20, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nApply Family Notebook\n\n\n\n\n\nAn apply() function notebook to explore the different apply functions in Base R \n\n\n\n\n\nJan 23, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nOrdering Months\n\n\n\n\n\nA guide on ordering month “categories” chronologically and dealing with missing month data on a ggplot using Tidyverse packages and base R constants. This guide assumes that you understand how to load data into R, work with vectors, and are somewhat familiar with subsetting and ggplot2. \n\n\n\n\n\nJan 23, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nI Participated in My First Tidy Tuesday! : Project Recap\n\n\n\n\n\nI have always “hid in the shadows” with community challenges like this, but I took the leap and participated. Here’s a quick recap… \n\n\n\n\n\nJan 6, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nSetting Intentions\n\n\n\n\n\nAs the fiasco that is the year 2020 comes to an end, I figured I’d set some intentions for the Tidy Trekker site moving forward.\n\n\n\n\n\nDec 31, 2020\n\n\nMeghan Harris\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "My official title is a Data Scientist at the Prostate Cancer Clinical Trials Consortium (PCCTC) at the Memorial Sloan Kettering Cancer Center. I mostly use R to do daily data/programming/automation tasks to support Prostate Cancer research. I'm learning new things every day and always striving to further sharpen my data science and programming skills. My health research interest lies in mental and primary health care integration. My technical interest lies in automating data pipelines, data visualizations, and various user applications for data dissemination.In the past, I've worked for various government and public health entities and completed field training/internships in community mental health clinics and mental health research labs. I've had my share of working with various non-profit youth, educational, and social health clients as an evaluator as well. I'm an advocate for using mixed methods and automated data processing when possible and encourage the use of open-source responsibly. I plan to use this platform to share and collaborate with others on this professional journey.\nWhen I'm not working, I love to play video games, create art (especially rtistry), travel and spend time with my son, my Patterdale terrier, Patches, and my husband."
+  },
+  {
     "objectID": "post/dull-dashboards/dull-dashboards.html",
     "href": "post/dull-dashboards/dull-dashboards.html",
     "title": "Making Dull* Dashboards in R (* Without Shiny)",
@@ -320,83 +544,6 @@
     "title": "Making Dull* Dashboards in R (* Without Shiny)",
     "section": "Limitations",
     "text": "Limitations\n\nWhile flexdashboard is great because it allows you to whip up some great dashboards without shiny, you are confined to the environment set by the template. It calls for some “hacking” sometimes and if you want your dashboard appearance to be customized (color/themes), some knowledge in CSS/HTML will make it an easier process. You can also use preset themes to change the appearance of your dashboard as well.\nSizing is also a tricky issue with flexdashboards. Because the template uses a browser-based flexbox engine, the sizing will vary based on things like browser window and user monitor size. You’ll also have to consider mobile layouts for viewing the dashboard on mobile devices if this is of interest. Despite the limitations, flexdashboards can be pretty useful and a less intimidating way for those without experience in Shiny to start making dashboards in R.\nLastly, special thanks to Matt Dray for his presentation and work on these packages! He’s the reason I found flexdashboards!\nHave you ever used flexdashboards before? Have any thoughts or suggestions? Know of a better solution or way to make this script more efficient? Feel free to contact me directly! Respectful discourse towards efficient solutions or new insights is always welcomed!"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "My official title is a Data Scientist at the Prostate Cancer Clinical Trials Consortium (PCCTC) at the Memorial Sloan Kettering Cancer Center. I mostly use R to do daily data/programming/automation tasks to support Prostate Cancer research. I'm learning new things every day and always striving to further sharpen my data science and programming skills. My health research interest lies in mental and primary health care integration. My technical interest lies in automating data pipelines, data visualizations, and various user applications for data dissemination.In the past, I've worked for various government and public health entities and completed field training/internships in community mental health clinics and mental health research labs. I've had my share of working with various non-profit youth, educational, and social health clients as an evaluator as well. I'm an advocate for using mixed methods and automated data processing when possible and encourage the use of open-source responsibly. I plan to use this platform to share and collaborate with others on this professional journey.\nWhen I'm not working, I love to play video games, create art (especially rtistry), travel and spend time with my son, my Patterdale terrier, Patches, and my husband."
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "The Tidy Trekker",
-    "section": "",
-    "text": "Making Circular Maps in ggplot\n\n\n\n\n\nI made a circular map cutout in ggplot and had it printed for my best friend. Let’s talk about how I did that. \n\n\n\n\n\nFeb 15, 2023\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nLet’s Talk About 2022\n\n\n\n\n\nYes. Hi. Hello. It’s been over a year since I’ve blogged. Let’s have a chat about 2022. \n\n\n\n\n\nJan 23, 2023\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Waves in ggplot: An Rtistry Tutorial\n\n\n\n\n\nAn Rtistry tutorial in ggplot about making waves in the R programming language. \n\n\n\n\n\nNov 24, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nThinking Outside The Grid - A “bare bones” intro to Rtistry concepts in R using ggplot.\n\n\n\n\n\nRecently I’ve discovered the courage to dive into creative coding and generative aRt in R. Something that the R community calls “Rtistry.” My Rtistry journey so far has been an amazing and tranquil expedition into a world that seemed intimidating and scary on the outside but is honestly just a bottomless pit of fun and creativity on the inside. \n\n\n\n\n\nOct 19, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nWhere Have I Been?\n\n\n\n\n\nSo, it has been a good five months since I last made a post on The Tidy Trekker. I can assure you that I am alive and kicking! \n\n\n\n\n\nSep 7, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking My First Shiny App\n\n\n\n\n\nThis year was the first time that I ever competed in a RStudio Shiny competition by submitting my first ever Shiny app, the TarotreadR. \n\n\n\n\n\nSep 4, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nTallying “Checkbox” Survey Responses: R Walkthrough\n\n\n\n\n\nA guide on how to split up comma-separated survey responses in R using the grepl function in base R and various tidyverse packages . A common issue when processing “Checkbox” question types. This guide assumes that you understand how to load data into R, work with vectors, and work with basic control and loop functions. \n\n\n\n\n\nMar 18, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nMaking Dull* Dashboards in R (* Without Shiny)\n\n\n\n\n\nA walkthrough on taking prepared data and creating an interactive dashboard in R without the use of Shiny. The leaflet, flexdashboard, crosstalk, DT, and SummaryWidget packages will be used for this. This guide assumes that you are somewhat familiar with Rmarkdown and knitting markdown code. \n\n\n\n\n\nMar 15, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nHow I Became A “Not-Beginner” in R\n\n\n\n\n\nSome thoughts I have on being a “Not-beginner” (Intermediate) R programmer/Data Scientist.\n\n\n\n\n\nFeb 20, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nApply Family Notebook\n\n\n\n\n\nAn apply() function notebook to explore the different apply functions in Base R \n\n\n\n\n\nJan 23, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nOrdering Months\n\n\n\n\n\nA guide on ordering month “categories” chronologically and dealing with missing month data on a ggplot using Tidyverse packages and base R constants. This guide assumes that you understand how to load data into R, work with vectors, and are somewhat familiar with subsetting and ggplot2. \n\n\n\n\n\nJan 23, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nI Participated in My First Tidy Tuesday! : Project Recap\n\n\n\n\n\nI have always “hid in the shadows” with community challenges like this, but I took the leap and participated. Here’s a quick recap… \n\n\n\n\n\nJan 6, 2021\n\n\nMeghan Harris\n\n\n\n\n\n\n\n\n\n\n\n\nSetting Intentions\n\n\n\n\n\nAs the fiasco that is the year 2020 comes to an end, I figured I’d set some intentions for the Tidy Trekker site moving forward.\n\n\n\n\n\nDec 31, 2020\n\n\nMeghan Harris\n\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#data-frame-example",
-    "href": "post/applyfamilynotes/apply-family.html#data-frame-example",
-    "title": "Apply Family Notebook",
-    "section": "Data Frame Example",
-    "text": "Data Frame Example\n#Creating a mock data frame\nCity &lt;- c(\"Buffalo\",\"NYC\",\"Seattle\",\"Austin\",\"Orlando\",\"Minneapolis\")\nCases &lt;- c(500,2012,1876,635,4512,823)\nControls &lt;- c(3426,5210,6753,5633,2013,1890)\n\nrecords &lt;- data.frame(City,Cases,Controls, row.names = NULL)\n\nrecords\n##          City Cases Controls\n## 1     Buffalo   500     3426\n## 2         NYC  2012     5210\n## 3     Seattle  1876     6753\n## 4      Austin   635     5633\n## 5     Orlando  4512     2013\n## 6 Minneapolis   823     1890\n\nWe can use the apply function to calculate column sums…\n\n#Calculating the column sum of all applicable columns\napply(records[,2:3], 2,sum)\n##    Cases Controls \n##    10358    24925\n\n…Or row sums. (Note that these both produce vectors and that we subset the dataframe with [,2:3] to avoid R throwing an error for the first column that has strings in it. Can’t perform a mathematical function on character strings)\n\n#Calculating row sums\napply(records[,2:3], 1,sum)\n## [1] 3926 7222 8629 6268 6525 2713\n\nWe can name the vectors in one line of code with the names&lt;- function:\n\n#Calculating row sums, but applying names from the \"City\" column\n`City Totals` &lt;-  `names&lt;-`(apply(records[,2:3], 1,sum), records$City)\n\n`City Totals`\n##     Buffalo         NYC     Seattle      Austin     Orlando Minneapolis \n##        3926        7222        8629        6268        6525        2713"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#applying-statistic-more-complex-functions",
-    "href": "post/applyfamilynotes/apply-family.html#applying-statistic-more-complex-functions",
-    "title": "Apply Family Notebook",
-    "section": "Applying Statistic (More Complex) Functions",
-    "text": "Applying Statistic (More Complex) Functions\n\nWe can also do different statistical procedures based on each test’s requirement. Let’s do a T-test:\n\n#Making a mock data set for T-test\nEx1_grades &lt;- c(67,53)\nEx2_grades &lt;- c(90,89)\nEx3_grades &lt;- c(89,95)\nEx4_grades &lt;- c(95,87)\nEx5_grades &lt;- c(100,99)\nStudent &lt;- c(\"Student1\",\"Student2\")\n\nGrades &lt;- tibble(Student,Ex1_grades,Ex2_grades,Ex3_grades,Ex4_grades,Ex5_grades)\n\nGrades\n## # A tibble: 2 x 6\n##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades\n##   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;\n## 1 Student1         67         90         89         95        100\n## 2 Student2         53         89         95         87         99\n\nLet’s just say we want the P.value of one sample T-tests for each student and we want to place it in this dataset as a new column. What’s important to note is that arguments that would normally be passed through to your functions, go as separate arguments at the end of the apply function, after you declare which function you want used.\n\n#Turning off scientific notation formatting\noptions(scipen = 999)\n\n#Getting index of columns that end with the word \"grades\"\nGradeindexes &lt;- grep((\"grades$\"),names(Grades))\n\n#Using apply to apply the t.test.\ntestresults &lt;- apply(Grades[,Gradeindexes],1,t.test, alternative = \"two.sided\", conf.level = 0.95)\n\n#Using do.call to bind p values to the data set. Because results are in a list, we can use lapply and wrap it in \"as.vector\" for clean transfer into the dataframe\n\nGrades$`P Values` &lt;- as.vector(format(do.call(rbind, lapply(testresults, function(x){x$p.value})), digits = 2))\n\nGrades\n## # A tibble: 2 x 7\n##   Student  Ex1_grades Ex2_grades Ex3_grades Ex4_grades Ex5_grades `P Values`\n##   &lt;chr&gt;         &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;chr&gt;     \n## 1 Student1         67         90         89         95        100 0.000098  \n## 2 Student2         53         89         95         87         99 0.000494"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#data-frame-example-1",
-    "href": "post/applyfamilynotes/apply-family.html#data-frame-example-1",
-    "title": "Apply Family Notebook",
-    "section": "Data Frame Example",
-    "text": "Data Frame Example\n\nWe can use lapply to make changes to a data frame.\n\n# Changing column names in the \"records\" data frame to be all CAPS\n\nnames(records) &lt;- lapply(names(records),str_to_upper)\n\nrecords\n##          CITY CASES CONTROLS\n## 1     Buffalo   500     3426\n## 2         NYC  2012     5210\n## 3     Seattle  1876     6753\n## 4      Austin   635     5633\n## 5     Orlando  4512     2013\n## 6 Minneapolis   823     1890"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#list-example",
-    "href": "post/applyfamilynotes/apply-family.html#list-example",
-    "title": "Apply Family Notebook",
-    "section": "List Example",
-    "text": "List Example\n\nWe can use lapply to make changes to a list. Need to create a mock list.\n\n#Creating list from randomly sampled numbers, then adding names from the \"fruit\" constant that comes with base R\n\n#Setting a seed for reproducibility\nset.seed(555)\n\n#Generating the random sample of numbers\nstock &lt;- sample(1:50,5)\n\n#Pulling the first five strings of the fruit constant from base R\nfruits &lt;- fruit[1:5]\n\n#Coercing the sampled numbers into a list  \nInventory &lt;- as.list(as.numeric(stock))\n\n#Setting the names of each randomly sampled number to each string in out fruits vector\nnames(Inventory) &lt;- fruits\n\nInventory\n## $apple\n## [1] 42\n## \n## $apricot\n## [1] 49\n## \n## $avocado\n## [1] 24\n## \n## $banana\n## [1] 16\n## \n## $`bell pepper`\n## [1] 29\n\nWe can alter the list by adding 100 to each fruit’s count and assigning the result back to Inventory:\n\nInventory &lt;- lapply(Inventory, function(x) (x+100))\n\nInventory\n## $apple\n## [1] 142\n## \n## $apricot\n## [1] 149\n## \n## $avocado\n## [1] 124\n## \n## $banana\n## [1] 116\n## \n## $`bell pepper`\n## [1] 129"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#multiple-list-example",
-    "href": "post/applyfamilynotes/apply-family.html#multiple-list-example",
-    "title": "Apply Family Notebook",
-    "section": "Multiple List Example",
-    "text": "Multiple List Example\nWe can use mapply() to alter different elements within multiple lists, as oppose to lapply() which only works within one list. Let’s create multiple lists to test mapply() out.\n#Want to take these separate list, add th last name \"Smith\" to all the names, then get the final result in one place (a list)\n\nnames1 &lt;- list(\"John\", \"Abigail\", \"Sam\",\"Judy\")\nnames2 &lt;- list(\"Mary\", \"Lauri\", \"Gus\")\nnames3 &lt;- list(\"Harold\", \"Peter\", \"Natalie\",\"Scott\",\"Fatima\")\n\n`Names List` &lt;- mapply(function(x) paste(x,\"Smith\"), c(names1,names2,names3))\n\n`Names List`\n##  [1] \"John Smith\"    \"Abigail Smith\" \"Sam Smith\"     \"Judy Smith\"    \"Mary Smith\"    \"Lauri Smith\"   \"Gus Smith\"     \"Harold Smith\"  \"Peter Smith\"   \"Natalie Smith\" \"Scott Smith\"   \"Fatima Smith\""
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#multiple-vector-example",
-    "href": "post/applyfamilynotes/apply-family.html#multiple-vector-example",
-    "title": "Apply Family Notebook",
-    "section": "Multiple Vector Example",
-    "text": "Multiple Vector Example\nMapply() can be used to vectorize function results from multiple vectors.\nLet’s same we have vectors of numbers and we want to know the mean of all of them separately:\n\n#Making mock vectors, setting a seed for reproducibility.\nset.seed(321)\n\n#Assigning the vectors\nvector1 &lt;- sample(1:100,12)\nvector2 &lt;- sample(1:100,5)\nvector3 &lt;- sample(1:100,9)\n\nvector1\n##  [1] 54 77 88 80 58 17 47 11 25 31 82 79\nvector2\n## [1] 98 75 31 82 36\nvector3\n## [1] 78 87 34 84  4 48 51 80 13\n\nBecause we want summaries (the mean) of each vector, we can use the list() function instead of the c() function. We can use the MoreArgs argument to pass the trim argument to the mean() function. By default, this is set at zero, but passing it through to demonstrate.\n\n#Calculating the mean of each vector\nvectormeans &lt;-mapply(mean,list(vector1,vector2,vector3), MoreArgs = list(trim = 0))\n\n#Setting names to the results\nnames(vectormeans) &lt;- c(\"vector1\",\"vector2\",\"vector3\")\n\nvectormeans\n##  vector1  vector2  vector3 \n## 54.08333 64.40000 53.22222"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#nested-list-example",
-    "href": "post/applyfamilynotes/apply-family.html#nested-list-example",
-    "title": "Apply Family Notebook",
-    "section": "Nested list example",
-    "text": "Nested list example\nLet’s say we have a list of cities that have a list of restaurant types embedded in them:\nRestaurantdata &lt;- list(\"Buffalo\" = list(\"italian\",\"mexican\",\"japanese\",\"puerto rican\"),\n                       \"Seattle\" = list(\"japanese\",\"chinese\",\"southern\",\"steakhouse\"),\n                       \"Miami\" = list(\"seafood\",\"cuban\",\"italian\",\"polish\"))\n\nRestaurantdata\n## $Buffalo\n## $Buffalo[[1]]\n## [1] \"italian\"\n## \n## $Buffalo[[2]]\n## [1] \"mexican\"\n## \n## $Buffalo[[3]]\n## [1] \"japanese\"\n## \n## $Buffalo[[4]]\n## [1] \"puerto rican\"\n## \n## \n## $Seattle\n## $Seattle[[1]]\n## [1] \"japanese\"\n## \n## $Seattle[[2]]\n## [1] \"chinese\"\n## \n## $Seattle[[3]]\n## [1] \"southern\"\n## \n## $Seattle[[4]]\n## [1] \"steakhouse\"\n## \n## \n## $Miami\n## $Miami[[1]]\n## [1] \"seafood\"\n## \n## $Miami[[2]]\n## [1] \"cuban\"\n## \n## $Miami[[3]]\n## [1] \"italian\"\n## \n## $Miami[[4]]\n## [1] \"polish\"\n\nWe want to change all of the elements so that each restaurant type is capitalized. We can do this with either the tools or stringr packages. I’ll use the stringr package for this example. Note that the \"replace\" option in the how argument will actually alter the Restaurantdata list, but in order to save it as such, we have to assign in back to the Restaurantdata object.\n\nRestaurantdata &lt;- rapply(Restaurantdata,stringr::str_to_title,how = \"replace\")\n\n\nRestaurantdata\n## $Buffalo\n## $Buffalo[[1]]\n## [1] \"Italian\"\n## \n## $Buffalo[[2]]\n## [1] \"Mexican\"\n## \n## $Buffalo[[3]]\n## [1] \"Japanese\"\n## \n## $Buffalo[[4]]\n## [1] \"Puerto Rican\"\n## \n## \n## $Seattle\n## $Seattle[[1]]\n## [1] \"Japanese\"\n## \n## $Seattle[[2]]\n## [1] \"Chinese\"\n## \n## $Seattle[[3]]\n## [1] \"Southern\"\n## \n## $Seattle[[4]]\n## [1] \"Steakhouse\"\n## \n## \n## $Miami\n## $Miami[[1]]\n## [1] \"Seafood\"\n## \n## $Miami[[2]]\n## [1] \"Cuban\"\n## \n## $Miami[[3]]\n## [1] \"Italian\"\n## \n## $Miami[[4]]\n## [1] \"Polish\"\n\nWe can also get a vector of our results by using the unlist option in the how function instead. Let’s add the word “restaurants” to each of these elements then unlist the object to place it in a vector.\n\nRestaurantvector &lt;- rapply(Restaurantdata,function(x) paste(x,\"restaurants\"),how = \"unlist\")\n\n\nRestaurantvector\n##                   Buffalo1                   Buffalo2                   Buffalo3                   Buffalo4                   Seattle1                   Seattle2                   Seattle3                   Seattle4                     Miami1                     Miami2                     Miami3                     Miami4 \n##      \"Italian restaurants\"      \"Mexican restaurants\"     \"Japanese restaurants\" \"Puerto Rican restaurants\"     \"Japanese restaurants\"      \"Chinese restaurants\"     \"Southern restaurants\"   \"Steakhouse restaurants\"      \"Seafood restaurants\"        \"Cuban restaurants\"      \"Italian restaurants\"       \"Polish restaurants\""
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#data-frame-example-2",
-    "href": "post/applyfamilynotes/apply-family.html#data-frame-example-2",
-    "title": "Apply Family Notebook",
-    "section": "Data Frame Example",
-    "text": "Data Frame Example\nWe can use tapply() to apply a function across a column in a dataframe. Let’s make a simple data frame:\n# Setting a seed for reproducibility\nset.seed(789)\n\nTeams &lt;- c(\"UK\",\"USA\",\"Egypt\",\"Ireland\",\"UK\",\"USA\",\"USA\")\nSeconds &lt;- runif(length(Teams), min=30, max = 240)\nRunners &lt;- data.frame(Teams,Seconds)\n\nRunners\n##     Teams   Seconds\n## 1      UK 176.97782\n## 2     USA  49.63476\n## 3   Egypt  32.49623\n## 4 Ireland 154.23733\n## 5      UK 133.35138\n## 6     USA  34.23435\n## 7     USA 150.25773\n\nLet’s say we want to calculate the average time (seconds) for each Team. We can use tapply() for this.\n\nRunner_means &lt;- tapply(Runners$Seconds, Runners$Teams, mean)\n\nRunner_means\n##     Egypt   Ireland        UK       USA \n##  32.49623 154.23733 155.16460  78.04228\n\nThe results are stored into an array. If a new table is desired it can be manipulated to do so:\n\nRunners_summary &lt;- data.frame(Team = names(Runner_means), Mean =Runner_means, row.names = NULL)\n\nRunners_summary\n##      Team      Mean\n## 1   Egypt  32.49623\n## 2 Ireland 154.23733\n## 3      UK 155.16460\n## 4     USA  78.04228"
-  },
-  {
-    "objectID": "post/applyfamilynotes/apply-family.html#jagged-vectors-example",
-    "href": "post/applyfamilynotes/apply-family.html#jagged-vectors-example",
-    "title": "Apply Family Notebook",
-    "section": "Jagged Vectors Example",
-    "text": "Jagged Vectors Example\n\nWe can use tapply() to also preform tasks across multiple vectors of different lengths as long as the amount of factors matches the amount of the elements overall in each vector\n\n#Create a list of factors \nNames &lt;- c(\"Meghan\",\"Gus\",\"Jennifer\",\"Gus\",\"Jennifer\",\"Natalie\",\"Meghan\",\"Jennifer\",\"Gus\",\"Natalie\")\n\nScores1 &lt;- c(90,67,88,99,100)\nScores2 &lt;- c(99,99,78)\nScores3 &lt;- c(100,78)\n\n#Placing them together gives us a vector that has a length of 10. Same as the \"Names\" vector\nTest_scores &lt;- c(Scores1,Scores2,Scores3)\n\n#We can now apply the same function across this vectors and get summarized results\nTest_averages &lt;- tapply(Test_scores,Names,mean)\n\nTest_averages\n##      Gus Jennifer   Meghan  Natalie \n## 88.66667 88.66667 94.50000 88.50000"
   },
   {
     "objectID": "post/how-i-became-a-not-beginner-in-r/not-beginner.html",

@@ -216,3 +216,7 @@ center:nth-child(even) > figcaption {
 #title-block-header > div.quarto-title-banner.page-columns.page-full > div > h1 {
     color: white;
 }
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(1) > div.body > div.listing-description > a > code {
+  color: #2F1273;
+}
