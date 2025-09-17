@@ -9,13 +9,1471 @@
 <link>https://www.thetidytrekker.com/blog.html</link>
 <atom:link href="https://www.thetidytrekker.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.6.40</generator>
-<lastBuildDate>Mon, 17 Feb 2025 05:00:00 GMT</lastBuildDate>
+<generator>quarto-1.7.28</generator>
+<lastBuildDate>Wed, 17 Sep 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Artpack 0.2.0</title>
+  <dc:creator>Meghan Harris</dc:creator>
+  <link>https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p><strong>In this post:</strong></p>
+<ul>
+<li><p>What is artpack?</p></li>
+<li><p>Geospatial Tools</p></li>
+<li><p>Group Tools</p></li>
+<li><p>Sequencing Tools</p></li>
+<li><p>Transformation Tools</p></li>
+<li><p>Color Tools</p></li>
+<li><p>More Vignettes</p></li>
+<li><p>Reminder</p></li>
+</ul>
+<hr>
+<section id="what-is-artpack" class="level1">
+<h1>What is artpack?</h1>
+<p>artpack is a “new-ish” R package created to help generative artists of all levels create generative art in R. The artpack package is intended for use with the <a href="https://www.tidyverse.org/">tidyverse</a> suite, more specifically with the <a href="https://ggplot2.tidyverse.org/">ggplot2</a> package. artpack aims to simplify the process of creating generative art while providing increased control over the actual data that’s used to create art on a ggplot. artpack does this by providing tools that create and transform data frames that can be mapped onto a ggplot to create art.</p>
+<p>You can install artpack from CRAN with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">install.packages</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"artpack"</span>)</span></code></pre></div>
+</div>
+<p>You can install the development version of artpack from GitHub with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># install.packages("devtools")</span></span>
+<span id="cb2-2">devtools<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">install_github</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Meghansaha/artpack"</span>)</span></code></pre></div>
+</div>
+<p>This post will cover the main new functions included in 0.2.0 that were not present in the original 0.1.0 CRAN release.</p>
+<p>You can find all the changes implemented in the release notes <a href="https://meghansaha.github.io/artpack/news/index.html">here</a>.</p>
+</section>
+<section id="geospatial-tools" class="level1">
+<h1>Geospatial Tools</h1>
+<p>New to artpack is a geospatial function, <code>point_in_polygon()</code>, which analyzes points relative to a polygon. It was created in the spirit of <a href="https://edzer.github.io/sp/">{sp}</a>’s <code>point.in.polygon()</code> function. The sp package is currently being deprecated, so <code>point_in_polygon()</code> attempts to provide similar results by using the more stable <a href="https://r-spatial.github.io/sf/">{sf} package</a> instead. <code>point_in_polygon()</code> is a wrapper for various sf functions and returns a numeric vector of 0’s and 1’s where a value of 0 indicates that a point is outside of the polygon being tested and a value of 1 indicates that the point is either inside or on the border of the polygon being tested.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(dplyr)</span>
+<span id="cb3-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(ggplot2)</span>
+<span id="cb3-3"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(artpack)</span>
+<span id="cb3-4"></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create test points and polygon for visualization</span></span>
+<span id="cb3-6">df_points_prep <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb3-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb3-8">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3.0</span>),</span>
+<span id="cb3-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2.5</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>)</span>
+<span id="cb3-10">  )</span>
+<span id="cb3-11">df_polygon <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb3-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tibble</span>(</span>
+<span id="cb3-13">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>),</span>
+<span id="cb3-14">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb3-15">  )</span>
+<span id="cb3-16"></span>
+<span id="cb3-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Test the points and add labels for the plot</span></span>
+<span id="cb3-18">df_points <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb3-19">  df_points_prep <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb3-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mutate</span>(</span>
+<span id="cb3-21">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">point_in_polygon</span>(x, y, df_polygon<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>x, df_polygon<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>y),</span>
+<span id="cb3-22">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position_string =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">case_match</span>(position,</span>
+<span id="cb3-23">                                 <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Outside"</span>,</span>
+<span id="cb3-24">                                 <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Inside/On Boundary"</span></span>
+<span id="cb3-25">                                 ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">factor</span>(),</span>
+<span id="cb3-26">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">case_match</span>(position,</span>
+<span id="cb3-27">                       <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#e31a1c"</span>,</span>
+<span id="cb3-28">                       <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">~</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#33a02c"</span></span>
+<span id="cb3-29">                       )</span>
+<span id="cb3-30">  )</span>
+<span id="cb3-31"></span>
+<span id="cb3-32"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Pull out the colors for the plot points</span></span>
+<span id="cb3-33">unique_df <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">unique</span>(df_points[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"position_string"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"color"</span>)])</span>
+<span id="cb3-34">vec_colors <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setNames</span>(unique_df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>color, unique_df<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>position_string)</span>
+<span id="cb3-35"></span>
+<span id="cb3-36"></span>
+<span id="cb3-37"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Plot it</span></span>
+<span id="cb3-38"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-39">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_polygon</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> df_polygon, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> y),</span>
+<span id="cb3-40">               <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#104d70"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">alpha =</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.3</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"black"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-41">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> df_points, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> x, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> position_string), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-42">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">scale_color_manual</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">values =</span> vec_colors) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-43">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">labs</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Position:"</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb3-44">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/pip-ex-1.png" class="img-fluid figure-img" alt="A scatter plot demonstrating point-in-polygon detection with a rectangular boundary. The plot shows a light blue rectangle with black borders spanning from x=0 to x=2 and y=0 to y=2. Four green points are plotted inside or on the boundary of the rectangle. Two red points are plotted outside the rectangle. A legend indicates green points represent Inside/On Boundary positions and red  points represent Outside positions." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="group-tools" class="level1">
+<h1>Group Tools</h1>
+<p>If you’re a fan of using <code>geom_polygon()</code> in your generative art, chances are you know the importance of assigning grouping variables to your data where applicable. The <code>group_sample()</code> and <code>group_slice()</code> functions have been added to allow users to sample and slice their data frames by grouping variables. <code>group_sample()</code> and <code>group_slice()</code> were both created in the spirit of <a href="https://dplyr.tidyverse.org/reference/slice.html">dplyr’s <code>slice()</code></a> function family. Just like how <code>slice()</code> works on single rows, <code>group_sample()</code> and <code>group_slice()</code> will always keep the rows of a group intact. So if you decide to sample 2 groups out of 5, all of the rows labeled by the two groups will be returned while the other rows will be dropped. The same is true for <code>group_slice()</code>.</p>
+<p><br></p>
+<p>We can demonstrate <code>group_sample()</code> and <code>group_slice()</code> with a simple grid, where each square is its own group:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a grid</span></span>
+<span id="cb4-2">df_grid <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb4-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">grid_maker</span>(</span>
+<span id="cb4-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>),</span>
+<span id="cb4-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>),</span>
+<span id="cb4-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>,</span>
+<span id="cb4-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill_pal =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">art_pals</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sunnyside"</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>)</span>
+<span id="cb4-8">  )</span>
+<span id="cb4-9"></span>
+<span id="cb4-10">df_grid <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb4-11">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_polygon</span>(</span>
+<span id="cb4-13">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> df_grid<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fill,</span>
+<span id="cb4-14">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span></span>
+<span id="cb4-15">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb4-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/grid_group_ex-1.png" class="img-fluid figure-img" alt="A 10x10 grid of colored squares displaying a gradient from bright magenta at the top to golden yellow at the bottom. Each row contains 10 squares of the same color, with colors transitioning smoothly through pink, coral, orange-red, orange, and yellow tones. Black grid lines separate each square." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Sampling 50% of the groups:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set.seed</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">09132025</span>)</span>
+<span id="cb5-2"></span>
+<span id="cb5-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a sampled df</span></span>
+<span id="cb5-4">df_grid_sampled <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb5-5">  df_grid <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb5-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_sample</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prop =</span> .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>)</span>
+<span id="cb5-7"></span>
+<span id="cb5-8">df_grid_sampled <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb5-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_polygon</span>(</span>
+<span id="cb5-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> df_grid_sampled<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fill,</span>
+<span id="cb5-12">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span></span>
+<span id="cb5-13">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb5-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/group_sample_ex-1-1.png" class="img-fluid figure-img" alt="A scattered arrangement of colored squares showing the same color gradient as the previous grid, but with an irregular, fragmented pattern. The squares are distributed across the canvas in various cluster sizes, maintaining the color progression from bright magenta at the top to golden yellow at the bottom, but with gaps and asymmetrical groupings creating a more organic, broken-up appearance." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Sampling only 10 of the groups:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set.seed</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">09132025</span>)</span>
+<span id="cb6-2"></span>
+<span id="cb6-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a sampled df</span></span>
+<span id="cb6-4">df_grid_sampled <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb6-5">  df_grid <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb6-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_sample</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span>
+<span id="cb6-7"></span>
+<span id="cb6-8">df_grid_sampled <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb6-9">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-10">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_polygon</span>(</span>
+<span id="cb6-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> df_grid_sampled<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fill,</span>
+<span id="cb6-12">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span></span>
+<span id="cb6-13">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb6-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/group_sample_ex-2-1.png" class="img-fluid figure-img" alt="A sparse arrangement of colored squares using the same gradient palette. The pattern shows only a few small clusters: bright magenta squares in the upper right forming a cross-like shape, two isolated orange-red squares in the middle area, and a small cluster of golden yellow squares at the bottom left. Most of the canvas is empty white space." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Slicing the data so that the groups in the bottom half is removed:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a sliced df</span></span>
+<span id="cb7-2">df_grid_slice <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb7-3">  df_grid <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_slice</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prop =</span> .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tail"</span>)</span>
+<span id="cb7-5"></span>
+<span id="cb7-6">df_grid_slice <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb7-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_polygon</span>(</span>
+<span id="cb7-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> df_grid_slice<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fill,</span>
+<span id="cb7-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span></span>
+<span id="cb7-11">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb7-13">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/group_slice_ex-1-1.png" class="img-fluid figure-img" alt="A partial grid showing only the top portion of the color gradient, displaying 5 rows of 10 squares each. Colors transition from bright magenta in the top rows through pink tones to coral-red in the bottom row. The rest of the canvas below is empty white space, creating a truncated version of the full gradient." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Slicing the data so that 25 of the groups from the bottom remain:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a sliced df</span></span>
+<span id="cb8-2">df_grid_slice <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb8-3">  df_grid <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb8-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">group_slice</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">25</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">position =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"head"</span>)</span>
+<span id="cb8-5"></span>
+<span id="cb8-6">df_grid_slice <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb8-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group =</span> group)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb8-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_polygon</span>(</span>
+<span id="cb8-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">fill =</span> df_grid_slice<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>fill,</span>
+<span id="cb8-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span></span>
+<span id="cb8-11">  ) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb8-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>() <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb8-13">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>))</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/group_slice_ex-2-1.png" class="img-fluid figure-img" alt="A partial grid showing only the bottom portion of the color gradient, displaying 3 rows of squares in orange and yellow tones. The top row shows 5 orange squares, while the bottom two rows show 10 squares each transitioning from orange to golden yellow. Most of the canvas above is empty white space.&quot;" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="sequencing-tools" class="level1">
+<h1>Sequencing Tools</h1>
+<p><code>seq_bounce()</code> generates a regular sequence of numeric values that “bounce” between a provided “start” and “end” number. It will always return a numeric vector of the length provided.</p>
+<p>By default, <code>seq_bounce()</code> creates sequences by increments of 1:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#The length argument accepts any positive integer</span></span>
+<span id="cb9-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">seq_bounce</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start_n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end_n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">length =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 1 2 3 4 5 4 3 2 1 2 3 4 5 4 3</code></pre>
+</div>
+</div>
+<p>More precision can be obtained with the <code>by</code> argument:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#The by argument accepts any positive numeric</span></span>
+<span id="cb11-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">seq_bounce</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">start_n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">end_n =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">length =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">by =</span> .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">247</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] 0.000 0.247 0.494 0.741 0.988 1.235 1.482 1.729 1.976 2.223 2.470 2.717
+[13] 2.964 3.211 3.458 3.705 3.952 4.199 4.446 4.693 4.940 5.187 5.434 5.681
+[25] 5.928 6.175 6.422 6.669 6.916 7.163</code></pre>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="transformation-tools" class="level1">
+<h1>Transformation Tools</h1>
+<p><code>resizer()</code> is artpack’s newest transformation tool. It can be used to “resize” or scale existing data points in a data frame based on either the first data point in the dataframe or a provided anchor point.</p>
+<p>Resizing a square up by a factor of 6:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Make a data frame</span></span>
+<span id="cb13-2">df_square <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb13-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">square_data</span>(</span>
+<span id="cb13-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,</span>
+<span id="cb13-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,</span>
+<span id="cb13-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb13-7">  )</span>
+<span id="cb13-8"></span>
+<span id="cb13-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Resize it</span></span>
+<span id="cb13-10">df_square_resized <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb13-11">  df_square <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb13-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">resizer</span>(x, y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">factor =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6</span>)</span>
+<span id="cb13-13"></span>
+<span id="cb13-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Plot them</span></span>
+<span id="cb13-15">df_square <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb13-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-17">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># resized square - red dashed line</span></span>
+<span id="cb13-18">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_path</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> df_square_resized, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#a83246"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linetype =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-19">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># original square - black solid line</span></span>
+<span id="cb13-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_path</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb13-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/resizer-square-1.png" class="img-fluid figure-img" alt="A scatter plot with a rectangular boundary outlined in black, positioned in the lower-left corner from coordinates (0,0) to approximately (1,1). Dark red dashed lines form a grid pattern across the entire plot area, creating a regular pattern of horizontal and vertical lines extending from x=0 to x=7 and y=0 to y=6. The rectangular boundary appears as a small black-outlined box within this larger grid system." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Resizing a circle down by a factor of 3 and manually setting an anchor point:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Make a dataframe</span></span>
+<span id="cb14-2">df_circle <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb14-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">circle_data</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">radius =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">group_var =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>)</span>
+<span id="cb14-4"></span>
+<span id="cb14-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Set the anchor point as the middle of the circle c(5,5)</span></span>
+<span id="cb14-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Although the point 5,5 is in the circle's bounds,</span></span>
+<span id="cb14-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># it's not actually a row in `df_circle`</span></span>
+<span id="cb14-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># A message will display in cases like these and is "fine" to ignore.</span></span>
+<span id="cb14-9"></span>
+<span id="cb14-10">df_circle_resized <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb14-11">  df_circle <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb14-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">resizer</span>(x,y, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x_anchor =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y_anchor =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">direction =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"down"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">factor =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! The anchor point you've supplied (5, 5) is not found in your data.
+ℹ The data will be scaled relative to this external point</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Plot it</span></span>
+<span id="cb16-2">df_circle <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb16-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb16-4">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># resized circle - red dashed line</span></span>
+<span id="cb16-5">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_path</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">data =</span> df_circle_resized, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#a83246"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linetype =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb16-6">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># original circle - black solid line</span></span>
+<span id="cb16-7">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_path</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#000000"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">linewidth =</span> .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb16-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_equal</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/resizer-circle-2-1.png" class="img-fluid figure-img" alt="A plot showing two concentric circles centered at coordinates (5,5). The outer circle has a solid black boundary extending from approximately 0 to 10 on both axes. Inside is a smaller dashed circle made up of dark red dashed line segments, positioned in the center of the outer circle and roughly half its diameter." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="color-tools" class="level1">
+<h1>Color Tools</h1>
+<p>Two new functions, <code>set_brightness()</code> and <code>set_saturation()</code>, have been added to artpack. Both can be used to adjust original colors by percentage of desired brightness and saturation. These functions work by transforming <a href="https://en.wikipedia.org/wiki/Web_colors">hexadecimal webcolor</a> values or any value from <code>colors()</code> into an RGB value, and then an HSL value to adjust the brightness or saturation. After the adjustment, the values are converted into a hexadecimal webcolor that is then returned to the environment for use.</p>
+<p>These functions use a normalized scale of 0 to 1, meaning that 0% is the darkest/least saturated value in relation to the original color provided and 100% is the brightest/most saturated value in relation to the original color provided.</p>
+<p>An example of adjusting the brightness of a color. Note how the “darker” color shown is not much darker than the original, because the original color already had a brightness of 35%:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create color values</span></span>
+<span id="cb17-2">original_color <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#94321c"</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#(original brightness == %35)</span></span>
+<span id="cb17-3">darker_color <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_brightness</span>(original_color, .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">30</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#(brightness == %30)</span></span>
+<span id="cb17-4">lighter_color <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_brightness</span>(original_color, .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">7</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#(brightness == %70)</span></span>
+<span id="cb17-5"></span>
+<span id="cb17-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Make a data frame with the color values</span></span>
+<span id="cb17-7">df_colors <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb17-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(</span>
+<span id="cb17-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb17-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb17-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(darker_color, original_color, lighter_color)</span>
+<span id="cb17-12">  )</span>
+<span id="cb17-13"></span>
+<span id="cb17-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Add a label for clarity</span></span>
+<span id="cb17-15">df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Darker"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Original"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Lighter"</span>), <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">":"</span>, df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>color)</span>
+<span id="cb17-16"></span>
+<span id="cb17-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Plot to see the brightness changes</span></span>
+<span id="cb17-18">df_colors <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb17-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb17-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_label</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb17-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>color, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb17-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_cartesian</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb17-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/brightness-1.png" class="img-fluid figure-img" alt="Three color swatches demonstrating brightness variations of a reddish-brown color. From left to right: a darker version (#812B18), the original color (#94321c), and a lighter version (#E7917E). Each swatch is labeled with its corresponding hex color code above it, showing how the same base color appears when darkened and lightened.&quot;" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Saturation is adjusted similarly:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create color values</span></span>
+<span id="cb18-2">original_color <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#748c3f"</span> <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#(original saturation == %38)</span></span>
+<span id="cb18-3">desaturated_color <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_saturation</span>(original_color, .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#(saturation == %20)</span></span>
+<span id="cb18-4">saturated_color <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">set_saturation</span>(original_color, .<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">9</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#(saturation == %90)</span></span>
+<span id="cb18-5"></span>
+<span id="cb18-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Make a data frame with the color values</span></span>
+<span id="cb18-7">df_colors <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span></span>
+<span id="cb18-8">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">data.frame</span>(</span>
+<span id="cb18-9">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>,</span>
+<span id="cb18-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,</span>
+<span id="cb18-11">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(desaturated_color, original_color, saturated_color)</span>
+<span id="cb18-12">  )</span>
+<span id="cb18-13"></span>
+<span id="cb18-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Add a label for clarity</span></span>
+<span id="cb18-15">df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Desaturated"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Original"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Saturated"</span>), <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">":"</span>, df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>color)</span>
+<span id="cb18-16"></span>
+<span id="cb18-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Plot to see the saturation changes</span></span>
+<span id="cb18-18">df_colors <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|&gt;</span></span>
+<span id="cb18-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(x,y)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_label</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">aes</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">y =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>label) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">geom_point</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">color =</span> df_colors<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>color, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">shape =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">15</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">size =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">50</span>) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">coord_cartesian</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">xlim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ylim =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>,<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)) <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span></span>
+<span id="cb18-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">theme_void</span>()</span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0_files/figure-html/saturation-1.png" class="img-fluid figure-img" alt="Three color swatches demonstrating saturation variations of a green color. From left to right: a desaturated grayish-green (#6D7A51), the original olive-green color (#748c3f), and a highly saturated bright green (#88C10A). Each swatch is labeled with its corresponding hex color code above it, showing how the same base color appears with different saturation levels." width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>You might be asking how you could determine the original brightness or saturation of a color you provide. Currently, there is no function in artpack that does this, but it is planned for a future release.</p>
+<p>In the meantime, if needed, you can absolutely use other methods to determine this. Take the color “#748c3f” for example. Going to Google.com and using their <a href="https://www.google.com/search?q=google+color+picker">“Color picker” tool</a> can let you easily see these values:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.thetidytrekker.com/post/artpack-0-2-0/images/google_picker.png" class="img-fluid figure-img"></p>
+<figcaption>Google color picker tool showing color #748c3f with HSL values displayed in bottom right: H:82°, S:38%, L:40%</figcaption>
+</figure>
+</div>
+<p>An “HSL” value is provided in the bottom right of the picker tool. The second value, “S”, is the saturation percentage of the color (38%), and the third value, “L”, is the “lightness” which is essentially the brightness (40%).</p>
+</section>
+<section id="more-vignettes" class="level1">
+<h1>More Vignettes</h1>
+<p>The last update you might want to check out are the new and improved vignettes:</p>
+<ul>
+<li><p><em><a href="https://meghansaha.github.io/artpack/articles/brief_examples.html">Brief Examples</a></em> has an updated example of some art that can be made with artpack.</p></li>
+<li><p><em><a href="https://meghansaha.github.io/artpack/articles/geom_chart.html">Connecting artpack Assets to ggplot2 Geoms</a></em> is a new vignette that goes over the various artpack <a href="https://meghansaha.github.io/artpack/reference/index.html#asset-creation">asset creations</a> and their recommended ggplot2 <a href="https://ggplot2.tidyverse.org/reference/index.html#geoms">geoms</a> that can be used when creating art in R with artpack and ggplot2. It also gives a quick example of how to bring your newly created art data into a ggplot if you need that information.</p></li>
+<li><p><em><a href="https://meghansaha.github.io/artpack/articles/see_artpack_in_action.html">See aRtpack in Action</a></em> is a new vignette that shows you how to make an art piece from start to finish, which may be helpful for anyone just starting or those who just need an example of an entire workflow that’s possible with artpack.</p></li>
+</ul>
+</section>
+<section id="reminder" class="level1">
+<h1>Reminder</h1>
+<p>artpack is still in its infancy and is currently developed and maintained by one person. Some weird stuff may happen when using artpack. If you come across any bugs or have any ideas about new features you’d want to see implemented, or recommend improvements, please do so on artpack’s github repository by opening a new issue <a href="https://github.com/Meghansaha/artpack/issues/new">here</a>.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>r</category>
+  <category>cran</category>
+  <category>dev work</category>
+  <category>development</category>
+  <category>updates</category>
+  <category>generative art</category>
+  <category>art</category>
+  <category>artpack</category>
+  <guid>https://www.thetidytrekker.com/post/artpack-0-2-0/artpack-0-2-0.html</guid>
+  <pubDate>Wed, 17 Sep 2025 04:00:00 GMT</pubDate>
+  <media:content url="https://www.thetidytrekker.com/post/artpack-0-2-0/images/artpack_logo.png" medium="image" type="image/png" height="108" width="144"/>
+</item>
 <item>
   <title>Git Stash for Newbies.</title>
   <dc:creator>Meghan Harris</dc:creator>
   <link>https://www.thetidytrekker.com/post/git-stash-for-newbies/git-stash-for-newbies.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -77,23 +1535,23 @@
 <p>If you use the Git terminal to do your stash work, you can find the most essential commands you’ll need to know in the table below. If you’re choosing to use a GUI, you won’t have to type the inputs into a terminal, but rather, the application you’re using will be interacting with Git on your behalf to perform some of these commands for you:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="pjmgtvwcma" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pjmgtvwcma table {
+<div id="tofrornrhp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tofrornrhp table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pjmgtvwcma thead, #pjmgtvwcma tbody, #pjmgtvwcma tfoot, #pjmgtvwcma tr, #pjmgtvwcma td, #pjmgtvwcma th {
+#tofrornrhp thead, #tofrornrhp tbody, #tofrornrhp tfoot, #tofrornrhp tr, #tofrornrhp td, #tofrornrhp th {
   border-style: none;
 }
 
-#pjmgtvwcma p {
+#tofrornrhp p {
   margin: 0;
   padding: 0;
 }
 
-#pjmgtvwcma .gt_table {
+#tofrornrhp .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -119,12 +1577,12 @@
   border-left-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_caption {
+#tofrornrhp .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pjmgtvwcma .gt_title {
+#tofrornrhp .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -136,7 +1594,7 @@
   border-bottom-width: 0;
 }
 
-#pjmgtvwcma .gt_subtitle {
+#tofrornrhp .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -148,7 +1606,7 @@
   border-top-width: 0;
 }
 
-#pjmgtvwcma .gt_heading {
+#tofrornrhp .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -160,13 +1618,13 @@
   border-right-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_bottom_border {
+#tofrornrhp .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_col_headings {
+#tofrornrhp .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -181,7 +1639,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_col_heading {
+#tofrornrhp .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -201,7 +1659,7 @@
   overflow-x: hidden;
 }
 
-#pjmgtvwcma .gt_column_spanner_outer {
+#tofrornrhp .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -213,15 +1671,15 @@
   padding-right: 4px;
 }
 
-#pjmgtvwcma .gt_column_spanner_outer:first-child {
+#tofrornrhp .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pjmgtvwcma .gt_column_spanner_outer:last-child {
+#tofrornrhp .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pjmgtvwcma .gt_column_spanner {
+#tofrornrhp .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -233,11 +1691,11 @@
   width: 100%;
 }
 
-#pjmgtvwcma .gt_spanner_row {
+#tofrornrhp .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pjmgtvwcma .gt_group_heading {
+#tofrornrhp .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -263,7 +1721,7 @@
   text-align: left;
 }
 
-#pjmgtvwcma .gt_empty_group_heading {
+#tofrornrhp .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -278,15 +1736,15 @@
   vertical-align: middle;
 }
 
-#pjmgtvwcma .gt_from_md > :first-child {
+#tofrornrhp .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pjmgtvwcma .gt_from_md > :last-child {
+#tofrornrhp .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pjmgtvwcma .gt_row {
+#tofrornrhp .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -305,7 +1763,7 @@
   overflow-x: hidden;
 }
 
-#pjmgtvwcma .gt_stub {
+#tofrornrhp .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -318,7 +1776,7 @@
   padding-right: 5px;
 }
 
-#pjmgtvwcma .gt_stub_row_group {
+#tofrornrhp .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -332,15 +1790,15 @@
   vertical-align: top;
 }
 
-#pjmgtvwcma .gt_row_group_first td {
+#tofrornrhp .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pjmgtvwcma .gt_row_group_first th {
+#tofrornrhp .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pjmgtvwcma .gt_summary_row {
+#tofrornrhp .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -350,16 +1808,16 @@
   padding-right: 5px;
 }
 
-#pjmgtvwcma .gt_first_summary_row {
+#tofrornrhp .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_first_summary_row.thick {
+#tofrornrhp .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pjmgtvwcma .gt_last_summary_row {
+#tofrornrhp .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -369,7 +1827,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_grand_summary_row {
+#tofrornrhp .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -379,7 +1837,7 @@
   padding-right: 5px;
 }
 
-#pjmgtvwcma .gt_first_grand_summary_row {
+#tofrornrhp .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -389,7 +1847,7 @@
   border-top-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_last_grand_summary_row_top {
+#tofrornrhp .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -399,11 +1857,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_striped {
+#tofrornrhp .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pjmgtvwcma .gt_table_body {
+#tofrornrhp .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -412,7 +1870,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_footnotes {
+#tofrornrhp .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -426,7 +1884,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_footnote {
+#tofrornrhp .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -435,7 +1893,7 @@
   padding-right: 5px;
 }
 
-#pjmgtvwcma .gt_sourcenotes {
+#tofrornrhp .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -449,7 +1907,7 @@
   border-right-color: #D3D3D3;
 }
 
-#pjmgtvwcma .gt_sourcenote {
+#tofrornrhp .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -457,72 +1915,72 @@
   padding-right: 5px;
 }
 
-#pjmgtvwcma .gt_left {
+#tofrornrhp .gt_left {
   text-align: left;
 }
 
-#pjmgtvwcma .gt_center {
+#tofrornrhp .gt_center {
   text-align: center;
 }
 
-#pjmgtvwcma .gt_right {
+#tofrornrhp .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pjmgtvwcma .gt_font_normal {
+#tofrornrhp .gt_font_normal {
   font-weight: normal;
 }
 
-#pjmgtvwcma .gt_font_bold {
+#tofrornrhp .gt_font_bold {
   font-weight: bold;
 }
 
-#pjmgtvwcma .gt_font_italic {
+#tofrornrhp .gt_font_italic {
   font-style: italic;
 }
 
-#pjmgtvwcma .gt_super {
+#tofrornrhp .gt_super {
   font-size: 65%;
 }
 
-#pjmgtvwcma .gt_footnote_marks {
+#tofrornrhp .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pjmgtvwcma .gt_asterisk {
+#tofrornrhp .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pjmgtvwcma .gt_indent_1 {
+#tofrornrhp .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pjmgtvwcma .gt_indent_2 {
+#tofrornrhp .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pjmgtvwcma .gt_indent_3 {
+#tofrornrhp .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pjmgtvwcma .gt_indent_4 {
+#tofrornrhp .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pjmgtvwcma .gt_indent_5 {
+#tofrornrhp .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pjmgtvwcma .katex-display {
+#tofrornrhp .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pjmgtvwcma div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#tofrornrhp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1265,9 +2723,9 @@ font-style: inherit;">)</span></span></code></pre></div>
 <p>Next, we need to tell the OSM package what “features” we want on our map. These features will translate into relevant&nbsp;<a href="https://support.esri.com/en-us/gis-dictionary/geometry">geometry</a>&nbsp;data that will visually appear as structures (like bodies of water, buildings, or roads) in our image. The list of available features is MASSIVE, so I’d encourage you to view&nbsp;<a href="https://wiki.openstreetmap.org/wiki/Map_Features">this reference</a>&nbsp;and pick the relevant ones for your project. Because my computer is a potato (i.e., slow), I only included five features (buildings, landuse, leisure, natural, and highways). The more features you have and the more populated your POI is with features, the longer it will take for your computer to pull and process the data through the OSM APIs, so balance out what you include in these scripts as you see fit.</p>
 <p>I’ve placed my features into objects (<code>feature_names</code> , <code>feature_keys</code>, <code>osm_features</code>) to optimize my code and pulled the data iteratively using&nbsp;<a href="https://purrr.tidyverse.org/reference/map.html">purrr’s map</a>&nbsp;function. From the osmdata package, we’ll need to use the following functions to grab this data from the servers:</p>
 <ul>
-<li><p><code>opq()</code> - Builds an <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass</a> query to “talk to” the server to gain access to the Open Street Map data.</p></li>
-<li><p><code>add_osm_feature()</code> - Adds selected OSM features to an existing Overpass query.</p></li>
-<li><p><code>osmdata_sf()</code> - Converts the collected data from the API into Open Street Map Data that is formatted into sf format.</p></li>
+<li><p><code><a href="https://docs.ropensci.org/osmdata/reference/opq.html">opq()</a></code> - Builds an <a href="https://wiki.openstreetmap.org/wiki/Overpass_API">Overpass</a> query to “talk to” the server to gain access to the Open Street Map data.</p></li>
+<li><p><code><a href="https://docs.ropensci.org/osmdata/reference/add_osm_feature.html">add_osm_feature()</a></code> - Adds selected OSM features to an existing Overpass query.</p></li>
+<li><p><code><a href="https://docs.ropensci.org/osmdata/reference/osmdata_sf.html">osmdata_sf()</a></code> - Converts the collected data from the API into Open Street Map Data that is formatted into sf format.</p></li>
 </ul>
 <div class="cell">
 <div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co" style="color: #5E5E5E;
@@ -1356,7 +2814,7 @@ font-style: inherit;">feature_keys</span>, <span class="op" style="color: #5E5E5
 background-color: null;
 font-style: inherit;">~</span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">opq</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://docs.ropensci.org/osmdata/reference/opq.html">opq</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>bbox <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1369,7 +2827,7 @@ background-color: null;
 font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>                      <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">add_osm_feature</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://docs.ropensci.org/osmdata/reference/add_osm_feature.html">add_osm_feature</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>key <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1382,7 +2840,7 @@ background-color: null;
 font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>                      <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">osmdata_sf</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://docs.ropensci.org/osmdata/reference/osmdata_sf.html">osmdata_sf</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1424,7 +2882,7 @@ font-style: inherit;">roads</span> <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">opq</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://docs.ropensci.org/osmdata/reference/opq.html">opq</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>bbox <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1437,7 +2895,7 @@ background-color: null;
 font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">add_osm_feature</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://docs.ropensci.org/osmdata/reference/add_osm_feature.html">add_osm_feature</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span>key <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1450,7 +2908,7 @@ background-color: null;
 font-style: inherit;"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">osmdata_sf</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://docs.ropensci.org/osmdata/reference/osmdata_sf.html">osmdata_sf</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1923,7 +3381,7 @@ background-color: null;
 font-style: inherit;">#Adding a pretty font from Google#</span></span>
 <span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">font_add_google</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
@@ -1932,7 +3390,7 @@ background-color: null;
 font-style: inherit;">)</span></span>
 <span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">font_add_google</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://rdrr.io/pkg/sysfonts/man/font_add_google.html">font_add_google</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="st" style="color: #20794D;
 background-color: null;
@@ -1941,7 +3399,7 @@ background-color: null;
 font-style: inherit;">)</span></span>
 <span><span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">showtext_auto</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://rdrr.io/pkg/showtext/man/showtext_auto.html">showtext_auto</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2080,7 +3538,7 @@ font-style: inherit;">)</span>,</span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">element_textbox_simple</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>          halign <span class="op" style="color: #5E5E5E;
@@ -2400,7 +3858,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">geom_richtext</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2760,7 +4218,7 @@ font-style: inherit;">)</span>,</span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">element_textbox_simple</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>          halign <span class="op" style="color: #5E5E5E;
@@ -3113,7 +4571,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">geom_richtext</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3358,7 +4816,7 @@ font-style: inherit;">)</span>,</span>
 background-color: null;
 font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">element_textbox_simple</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://wilkelab.org/ggtext/reference/element_textbox.html">element_textbox_simple</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span></span>
 <span>          halign <span class="op" style="color: #5E5E5E;
@@ -3796,7 +5254,7 @@ background-color: null;
 font-style: inherit;">+</span></span>
 <span>  <span class="fu" style="color: #4758AB;
 background-color: null;
-font-style: inherit;">geom_richtext</span><span class="op" style="color: #5E5E5E;
+font-style: inherit;"><a href="https://wilkelab.org/ggtext/reference/geom_richtext.html">geom_richtext</a></span><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">(</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -4013,6 +5471,7 @@ body {
 
 
 
+
 <p>Yes, hello. It’s been a while. I have been neglecting The Tidy Trekker as of late (and to be honest, I still might this year after this overhaul is done, but we’ll see.) I had all the intentions of being super active here in 2022, but life happened. The good news is, instead of the usual negative BS, I was inundated with EXCELLENT things in 2022. I was afraid to even step into 2023 for fear that all my good luck would “run out” this year. (<em>I’m joking, btw life is what you make it, and your enjoyment of it depends on a lot of things like perspective, if you need/go to therapy, circumstances, etc.)</em></p>
 <p><br></p>
 <p>But enough general rambling; let’s start with some targeted rambling. <strong>So what happened in 2022?</strong></p>
@@ -4092,6 +5551,7 @@ body {
 
 
 
+
 <center>
 <img src="https://www.thetidytrekker.com/post/making-waves/images/wave.PNG" width="100%">
 <figcaption>
@@ -4118,9 +5578,9 @@ font-style: inherit;">#For everything data#</span></span></code></pre></div>
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
+✔ purrr     1.1.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
@@ -5077,6 +6537,7 @@ body {
 
 
 
+
 <p><em>Before I write any further, I want to give a special shout out to <a href="https://twitter.com/ijeamaka_a">@ijeamaka_a</a>, <a href="https://twitter.com/djnavarro">@djnavarro</a>, &amp; <a href="https://twitter.com/jiwanheo">@jiwanheo</a> who I personally credit for inspiring me within the last month specifically (my only month being an aRtist so far)!</em></p>
 <p><br></p>
 <p>So, this post will be a bit different from my others. I’m going to talk about some very basic concepts and perspectives you can think about while starting your own Rtistry journey in ggplot. This includes basics on geoms, aesthetics, layering, etc. But then I’m also going to walk you through two of my Rtistry examples and code to get you started.</p>
@@ -5183,9 +6644,9 @@ font-style: inherit;">#For everything data====</span></span></code></pre></div>
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
+✔ purrr     1.1.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
@@ -6973,12 +8434,17 @@ font-style: inherit;">+</span></span>
 <span id="cb41-7">                                  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">draw_image</span>(Planet_PNGs[[i]])</span>
-<span id="cb41-8">}</span>
-<span id="cb41-9"></span>
-<span id="cb41-10"><span class="do" style="color: #5E5E5E;
+<span id="cb41-8">}</span></code></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Package `magick` is required to draw images. Image not drawn.
+Warning: Package `magick` is required to draw images. Image not drawn.
+Warning: Package `magick` is required to draw images. Image not drawn.
+Warning: Package `magick` is required to draw images. Image not drawn.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Setting names to keep track of the plots===</span></span>
-<span id="cb41-11"><span class="fu" style="color: #4758AB;
+<span id="cb43-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">names</span>(Combined_plots) <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -6989,7 +8455,7 @@ font-style: inherit;">names</span>(Planet_PNGs)</span></code></pre></div>
 <p><br></p>
 <p>Just like before, we can take a peek at any of the plots in the Combined_plots list to make sure it looks as expected. I’ll use <code>Combined_plots$Bottomleft</code> in the console to see:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1">Combined_plots<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1">Combined_plots<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>Bottomleft</span></code></pre></div>
 <div class="cell-output-display">
@@ -7005,10 +8471,10 @@ font-style: inherit;">$</span>Bottomleft</span></code></pre></div>
 <p>Looking good! Almost done! Now we can <a href="https://purrr.tidyverse.org/reference/pluck.html"><code>pluck()</code></a> each of our plots out and save them to individual objects! Because there’s only four of them, I’ll just copy and paste that code because this is Rtistry and it’s totally OK to be lazy. It’s your work. It’s your aRt . Do what you want!</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="do" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Plucking out all the individual plots===</span></span>
-<span id="cb43-2">Topleft <span class="ot" style="color: #003B4F;
+<span id="cb45-2">Topleft <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7017,7 +8483,7 @@ background-color: null;
 font-style: inherit;">pluck</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Topleft"</span>)</span>
-<span id="cb43-3">Topright <span class="ot" style="color: #003B4F;
+<span id="cb45-3">Topright <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7026,7 +8492,7 @@ background-color: null;
 font-style: inherit;">pluck</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Topright"</span>)</span>
-<span id="cb43-4">Bottomright <span class="ot" style="color: #003B4F;
+<span id="cb45-4">Bottomright <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7035,7 +8501,7 @@ background-color: null;
 font-style: inherit;">pluck</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Bottomright"</span>)</span>
-<span id="cb43-5">Bottomleft <span class="ot" style="color: #003B4F;
+<span id="cb45-5">Bottomleft <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7049,10 +8515,10 @@ font-style: inherit;">"Bottomleft"</span>)</span></code></pre></div>
 <p>Finally, we use <a href="https://patchwork.data-imaginist.com/articles/guides/layout.html">pacthwork’s layout syntax</a> to combine these plots into one image:</p>
 <p><br></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Final output construction with patchwork functions====</span></span>
-<span id="cb44-2">Planet_Quad <span class="ot" style="color: #003B4F;
+<span id="cb46-2">Planet_Quad <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> (Topleft <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -7061,11 +8527,11 @@ background-color: null;
 font-style: inherit;">/</span> (Bottomleft <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> Bottomright)</span>
-<span id="cb44-3"></span>
-<span id="cb44-4"><span class="co" style="color: #5E5E5E;
+<span id="cb46-3"></span>
+<span id="cb46-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># View the piece#</span></span>
-<span id="cb44-5">Planet_Quad</span></code></pre></div>
+<span id="cb46-5">Planet_Quad</span></code></pre></div>
 </div>
 <p><br></p>
 <p>And voila! We have our finished piece! I’ve noticed that sometimes patchwork may render in some borders around these images if <a href="https://ggplot2.tidyverse.org/reference/ggsave.html"><code>ggsave()</code></a> is used. In these cases, I just export using the Export button in the RStudio IDE.</p>
@@ -7087,23 +8553,23 @@ Rainbow Rose
 <p>To start out, we need to set up some specifications that will alter how the data is plotted onto ggplot’s Cartesian coordinate system. This includes calculating the “theta”(angles) of our intended circle, the number of divisions/data points we want in the dataset “<code>n</code>”, and the radial setting we wish to have for the visual. Because we want to give an effect that starts from the center of the image, we set the radial setting, “<code>r</code>” to a vector that spans from 1 to our “<code>n</code>” value.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Library Load-In====</span></span>
-<span id="cb45-2"><span class="fu" style="color: #4758AB;
+<span id="cb47-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(tidyverse) <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># For everything data</span></span>
-<span id="cb45-3"></span>
-<span id="cb45-4"><span class="co" style="color: #5E5E5E;
+<span id="cb47-3"></span>
+<span id="cb47-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Setting parameters to prep ggplot to plot data in a "circular" fashion on the Cartesian coordinate system====</span></span>
-<span id="cb45-5"></span>
-<span id="cb45-6"><span class="do" style="color: #5E5E5E;
+<span id="cb47-5"></span>
+<span id="cb47-6"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Angle "slices"/ Sine/Cosine Frequency====</span></span>
-<span id="cb45-7">theta <span class="ot" style="color: #003B4F;
+<span id="cb47-7">theta <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7118,20 +8584,20 @@ background-color: null;
 font-style: inherit;">length =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">100</span>) </span>
-<span id="cb45-8"></span>
-<span id="cb45-9"><span class="do" style="color: #5E5E5E;
+<span id="cb47-8"></span>
+<span id="cb47-9"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Number of divisions/rows in the data wanted====</span></span>
-<span id="cb45-10">n <span class="ot" style="color: #003B4F;
+<span id="cb47-10">n <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">500</span></span>
-<span id="cb45-11"></span>
-<span id="cb45-12"><span class="do" style="color: #5E5E5E;
+<span id="cb47-11"></span>
+<span id="cb47-12"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## "Radial" setting of the "circle" to create "n" different marks====</span></span>
-<span id="cb45-13">r <span class="ot" style="color: #003B4F;
+<span id="cb47-13">r <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
@@ -7143,10 +8609,10 @@ font-style: inherit;">:</span>n</span></code></pre></div>
 <p>Next, I’ll use one of my favorite color palettes that I found for one of my <a href="https://github.com/Meghansaha/TidyTuesday/blob/master/2021/9-14-21%20Billboard_100/final_plot.png">#TidyTuesday submissions</a>. I’ll store them in a vector simply called “colors”:</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="do" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Setting up the custom color palette====</span></span>
-<span id="cb46-2">colors <span class="ot" style="color: #003B4F;
+<span id="cb48-2">colors <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7161,7 +8627,7 @@ background-color: null;
 font-style: inherit;">"#612884"</span>,<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#154baf"</span>,</span>
-<span id="cb46-3">            <span class="st" style="color: #20794D;
+<span id="cb48-3">            <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#0b82b9"</span>, <span class="st" style="color: #20794D;
 background-color: null;
@@ -7177,10 +8643,10 @@ font-style: inherit;">"#b2336a"</span>)</span></code></pre></div>
 <p>Now I’ll create a simple data frame. I’ll create my <code>x</code> and <code>y</code> variables using the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Trig"><code>cos()</code> and <code>sin()</code></a> functions respectively:</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Placing everything into a dataset====</span></span>
-<span id="cb47-2">data <span class="ot" style="color: #003B4F;
+<span id="cb49-2">data <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7191,7 +8657,7 @@ background-color: null;
 font-style: inherit;">cos</span>(theta)<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span>r,</span>
-<span id="cb47-3">               <span class="at" style="color: #657422;
+<span id="cb49-3">               <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7203,15 +8669,15 @@ font-style: inherit;">*</span>r)</span></code></pre></div>
 <p>Finally, we’ll put everything together. Using <code>geom_path()</code> on this dataset and passing our colors vector into it creates our Rainbow Rose!</p>
 <p><br></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Pulling it all together====</span></span>
-<span id="cb48-2">Rainbow_Rose <span class="ot" style="color: #003B4F;
+<span id="cb50-2">Rainbow_Rose <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> data <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">%&gt;%</span></span>
-<span id="cb48-3">  <span class="fu" style="color: #4758AB;
+<span id="cb50-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7224,7 +8690,7 @@ background-color: null;
 font-style: inherit;">color =</span> color))<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb48-4">  <span class="fu" style="color: #4758AB;
+<span id="cb50-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_path</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -7243,19 +8709,19 @@ background-color: null;
 font-style: inherit;">1</span>)<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb48-5">  <span class="fu" style="color: #4758AB;
+<span id="cb50-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_void</span>()<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb48-6">  <span class="fu" style="color: #4758AB;
+<span id="cb50-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"none"</span>,</span>
-<span id="cb48-7">        <span class="at" style="color: #657422;
+<span id="cb50-7">        <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">panel.background =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -7264,11 +8730,11 @@ background-color: null;
 font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"black"</span>))</span>
-<span id="cb48-8"></span>
-<span id="cb48-9"><span class="co" style="color: #5E5E5E;
+<span id="cb50-8"></span>
+<span id="cb50-9"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># View it #</span></span>
-<span id="cb48-10">Rainbow_Rose</span></code></pre></div>
+<span id="cb50-10">Rainbow_Rose</span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -7337,6 +8803,7 @@ body {
   <dc:creator>Meghan Harris</dc:creator>
   <link>https://www.thetidytrekker.com/post/where-have-i-been/where-have-i-been.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -7411,6 +8878,7 @@ body {
   <dc:creator>Meghan Harris</dc:creator>
   <link>https://www.thetidytrekker.com/post/making-my-first-shiny-app/making-my-first-shiny-app.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -7594,6 +9062,7 @@ The completed TarotreadR app. My first Shiny app!
   <dc:creator>Meghan Harris</dc:creator>
   <link>https://www.thetidytrekker.com/post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -7983,6 +9452,7 @@ body {
 
 
 
+
 <p><strong><em>Don’t have time to read and just want the source code? <a href="https://github.com/Meghansaha/NYS_MH_Programs/blob/master/Dull_NYMHprogramDash.Rmd">Click Here</a></em></strong></p>
 <p><br></p>
 <p><strong>The Problem:</strong> <em>You want to put cleaned/prepared data into an interactive dashboard but you can’t or don’t want to code with Shiny at the moment.</em></p>
@@ -8113,9 +9583,9 @@ font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
+✔ purrr     1.1.0     
 ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
@@ -8850,6 +10320,7 @@ body {
 
 
 
+
 <div id="post" style="overflow: hidden;">
 <p>I’ve been in my current position as a Data Integration Specialist for about nine months now and <strong>I absolutely love it!</strong> I have achieved a lot of professional development that intertwined perfectly with my actual position. I’ve learned how to clean data more efficiently, deal with multiple data sources, and even learned how to create automated reports and dashboards in R and R Markdown.</p>
 <p>More recently, I’ve had a local opioid dashboard (that I created in R) featured on our local news station. <a href="https://www.wkbw.com/news/local-news/overdose-deaths-rise-in-erie-county-during-pandemic">Like on actual TV</a> (yeah, I’m still in shock about that one.)</p>
@@ -8978,6 +10449,7 @@ body {
   <dc:creator>Meghan Harris</dc:creator>
   <link>https://www.thetidytrekker.com/post/applyfamilynotes/apply-family.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -10535,6 +12007,7 @@ body {
 
 
 
+
 <div id="post" style="overflow: hidden;">
 <center>
 <img src="https://www.thetidytrekker.com/post/orderingmonths/images/ordering_months.png">
@@ -11140,6 +12613,7 @@ body {
 
 
 
+
 <div id="post" style="overflow: hidden;">
 <center>
 <img src="https://www.thetidytrekker.com/post/i-participated-in-my-first-tidy-tuesday-project-recap/images/first_tidy_tuesday.png">
@@ -11180,6 +12654,7 @@ body {
   <dc:creator>Meghan Harris</dc:creator>
   <link>https://www.thetidytrekker.com/post/setting-intentions/setting-intentions.html</link>
   <description><![CDATA[ 
+
 
 
 

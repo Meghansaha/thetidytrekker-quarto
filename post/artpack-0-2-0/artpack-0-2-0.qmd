@@ -1,0 +1,469 @@
+---
+title: "Artpack 0.2.0"
+description: |
+  {artpack} 0.2.0 is now on CRAN 🎉
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
+date: 09-17-2025
+output:
+    toc: true
+image: images/artpack_logo.png
+categories:
+  - r
+  - cran
+  - dev work
+  - development
+  - updates
+  - generative art
+  - art
+  - artpack
+  
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
+---
+
+**In this post:**
+
+-   [What is artpack?]
+
+-   [Geospatial Tools]
+
+-   [Group Tools]
+
+-   [Sequencing Tools]
+
+-   [Transformation Tools]
+
+-   [Color Tools]
+
+-   [More Vignettes]
+
+-   [Reminder]
+
+------------------------------------------------------------------------
+
+# What is artpack?
+artpack is a "new-ish" R package created to help generative artists of all levels create generative art in R. The artpack package is intended for use with the [tidyverse](https://www.tidyverse.org/) suite, more specifically with the [ggplot2](https://ggplot2.tidyverse.org/) package. artpack aims to simplify the process of creating generative art while providing increased control over the actual data that's used to create art on a ggplot. artpack does this by providing tools that create and transform data frames that can be mapped onto a ggplot to create art.
+
+You can install artpack from CRAN with:
+
+```{r, cran-install, eval = FALSE}
+install.packages("artpack")
+```
+
+You can install the development version of artpack from GitHub with:
+
+```{r, gh-install, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("Meghansaha/artpack")
+```
+
+This post will cover the main new functions included in 0.2.0 that were not present in the original 0.1.0 CRAN release.
+
+You can find all the changes implemented in the release notes [here](https://meghansaha.github.io/artpack/news/index.html).
+
+# Geospatial Tools
+New to artpack is a geospatial function, `point_in_polygon()`, which analyzes points relative to a polygon. It was created in the spirit of [{sp}](https://edzer.github.io/sp/)'s `point.in.polygon()` function. The sp package is currently being deprecated, so `point_in_polygon()` attempts to provide similar results by using the more stable [{sf} package](https://r-spatial.github.io/sf/) instead. `point_in_polygon()` is a wrapper for various sf functions and returns a numeric vector of 0's and 1's where a value of 0 indicates that a point is outside of the polygon being tested and a value of 1 indicates that the point is either inside or on the border of the polygon being tested.
+
+```{r, pip-ex, message=FALSE}
+#| fig-alt: |
+#|   A scatter plot demonstrating point-in-polygon detection with a rectangular
+#|   boundary. The plot shows a light blue rectangle with black borders spanning
+#|   from x=0 to x=2 and y=0 to y=2. Four green points are plotted inside or on
+#|   the boundary of the rectangle. Two red points are plotted outside the rectangle.
+#|   A legend indicates green points represent Inside/On Boundary positions and red 
+#|   points represent Outside positions.
+
+
+library(dplyr)
+library(ggplot2)
+library(artpack)
+
+# Create test points and polygon for visualization
+df_points_prep <-
+  tibble(
+    x = c(0.5, 1.5, 2.5, 1.0, 0.0, 3.0),
+    y = c(0.5, 1.5, 2.5, 0.0, 1.0, 1.0)
+  )
+df_polygon <-
+  tibble(
+    x = c(0, 2, 2, 0, 0),
+    y = c(0, 0, 2, 2, 0)
+  )
+
+# Test the points and add labels for the plot
+df_points <-
+  df_points_prep |>
+  mutate(
+    position = point_in_polygon(x, y, df_polygon$x, df_polygon$y),
+    position_string = case_match(position,
+                                 0 ~ "Outside",
+                                 1 ~ "Inside/On Boundary"
+                                 ) |> factor(),
+    color = case_match(position,
+                       0 ~ "#e31a1c",
+                       1 ~ "#33a02c"
+                       )
+  )
+
+# Pull out the colors for the plot points
+unique_df <- unique(df_points[c("position_string", "color")])
+vec_colors <- setNames(unique_df$color, unique_df$position_string)
+
+
+# Plot it
+ggplot() +
+  geom_polygon(data = df_polygon, aes(x = x, y = y),
+               fill = "#104d70", alpha = 0.3, color = "black", linewidth = 1) +
+  geom_point(data = df_points, aes(x = x, y = y, color = position_string), size = 4) +
+  scale_color_manual(values = vec_colors) +
+  labs(color = "Position:") +
+  coord_equal()
+
+```
+
+<br>
+
+# Group Tools
+If you're a fan of using `geom_polygon()` in your generative art, chances are you know the importance of assigning grouping variables to your data where applicable. The `group_sample()` and `group_slice()` functions have been added to allow users to sample and slice their data frames by grouping variables. `group_sample()` and `group_slice()` were both created in the spirit of [dplyr's `slice()`](https://dplyr.tidyverse.org/reference/slice.html) function family. Just like how `slice()` works on single rows, `group_sample()` and `group_slice()` will always keep the rows of a group intact. So if you decide to sample 2 groups out of 5, all of the rows labeled by the two groups will be returned while the other rows will be dropped. The same is true for `group_slice()`.
+
+<br>
+
+We can demonstrate `group_sample()` and `group_slice()` with a simple grid, where each square is its own group:
+
+```{r, grid_group_ex}
+#| fig-alt: |
+#|   A 10x10 grid of colored squares displaying a gradient from bright magenta at
+#|   the top to golden yellow at the bottom. Each row contains 10 squares of the
+#|   same color, with colors transitioning smoothly through pink, coral, orange-red,
+#|   orange, and yellow tones. Black grid lines separate each square.
+
+# Create a grid
+df_grid <-
+  grid_maker(
+    xlim = c(0,10),
+    ylim = c(0,10),
+    size = 10,
+    fill_pal = art_pals("sunnyside", 5)
+  )
+
+df_grid |>
+  ggplot(aes(x,y, group = group)) +
+  geom_polygon(
+    fill = df_grid$fill,
+    color = "#000000"
+  ) +
+  theme_void() +
+  coord_equal()
+```
+
+<br>
+
+Sampling 50% of the groups:
+
+```{r, group_sample_ex-1}
+#| fig-alt: |
+#|   A scattered arrangement of colored squares showing the same color gradient
+#|   as the previous grid, but with an irregular, fragmented pattern. The squares
+#|   are distributed across the canvas in various cluster sizes, maintaining the
+#|   color progression from bright magenta at the top to golden yellow at the
+#|   bottom, but with gaps and asymmetrical groupings creating a more organic,
+#|   broken-up appearance.
+
+set.seed(09132025)
+
+# Create a sampled df
+df_grid_sampled <-
+  df_grid |>
+  group_sample(group = group, prop = .50)
+
+df_grid_sampled |>
+  ggplot(aes(x,y, group = group)) +
+  geom_polygon(
+    fill = df_grid_sampled$fill,
+    color = "#000000"
+  ) +
+  theme_void() +
+  coord_equal(xlim = c(0,10), ylim = c(0,10))
+```
+
+Sampling only 10 of the groups:
+
+```{r, group_sample_ex-2}
+#| fig-alt: |
+#|   A sparse arrangement of colored squares using the same gradient palette.
+#|   The pattern shows only a few small clusters: bright magenta squares in the
+#|   upper right forming a cross-like shape, two isolated orange-red squares in
+#|   the middle area, and a small cluster of golden yellow squares at the bottom
+#|   left. Most of the canvas is empty white space.
+
+set.seed(09132025)
+
+# Create a sampled df
+df_grid_sampled <-
+  df_grid |>
+  group_sample(group = group, n = 10)
+
+df_grid_sampled |>
+  ggplot(aes(x,y, group = group)) +
+  geom_polygon(
+    fill = df_grid_sampled$fill,
+    color = "#000000"
+  ) +
+  theme_void() +
+  coord_equal(xlim = c(0,10), ylim = c(0,10))
+```
+<br>
+
+Slicing the data so that the groups in the bottom half is removed:
+
+```{r, group_slice_ex-1}
+#| fig-alt: |
+#|   A partial grid showing only the top portion of the color gradient, displaying
+#|   5 rows of 10 squares each. Colors transition from bright magenta in the top
+#|   rows through pink tones to coral-red in the bottom row. The rest of the
+#|   canvas below is empty white space, creating a truncated version of the full
+#|   gradient.
+
+# Create a sliced df
+df_grid_slice <-
+  df_grid |>
+  group_slice(group = group, prop = .50, position = "tail")
+
+df_grid_slice |>
+  ggplot(aes(x,y, group = group)) +
+  geom_polygon(
+    fill = df_grid_slice$fill,
+    color = "#000000"
+  ) +
+  theme_void() +
+  coord_equal(xlim = c(0,10), ylim = c(0,10))
+
+```
+
+Slicing the data so that 25 of the groups from the bottom remain:
+
+```{r, group_slice_ex-2}
+#| fig-alt: |
+#|   A partial grid showing only the bottom portion of the color gradient,
+#|   displaying 3 rows of squares in orange and yellow tones. The top row shows
+#|   5 orange squares, while the bottom two rows show 10 squares each transitioning
+#|   from orange to golden yellow. Most of the canvas above is empty white space."
+
+# Create a sliced df
+df_grid_slice <-
+  df_grid |>
+  group_slice(group = group, n = 25, position = "head")
+
+df_grid_slice |>
+  ggplot(aes(x,y, group = group)) +
+  geom_polygon(
+    fill = df_grid_slice$fill,
+    color = "#000000"
+  ) +
+  theme_void() +
+  coord_equal(xlim = c(0,10), ylim = c(0,10))
+```
+
+<br>
+ 
+# Sequencing Tools
+`seq_bounce()` generates a regular sequence of numeric values that "bounce" between a provided "start" and "end" number. It will always return a numeric vector of the length provided.
+
+By default, `seq_bounce()` creates sequences by increments of 1:
+
+```{r, seq_bounce-ex-1}
+#The length argument accepts any positive integer
+seq_bounce(start_n = 1, end_n = 5, length = 15)
+```
+
+More precision can be obtained with the `by` argument:
+```{r, seq_bounce-ex-2}
+#The by argument accepts any positive numeric
+seq_bounce(start_n = 0, end_n = 10, length = 30, by = .247)
+```
+
+
+<br>
+
+# Transformation Tools
+
+`resizer()` is artpack's newest transformation tool. It can be used to "resize" or scale existing data points in a data frame based on either the first data point in the dataframe or a provided anchor point.
+
+Resizing a square up by a factor of 6:
+
+```{r, resizer-square}
+#| fig-alt: |
+#|   A scatter plot with a rectangular boundary outlined in black, positioned in
+#|   the lower-left corner from coordinates (0,0) to approximately (1,1). Dark red
+#|   dashed lines form a grid pattern across the entire plot area, creating a
+#|   regular pattern of horizontal and vertical lines extending from x=0 to x=7
+#|   and y=0 to y=6. The rectangular boundary appears as a small black-outlined
+#|   box within this larger grid system.
+
+# Make a data frame
+df_square <-
+  square_data(
+    x = 0,
+    y = 0,
+    size = 1
+  )
+
+# Resize it
+df_square_resized <-
+  df_square |>
+  resizer(x, y, factor = 6)
+
+# Plot them
+df_square |>
+  ggplot(aes(x,y)) +
+  # resized square - red dashed line
+  geom_path(data = df_square_resized, color = "#a83246", linewidth = 2, linetype = 2) +
+  # original square - black solid line
+  geom_path(color = "#000000", linewidth = .8) +
+  coord_equal()
+
+```
+
+Resizing a circle down by a factor of 3 and manually setting an anchor point:
+
+```{r, resizer-circle-1}
+# Make a dataframe
+df_circle <-
+  circle_data(x = 5, y = 5, radius = 5, group_var = TRUE)
+
+# Set the anchor point as the middle of the circle c(5,5)
+# Although the point 5,5 is in the circle's bounds,
+# it's not actually a row in `df_circle`
+# A message will display in cases like these and is "fine" to ignore.
+
+df_circle_resized <-
+  df_circle |>
+  resizer(x,y, x_anchor = 5, y_anchor = 5, direction = "down", factor = 3)
+
+```
+
+```{r, resizer-circle-2}
+#| fig-alt: |
+#|   A plot showing two concentric circles centered at coordinates (5,5). The
+#|   outer circle has a solid black boundary extending from approximately 0 to 10
+#|   on both axes. Inside is a smaller dashed circle made up of dark red dashed
+#|   line segments, positioned in the center of the outer circle and roughly half
+#|   its diameter.
+
+# Plot it
+df_circle |>
+  ggplot(aes(x,y)) +
+  # resized circle - red dashed line
+  geom_path(data = df_circle_resized, color = "#a83246", linewidth = 2, linetype = 2) +
+  # original circle - black solid line
+  geom_path(color = "#000000", linewidth = .8) +
+  coord_equal()
+```
+
+<br>
+
+# Color Tools
+Two new functions, `set_brightness()` and `set_saturation()`, have been added to artpack. Both can be used to adjust original colors by percentage of desired brightness and saturation. These functions work by transforming [hexadecimal webcolor](https://en.wikipedia.org/wiki/Web_colors) values or any value from `colors()` into an RGB value, and then an HSL value to adjust the brightness or saturation. After the adjustment, the values are converted into a hexadecimal webcolor that is then returned to the environment for use.
+
+These functions use a normalized scale of 0 to 1, meaning that 0% is the darkest/least saturated value in relation to the original color provided and 100% is the brightest/most saturated value in relation to the original color provided.
+
+An example of adjusting the brightness of a color. Note how the "darker" color shown is not much darker than the original, because the original color already had a brightness of 35%:
+
+```{r, brightness}
+#| fig-alt: |
+#|   Three color swatches demonstrating brightness variations of a reddish-brown
+#|   color. From left to right: a darker version (#812B18), the original color
+#|   (#94321c), and a lighter version (#E7917E). Each swatch is labeled with its
+#|   corresponding hex color code above it, showing how the same base color appears
+#|   when darkened and lightened."
+
+# Create color values
+original_color <- "#94321c" #(original brightness == %35)
+darker_color <- set_brightness(original_color, .30) #(brightness == %30)
+lighter_color <- set_brightness(original_color, .7) #(brightness == %70)
+
+# Make a data frame with the color values
+df_colors <-
+  data.frame(
+    x = 0:2,
+    y = 1,
+    color = c(darker_color, original_color, lighter_color)
+  )
+
+# Add a label for clarity
+df_colors$label <- paste(c("Darker", "Original", "Lighter"), ":", df_colors$color)
+
+# Plot to see the brightness changes
+df_colors |>
+  ggplot(aes(x,y)) +
+  geom_label(aes(x = 0:2), y = 2, label = df_colors$label) +
+  geom_point(color = df_colors$color, shape = 15, size = 50) +
+  coord_cartesian(xlim = c(-1,3), ylim = c(0,3)) +
+  theme_void()
+
+```
+
+<br>
+
+Saturation is adjusted similarly:
+
+```{r, saturation}
+#| fig-alt: |
+#|   Three color swatches demonstrating saturation variations of a green color.
+#|   From left to right: a desaturated grayish-green (#6D7A51), the original
+#|   olive-green color (#748c3f), and a highly saturated bright green (#88C10A).
+#|   Each swatch is labeled with its corresponding hex color code above it,
+#|   showing how the same base color appears with different saturation levels.
+
+# Create color values
+original_color <- "#748c3f" #(original saturation == %38)
+desaturated_color <- set_saturation(original_color, .2) #(saturation == %20)
+saturated_color <- set_saturation(original_color, .9) #(saturation == %90)
+
+# Make a data frame with the color values
+df_colors <-
+  data.frame(
+    x = 0:2,
+    y = 1,
+    color = c(desaturated_color, original_color, saturated_color)
+  )
+
+# Add a label for clarity
+df_colors$label <- paste(c("Desaturated", "Original", "Saturated"), ":", df_colors$color)
+
+# Plot to see the saturation changes
+df_colors |>
+  ggplot(aes(x,y)) +
+  geom_label(aes(x = 0:2), y = 2, label = df_colors$label) +
+  geom_point(color = df_colors$color, shape = 15, size = 50) +
+  coord_cartesian(xlim = c(-1,3), ylim = c(0,3)) +
+  theme_void()
+```
+
+
+<br>
+
+You might be asking how you could determine the original brightness or saturation of a color you provide. Currently, there is no function in artpack that does this, but it is planned for a future release.
+
+In the meantime, if needed, you can absolutely use other methods to determine this. Take the color "#748c3f" for example. Going to Google.com and using their ["Color picker" tool](https://www.google.com/search?q=google+color+picker) can let you easily see these values:
+
+![Google color picker tool showing color #748c3f with HSL values displayed in bottom right: H:82°, S:38%, L:40%](images/google_picker.png)
+
+An "HSL" value is provided in the bottom right of the picker tool. The second value, "S", is the saturation percentage of the color (38%), and the third value, "L", is the "lightness" which is essentially the brightness (40%).
+
+
+# More Vignettes
+The last update you might want to check out are the new and improved vignettes:
+
+- _[Brief Examples](https://meghansaha.github.io/artpack/articles/brief_examples.html)_ has an updated example of some art that can be made with artpack.
+
+- _[Connecting artpack Assets to ggplot2 Geoms](https://meghansaha.github.io/artpack/articles/geom_chart.html)_ is a new vignette that goes over the various artpack [asset creations](https://meghansaha.github.io/artpack/reference/index.html#asset-creation) and their recommended ggplot2 [geoms](https://ggplot2.tidyverse.org/reference/index.html#geoms) that can be used when creating art in R with artpack and ggplot2. It also gives a quick example of how to bring your newly created art data into a ggplot if you need that information.
+
+- _[See aRtpack in Action](https://meghansaha.github.io/artpack/articles/see_artpack_in_action.html)_ is a new vignette that shows you how to make an art piece from start to finish, which may be helpful for anyone just starting or those who just need an example of an entire workflow that's possible with artpack.
+
+# Reminder
+artpack is still in its infancy and is currently developed and maintained by one person. Some weird stuff may happen when using artpack. If you come across any bugs or have any ideas about new features you'd want to see implemented, or recommend improvements, please do so on artpack's github repository by opening a new issue [here](https://github.com/Meghansaha/artpack/issues/new).
