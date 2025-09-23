@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.28">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -38,14 +38,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-c8b544e1eab81f7563542c0a8b71d1e9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b719d3d4935f2b08311a76135e2bf442.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5dcb1f93936537949e88c6b585a4723b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-e8b5d412aa996654f6b2606d228d1c89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-5dcb1f93936537949e88c6b585a4723b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-bbf03610df3409c0469a314fdc04fb64.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-d58a7b842a1abab9e3bb74bc382b17c0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-bbf03610df3409c0469a314fdc04fb64.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-author','listing-description','listing-reading-time',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
     };
@@ -145,7 +145,7 @@ ul.task-list li input[type="checkbox"] {
         toggleBodyColorMode(bsSheetEl);
       }
     }
-    window.setColorSchemeToggle = (alternate) => {
+    const setColorSchemeToggle = (alternate) => {
       const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
@@ -178,7 +178,7 @@ ul.task-list li input[type="checkbox"] {
       }
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
-      window.setColorSchemeToggle(alternate)
+      setColorSchemeToggle(alternate)
       // Hack to workaround the fact that safari doesn't
       // properly recolor the scrollbar when toggling (#1455)
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
@@ -218,7 +218,7 @@ ul.task-list li input[type="checkbox"] {
     const isFileUrl = () => {
       return window.location.protocol === 'file:';
     }
-    window.hasAlternateSentinel = () => {
+    const hasAlternateSentinel = () => {
       let styleSentinel = getColorSchemeSentinel();
       if (styleSentinel !== null) {
         return styleSentinel === "alternate";
@@ -246,7 +246,7 @@ ul.task-list li input[type="checkbox"] {
       const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
       const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
       let newTheme = '';
-      if(darkModeDefault) {
+      if(authorPrefersDark) {
         newTheme = isAlternate ? baseTheme : alternateTheme;
       } else {
         newTheme = isAlternate ? alternateTheme : baseTheme;
@@ -269,20 +269,22 @@ ul.task-list li input[type="checkbox"] {
         changeGiscusTheme();
       }
     };
-    const darkModeDefault = false;
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
       document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
       document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
     let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
     // Dark / light mode switch
     window.quartoToggleColorScheme = () => {
       // Read the current dark / light value
-      let toAlternate = !window.hasAlternateSentinel();
+      let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
     };
     // Switch to dark mode if need be
-    if (window.hasAlternateSentinel()) {
+    if (hasAlternateSentinel()) {
       toggleColorMode(true);
     } else {
       toggleColorMode(false);
@@ -460,7 +462,33 @@ body {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="ciUyQ2NyYW4lMkNkZXYlMjB3b3JrJTJDZGV2ZWxvcG1lbnQlMkN1cGRhdGVzJTJDZ2VuZXJhdGl2ZSUyMGFydCUyQ2FydCUyQ2FydHBhY2s=" data-listing-date-sort="1758081600000" data-listing-file-modified-sort="1758075929150" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2783">
+<div class="quarto-post image-right" data-index="0" data-categories="ciUyQ3B5dGhvbiUyQ2RldiUyMHdvcmslMkNkZXZlbG9wbWVudCUyQ3VwZGF0ZXMlMkNnZW5lcmF0aXZlJTIwYXJ0JTJDYXJ0JTJDYXJ0cGFjayUyQ3J1c3QlMkNwb3NpdCUyQ2NvbmYlMkN0aWR5JTIwZGV2JTIwZGF5JTJDcHJvZmVzc2lvbmFsJTIwZGV2ZWxvcG1lbnQlMkN2aWJlJTIwY29uZmluZw==" data-listing-date-sort="1758513600000" data-listing-file-modified-sort="1758660069322" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1959">
+<div class="thumbnail"><a href="./post/vibe-conf-ing/posit_conf_2025.html" class="no-external">
+
+<img loading="lazy" src="./post/vibe-conf-ing/images/vibeconfing.png" class="thumbnail-image">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./post/vibe-conf-ing/posit_conf_2025.html" class="no-external">My First Time Vibe-Conf’ing</a>
+</h3>
+<div class="delink listing-description"><a href="./post/vibe-conf-ing/posit_conf_2025.html" class="no-external">
+<p>posit::conf(2025) was the first conference I’ve been to where I could just “vibe” Here’s my personal recap of how that went.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./post/vibe-conf-ing/posit_conf_2025.html" class="no-external">
+<div class="listing-date">
+Sep 22, 2025
+</div>
+<div class="listing-author">
+Meghan Harris
+</div>
+<div class="listing-reading-time">10 min</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="ciUyQ2NyYW4lMkNkZXYlMjB3b3JrJTJDZGV2ZWxvcG1lbnQlMkN1cGRhdGVzJTJDZ2VuZXJhdGl2ZSUyMGFydCUyQ2FydCUyQ2FydHBhY2s=" data-listing-date-sort="1758081600000" data-listing-file-modified-sort="1758467980891" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2783">
 <div class="thumbnail"><a href="./post/artpack-0-2-0/artpack-0-2-0.html" class="no-external">
 
 <img loading="lazy" src="./post/artpack-0-2-0/images/artpack_logo.png" class="thumbnail-image">
@@ -482,10 +510,11 @@ Sep 17, 2025
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">14 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="ciUyQ2dpdCUyQ3N0YXNoJTJDYmVnaW5uZXIlMkN0ZXJtaW5hbA==" data-listing-date-sort="1739768400000" data-listing-file-modified-sort="1757959907386" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3375">
+<div class="quarto-post image-right" data-index="2" data-categories="ciUyQ2dpdCUyQ3N0YXNoJTJDYmVnaW5uZXIlMkN0ZXJtaW5hbA==" data-listing-date-sort="1739768400000" data-listing-file-modified-sort="1739855490168" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="17" data-listing-word-count-sort="3375">
 <div class="thumbnail"><a href="./post/git-stash-for-newbies/git-stash-for-newbies.html" class="no-external">
 
 <img loading="lazy" src="./post/git-stash-for-newbies/images/gitstash.png" class="thumbnail-image">
@@ -507,10 +536,11 @@ Feb 17, 2025
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">17 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="cHJpbnRpbmclMkNkYXRhJTIwdmlzdWFsaXphdGlvbiUyQ2xpZmUlMkNyJTJDbWFwcyUyQ2dncGxvdCUyQ3BlcnNvbmFs" data-listing-date-sort="1676437200000" data-listing-file-modified-sort="1757959907678" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="31" data-listing-word-count-sort="6121">
+<div class="quarto-post image-right" data-index="3" data-categories="cHJpbnRpbmclMkNkYXRhJTIwdmlzdWFsaXphdGlvbiUyQ2xpZmUlMkNyJTJDbWFwcyUyQ2dncGxvdCUyQ3BlcnNvbmFs" data-listing-date-sort="1676437200000" data-listing-file-modified-sort="1736013605280" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="31" data-listing-word-count-sort="6121">
 <div class="thumbnail"><a href="./post/making-circular-maps/making-circular-maps.html" class="no-external">
 
 <img loading="lazy" src="./post/making-circular-maps/images/makingmaps.png" class="thumbnail-image">
@@ -532,10 +562,11 @@ Feb 15, 2023
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">31 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="cGVyc29uYWwlMkNpbnRlbnRpb25zJTJDbGlmZSUyQ3IlMkNydGlzdHJ5JTJDdGFsa3MlMkNjb25mZXJlbmNlcw==" data-listing-date-sort="1674450000000" data-listing-file-modified-sort="1757959907611" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1144">
+<div class="quarto-post image-right" data-index="4" data-categories="cGVyc29uYWwlMkNpbnRlbnRpb25zJTJDbGlmZSUyQ3IlMkNydGlzdHJ5JTJDdGFsa3MlMkNjb25mZXJlbmNlcw==" data-listing-date-sort="1674450000000" data-listing-file-modified-sort="1738982293728" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1144">
 <div class="thumbnail"><a href="./post/lets-talk-about-2022/lets-talk-about-2022.html" class="no-external">
 
 <img loading="lazy" src="./post/lets-talk-about-2022/images/lta2022.png" class="thumbnail-image">
@@ -557,10 +588,11 @@ Jan 23, 2023
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">6 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="ciUyQ3J0aXN0cnklMkNkYXRhJTIwYXJ0JTJDZ2dwbG90MiUyQ3IlMjB3YWxrdGhyb3VnaCUyQ3N0YXRpc3RpY2FsJTIwcHJvZ3JhbW1pbmc=" data-listing-date-sort="1637730000000" data-listing-file-modified-sort="1757959907757" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3048">
+<div class="quarto-post image-right" data-index="5" data-categories="ciUyQ3J0aXN0cnklMkNkYXRhJTIwYXJ0JTJDZ2dwbG90MiUyQ3IlMjB3YWxrdGhyb3VnaCUyQ3N0YXRpc3RpY2FsJTIwcHJvZ3JhbW1pbmc=" data-listing-date-sort="1637730000000" data-listing-file-modified-sort="1736013605301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3048">
 <div class="thumbnail"><a href="./post/making-waves/making-waves.html" class="no-external">
 
 <img loading="lazy" src="./post/making-waves/images/makingwaves.png" class="thumbnail-image">
@@ -582,10 +614,11 @@ Nov 24, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">16 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="ciUyQ2RhdGElMjBhcnQlMkNydGlzdHJ5JTJDZ2dwbG90JTJDYmVnaW5uZXI=" data-listing-date-sort="1634616000000" data-listing-file-modified-sort="1757959907963" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7227">
+<div class="quarto-post image-right" data-index="6" data-categories="ciUyQ2RhdGElMjBhcnQlMkNydGlzdHJ5JTJDZ2dwbG90JTJDYmVnaW5uZXI=" data-listing-date-sort="1634616000000" data-listing-file-modified-sort="1736013605339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="37" data-listing-word-count-sort="7227">
 <div class="thumbnail"><a href="./post/thinking-outside-the-grid/thinking-outside-the-grid.html" class="no-external">
 
 <img loading="lazy" src="./post/thinking-outside-the-grid/images/rainbowrose.png" class="thumbnail-image">
@@ -607,10 +640,11 @@ Oct 19, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">37 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="cGVyc29uYWwlMkNpbnRlbnRpb25zJTJDbGlmZSUyQ3IlMkNtYWNoaW5lJTIwbGVhcm5pbmclMkNweXRob24lMkNzcWwlMkMyMDIx" data-listing-date-sort="1630987200000" data-listing-file-modified-sort="1757959908062" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="585">
+<div class="quarto-post image-right" data-index="7" data-categories="cGVyc29uYWwlMkNpbnRlbnRpb25zJTJDbGlmZSUyQ3IlMkNtYWNoaW5lJTIwbGVhcm5pbmclMkNweXRob24lMkNzcWwlMkMyMDIx" data-listing-date-sort="1630987200000" data-listing-file-modified-sort="1736013605358" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="585">
 <div class="thumbnail"><a href="./post/where-have-i-been/where-have-i-been.html" class="no-external">
 
 <img loading="lazy" src="./post/where-have-i-been/images/clock.png" class="thumbnail-image">
@@ -632,10 +666,11 @@ Sep 7, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">3 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="c2hpbnklMkNkYXRhJTIwc2NpZW5jZSUyQ3IlMjBwcm9ncmFtbWluZyUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDaHRtbCUyQ2NzcyUyQ2phdmFzY3JpcHQlMkN0YXJvdHJlYWRy" data-listing-date-sort="1630728000000" data-listing-file-modified-sort="1757959907742" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2710">
+<div class="quarto-post image-right" data-index="8" data-categories="c2hpbnklMkNkYXRhJTIwc2NpZW5jZSUyQ3IlMjBwcm9ncmFtbWluZyUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDaHRtbCUyQ2NzcyUyQ2phdmFzY3JpcHQlMkN0YXJvdHJlYWRy" data-listing-date-sort="1630728000000" data-listing-file-modified-sort="1736013605298" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2710">
 <div class="thumbnail"><a href="./post/making-my-first-shiny-app/making-my-first-shiny-app.html" class="no-external">
 
 <img loading="lazy" src="./post/making-my-first-shiny-app/images/shinyapp.png" class="thumbnail-image">
@@ -657,10 +692,11 @@ Sep 4, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">14 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="ZGF0YSUyMHNjaWVuY2UlMkNzdXJ2ZXklMjBwcm9jZXNzaW5nJTJDZGF0YSUyMG1hbmlwdWxhdGlvbiUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDciUyMHByb2dyYW1taW5nJTJDZGF0YSUyMGNhcnBlcm50cnklMkNyJTIwd2Fsa3Rocm91Z2g=" data-listing-date-sort="1616040000000" data-listing-file-modified-sort="1757959907901" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1509">
+<div class="quarto-post image-right" data-index="9" data-categories="ZGF0YSUyMHNjaWVuY2UlMkNzdXJ2ZXklMjBwcm9jZXNzaW5nJTJDZGF0YSUyMG1hbmlwdWxhdGlvbiUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDciUyMHByb2dyYW1taW5nJTJDZGF0YSUyMGNhcnBlcm50cnklMkNyJTIwd2Fsa3Rocm91Z2g=" data-listing-date-sort="1616040000000" data-listing-file-modified-sort="1736013605324" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1509">
 <div class="thumbnail"><a href="./post/tallying-checkbox-survey-responses-r-walkthrough/tallying-checkbox-survey-responses-r-walkthrough.html" class="no-external">
 
 <img loading="lazy" src="./post/tallying-checkbox-survey-responses-r-walkthrough/images/Tallying Checkboxes.png" class="thumbnail-image">
@@ -682,10 +718,11 @@ Mar 18, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">8 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="ciUyQ3IlMjBtYXJrZG93biUyQ21hcmtkb3duJTJDZGFzaGJvYXJkcyUyQ21hcHBpbmclMkNsZWFmbGV0JTJDZmxleGRhc2hib2FyZHMlMkNzdW1tYXJ5d2lkZ2V0JTJDc2hpbnk=" data-listing-date-sort="1615780800000" data-listing-file-modified-sort="1757959907352" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4994">
+<div class="quarto-post image-right" data-index="10" data-categories="ciUyQ3IlMjBtYXJrZG93biUyQ21hcmtkb3duJTJDZGFzaGJvYXJkcyUyQ21hcHBpbmclMkNsZWFmbGV0JTJDZmxleGRhc2hib2FyZHMlMkNzdW1tYXJ5d2lkZ2V0JTJDc2hpbnk=" data-listing-date-sort="1615780800000" data-listing-file-modified-sort="1736013605151" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="25" data-listing-word-count-sort="4994">
 <div class="thumbnail"><a href="./post/dull-dashboards/dull-dashboards.html" class="no-external">
 
 <img loading="lazy" src="./post/dull-dashboards/images/dulldashes.png" class="thumbnail-image">
@@ -707,10 +744,11 @@ Mar 15, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">25 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="ZGF0YSUyMHNjaWVuY2UlMkNpbXBvc3RlciUyMHN5bmRyb21lJTJDciUyMHByb2dyYW1taW5nJTJDciUyQ3N0YXRpc3RpY2FsJTIwcHJvZ3JhbW1pbmclMkNub3QtYmVnaW5uZXIlMkNiZWdpbm5lcg==" data-listing-date-sort="1613797200000" data-listing-file-modified-sort="1757959907559" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2024">
+<div class="quarto-post image-right" data-index="11" data-categories="ZGF0YSUyMHNjaWVuY2UlMkNpbXBvc3RlciUyMHN5bmRyb21lJTJDciUyMHByb2dyYW1taW5nJTJDciUyQ3N0YXRpc3RpY2FsJTIwcHJvZ3JhbW1pbmclMkNub3QtYmVnaW5uZXIlMkNiZWdpbm5lcg==" data-listing-date-sort="1613797200000" data-listing-file-modified-sort="1736013605229" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2024">
 <div class="thumbnail"><a href="./post/how-i-became-a-not-beginner-in-r/not-beginner.html" class="no-external">
 
 <img loading="lazy" src="./post/how-i-became-a-not-beginner-in-r/images/lightbulb.png" class="thumbnail-image">
@@ -732,10 +770,11 @@ Feb 20, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">11 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="ciUyQ3IlMjBwcm9ncmFtbWluZyUyQ2Jhc2UlMjByJTJDYXBwbHklMkNsYXBwbHklMkNzYXBwbHklMkNmdW5jdGlvbmFsJTIwcHJvZ3JhbW1pbmc=" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1757959907320" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="33" data-listing-word-count-sort="6521">
+<div class="quarto-post image-right" data-index="12" data-categories="ciUyQ3IlMjBwcm9ncmFtbWluZyUyQ2Jhc2UlMjByJTJDYXBwbHklMkNsYXBwbHklMkNzYXBwbHklMkNmdW5jdGlvbmFsJTIwcHJvZ3JhbW1pbmc=" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1736013605136" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="33" data-listing-word-count-sort="6521">
 <div class="thumbnail"><a href="./post/applyfamilynotes/apply-family.html" class="no-external">
 
 <img loading="lazy" src="./post/applyfamilynotes/images/applyfamily.png" class="thumbnail-image">
@@ -757,10 +796,11 @@ Jan 23, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">33 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="ZGF0YSUyMG1hbmlwdWxhdGlvbiUyQ2RhdGElMjBjYXJwZW50cnklMkNkYXRhJTIwdmlzdWFsaXphdGlvbiUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDZ2dwbG90JTJDciUyMHdhbGt0aHJvdWdo" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1757959907834" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1827">
+<div class="quarto-post image-right" data-index="13" data-categories="ZGF0YSUyMG1hbmlwdWxhdGlvbiUyQ2RhdGElMjBjYXJwZW50cnklMkNkYXRhJTIwdmlzdWFsaXphdGlvbiUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDZ2dwbG90JTJDciUyMHdhbGt0aHJvdWdo" data-listing-date-sort="1611378000000" data-listing-file-modified-sort="1736013605308" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1827">
 <div class="thumbnail"><a href="./post/orderingmonths/ordering-months.html" class="no-external">
 
 <img loading="lazy" src="./post/orderingmonths/images/ordering_months.png" class="thumbnail-image">
@@ -782,10 +822,11 @@ Jan 23, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">10 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="ZGF0YSUyMHNjaWVuY2UlMkN0aWR5dHVlc2RheSUyQ3IlMjBQcm9ncmFtbWluZyUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDZGF0YSUyMGNhcnBlbnRyeSUyQ2dncGxvdCUyQ3Bsb3RseSUyQ2RhdGElMjBjbGVhbmluZyUyQ2RhdGElMjB2aXN1YWxpemF0aW9uJTJDcHJvamVjdCUyMHJlY2Fw" data-listing-date-sort="1609909200000" data-listing-file-modified-sort="1757959907567" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="257">
+<div class="quarto-post image-right" data-index="14" data-categories="ZGF0YSUyMHNjaWVuY2UlMkN0aWR5dHVlc2RheSUyQ3IlMjBQcm9ncmFtbWluZyUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5nJTJDZGF0YSUyMGNhcnBlbnRyeSUyQ2dncGxvdCUyQ3Bsb3RseSUyQ2RhdGElMjBjbGVhbmluZyUyQ2RhdGElMjB2aXN1YWxpemF0aW9uJTJDcHJvamVjdCUyMHJlY2Fw" data-listing-date-sort="1609909200000" data-listing-file-modified-sort="1736013605230" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="257">
 <div class="thumbnail"><a href="./post/i-participated-in-my-first-tidy-tuesday-project-recap/i-participated-in-my-first-tidy-tuesday-project-recap.html" class="no-external">
 
 <img loading="lazy" src="./post/i-participated-in-my-first-tidy-tuesday-project-recap/images/first_tidy_tuesday.png" class="thumbnail-image">
@@ -807,10 +848,11 @@ Jan 6, 2021
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">2 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="ZGF0YSUyMHNjaWVuY2UlMkNpbXBvc3RlciUyMHN5bmRyb21lJTJDaW50ZW50aW9ucyUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5n" data-listing-date-sort="1609390800000" data-listing-file-modified-sort="1757959907887" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="703">
+<div class="quarto-post image-right" data-index="15" data-categories="ZGF0YSUyMHNjaWVuY2UlMkNpbXBvc3RlciUyMHN5bmRyb21lJTJDaW50ZW50aW9ucyUyQ3IlMkNzdGF0aXN0aWNhbCUyMHByb2dyYW1taW5n" data-listing-date-sort="1609390800000" data-listing-file-modified-sort="1736013605319" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="703">
 <div class="thumbnail"><a href="./post/setting-intentions/setting-intentions.html" class="no-external">
 
 <img loading="lazy" src="./post/setting-intentions/images/fireworks.png" class="thumbnail-image">
@@ -832,6 +874,7 @@ Dec 31, 2020
 <div class="listing-author">
 Meghan Harris
 </div>
+<div class="listing-reading-time">4 min</div>
 </a>
 </div>
 </div>
@@ -852,7 +895,7 @@ Meghan Harris
       a.appendChild(i);
       window.document.body.appendChild(a);
     }
-    window.setColorSchemeToggle(window.hasAlternateSentinel())
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

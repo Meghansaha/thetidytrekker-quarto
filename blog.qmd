@@ -5,6 +5,7 @@ listing:
   sort: "date desc"
   type: default
   feed: true
+  fields: [image, date, title, author, description, reading-time]
 
 ---
 

@@ -9,8 +9,206 @@
 <link>https://www.thetidytrekker.com/blog.html</link>
 <atom:link href="https://www.thetidytrekker.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description></description>
-<generator>quarto-1.7.28</generator>
-<lastBuildDate>Wed, 17 Sep 2025 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.7.32</generator>
+<lastBuildDate>Mon, 22 Sep 2025 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>My First Time Vibe-Conf’ing</title>
+  <dc:creator>Meghan Harris</dc:creator>
+  <link>https://www.thetidytrekker.com/post/vibe-conf-ing/posit_conf_2025.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<section id="what-is-vibe-confing" class="level1">
+<h1>What is Vibe Conf’ing?</h1>
+<p>Before I recap my experience at posit::conf(2025), let’s talk about “vibe conf’ing” <em>(Vibe Conf- Ing)</em>. I was first introduced to this term by <a href="https://laderast.github.io">Ted Laderas</a>:</p>
+<p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/origin.png" class="blog-img img-fluid" alt="Screenshot of social media conversation between Ted Laderas and Meghan Harris, MPH. Ted's post reads '100% support you for Vibe Conf'ing (not vibe coding)'. Meghan Harris replies 'Ted Laderas I am 100% committed to inserting the phrase 'Vibe Conf'ing' into the title of my conference recap blog post I hopefully will write after accrediting you. Thank you' with laughing and sparkle emojis."></p>
+<figcaption>
+I am a person of my word
+</figcaption>
+<p>This came after I posted that I was going to posit::conf(2025) without participating in workshops, being a TA, or presenting talks. I couldn’t understand why I struggled to just go “for the vibes” – attending without any expectation to “give something in return.”</p>
+<p>After some introspection, it clicked: I’ve never had the privilege to just go to a conference. No matter where I worked, I always HAD to get a talk accepted to afford the conference ticket that comes with it.</p>
+<p>While submitting talks is cost-efficient, there’s a hidden cost of stress and labor. Last year <a href="https://thetidytrekker.com/talks/please_let_me_merge/please_let_me_merge">I did a talk at posit::conf(2024)</a> and promptly got covid for the first time immediately afterwards. As I isolated in my room, missing conf events and Tidy Dev Day, I promised myself I’d take “a break” next year.</p>
+<p>Fast forward to this week: I actually listened to myself. I attended with no talks submitted, no expectations, just good vibes. I don’t know if I’ll submit next year (I have a backlog of ideas) or just vibe again. For now, let me dive into what this experience was like.</p>
+<hr>
+</section>
+<section id="what-was-positconf2025-like" class="level1">
+<h1>What was posit::conf(2025) Like?</h1>
+<p>posit::conf(2025) was my 5th RStudio/Posit conference and 4th in-person. What I love about it is how chill and friendly it is. You don’t have to dress up, worry about being socially awkward (I see you, fellow neurospicy peeps), or stress too much.</p>
+<p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/dress.jpg" class="blog-img img-fluid" alt="Me with ombre blue-tinted braids taking a mirror selfie while wearing a colorful galaxy themed dress with designs in red, orange, yellow, and other vibrant colors."></p>
+<figcaption>
+Posit conf: The only conference I’d feel comfortable rocking blue hair and a space dress.
+</figcaption>
+<p><br></p>
+<p>You can come and go as you please and choose how to consume keynotes and talks. Attend presentations live, watch from Posit’s lounge outside the ballroom if crowds aren’t your thing, or – though it seems counterintuitive – watch from your hotel room (I do this more than I care to admit). One of the best things about conf is the ability to tailor it to what you want and engage as much or as little as you’d like.</p>
+<p>For first-timers or solo attendees, the organizers work hard to make everyone feel welcome. From Posit Discord invites to <a href="https://masto.machlis.com/@smach/115219969813836800">encouraging the pac-man rule</a>, the conference has earned its reputation for being newcomer-friendly.</p>
+<p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/pacman.png" class="blog-img img-fluid" alt="An infographic titled 'The Pac-Man Rule' showing a yellow Pac-Man shape surrounded by people figures, with one person approaching from the right to enter pacman's mouth. Text reads 'Leave a space in your group for others to come join your conversation."></p>
+<figcaption>
+From what I could see, a lot of us were actively following this rule
+</figcaption>
+<hr>
+</section>
+<section id="my-personal-highlights" class="level1">
+<h1>My Personal Highlights</h1>
+<section id="talk-sessions" class="level2">
+<h2 class="anchored" data-anchor-id="talk-sessions">Talk Sessions</h2>
+<p>As I’ve mentioned, Posit conf is really what you make it. This year, with no obligations, I felt “free to learn” for the first time. Having this freedom solidified something I’d been noticing: I’m increasingly drawn to the development side of data work.</p>
+<p>I’ve found myself on a path that may be familiar to some data scientists. There’s a subset of us who dip a toe into the “Development Pond” – maybe we need to build tools for data processing that dance on the edge of software engineering. Some pull their feet out once they’ve gotten what they needed, but others realize these skills could transform how we approach data problems entirely.</p>
+<p>It’s an exciting challenge: wanting to deepen these development skills while applying them to the work I already love. This year’s conf was perfect for me because I was intentional about attending development-focused sessions that could enhance my current toolkit. Here are some talks that stood out:</p>
+<p>(Links are provided to the slides if I can find them!) Check the <a href="https://github.com/rstudio/rstudio-conf/blob/e5a94beb569dee1cf55748e85020645ccbdbba57/2025/README.md#positconf2025">Posit conf github</a> to see if links are updated in the future:</p>
+<ul>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745351601963001aBKi">Positron</a></p>
+<details>
+<summary>
+<p>Which included:</p>
+</summary>
+<ul>
+<li><a href="https://github.com/isabelizimm/talk-positconf2025-ide-choices/blob/main/identitycrisis.pdf">IDE-ntity Crisis: Choosing the Right Tool for Me</a> by Isabel Zimmerman</li>
+<li>Tips &amp; tricks from the maintainers of Positron by Sharon Wang and Melissa Barca</li>
+<li><a href="https://github.com/austin3dickey/ssh-demo/blob/main/slides.pdf">Outgrowing Your Laptop with Positron</a> by Austin Dickey</li>
+<li>Exploring Datasets in Positron by Wes Mckinney</li>
+</ul>
+</details></li>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745351143742001aTfb">Lightning Talks</a></p>
+<details>
+<summary>
+<p>Which included:</p>
+</summary>
+<ul>
+<li><a href="https://github.com/smach/positconf_2025">Use Your Data Skills for Good: Ideas for Community Service</a> by Sharon Machalis</li>
+<li>Make Big Geospatial Data Accessible with Arrow by Cari Gostic</li>
+<li>Approaching Positron from RStudio by Mauro Lepore</li>
+<li><a href="https://gordonwoodhull.github.io/brand-yml-lightning-talk/">Brand YML and Dark Mode in Quarto</a> by Gordon Woodhull</li>
+<li>Automating Event Scheduling with Python in Positron by Becky Hodge</li>
+<li>Putting an {ellmer} AI in production with the blessing of IT by Andrie de Vries</li>
+<li>Enabling geospatial workflow management with targets: an R package origin story by Eric Scott</li>
+<li>Plotgardener – Genomic Data Visualization Made Easy by Rishabh Sharma Vemuri and Abiye Berhanu</li>
+<li>What we’re doing to make Quarto fast(er) by Carlos Scheidegger</li>
+<li>Multiple Console Sessions in Positron by Dhruvi Sompura</li>
+<li>It’s all fun and games til your analysis code is finished: the player package in R by Alex Rossell Hayes</li>
+<li>Birthing the pregnancy package by Ella Kaye</li>
+</ul>
+</details></li>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745351602333001a8qL">Sparking Development Joy</a></p>
+<details>
+<summary>
+<p>Which included:</p>
+</summary>
+<ul>
+<li>Enemies to lovers: How non-programmers can make sparks fly when using testthat during package development by Libby McKenna</li>
+<li>Air - A blazingly fast R code formatter by Davis Vaughan and Lionel Henry</li>
+<li>Making Things Nice in Python by Rich Iannone</li>
+<li>The Curse of Documentation by Michael Chow</li>
+</ul>
+</details></li>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745350850328001opY2">Keynote: The Psychology of Technologists</a> by Cat Hicks</p></li>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745351601442001aZMp">Strengthening the R Ecosystem</a></p>
+<details>
+<summary>
+<p>Which included:</p>
+</summary>
+<ul>
+<li><a href="https://shikokuchuo-posit2025.share.connect.posit.cloud/#/title-slide">Purrrfectly parallel, purrrfectly distributed</a> by Charlie Gao</li>
+<li>R-multiverse: a new way to publish R packages by Will Landau</li>
+<li><a href="https://github.com/shannonpileggi/practical-renv">Practical {renv}</a> by Shannon Pileggi</li>
+<li>Extending the horizons of R with Rust by Andrés Quintero</li>
+</ul>
+</details></li>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745351601735001awFt">Facepalm-driven Development: Learning From AI and Human Errors</a></p>
+<details>
+<summary>
+<p>Which included:</p>
+</summary>
+<ul>
+<li><a href="https://github.com/juliasilge/get-unstuck-with-python">How I got unstuck with Python</a> by Julia Silge</li>
+<li>Hacking Productivity with LLMs: What Works (and What Doesn’t) by Nic Crane</li>
+<li>AI missteps as stepping stones: Opportunities gained when your LLM coding assistant gets it wrong by Ryan Timpe</li>
+<li>Failure (and Mistakes) by Laura Gast</li>
+</ul>
+</details></li>
+<li><p><a href="https://reg.conf.posit.co/flow/posit/positconf25/attendee-portal/page/sessioncatalog/session/1745351601804001amYw">Multilingual Data Science</a></p>
+<details>
+<summary>
+<p>Which included:</p>
+</summary>
+<ul>
+<li>Building Multilingual Data Science Teams by Michael Thomas</li>
+<li>Polyglot Data Science: Why and How to Combine R and Python by Jeroen Janssens</li>
+<li>When R Met Python: A Meet Cute on Posit Connect by Blake Abbenante</li>
+<li>R &amp; Python playing nice, in production by Claudia Penaloza</li>
+</ul>
+</details></li>
+</ul>
+</section>
+<section id="the-georgia-aquarium" class="level2">
+<h2 class="anchored" data-anchor-id="the-georgia-aquarium">The Georgia Aquarium</h2>
+<p>This was hands-down the BEST social event in conf history (for me). I’m biased as I love water, but this event was great – and the food was surprisingly good. Posit rented out the Georgia Aquarium for us at night, and I had way more fun than expected. It gave me a chance to talk to people I hadn’t run into at conf yet, and having the run of the place at night was honestly magical.</p>
+<p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/aquarium.png" class="blog-img img-fluid" alt="Three polaroid-style photos arranged in a scattered layout showing marine life: a circular aquarium tank with fish and coral from above, sharks swimming in blue water, and more sharks underwater with light streaming down."></p>
+<figcaption>
+I had the BEST time at the aquarium
+</figcaption>
+</section>
+<section id="tidy-dev-day-tdd" class="level2">
+<h2 class="anchored" data-anchor-id="tidy-dev-day-tdd">Tidy Dev Day (TDD)</h2>
+<p>Ok y’all. I have a confession: this was my favorite thing about conf HANDS DOWN, even though it technically happened after. As I mentioned, I’ve been discovering I love development work, and Tidy Dev Day (TDD) gave me the PERFECT opportunity to explore this further in a low-stress, supportive environment.</p>
+<p>The day started with an ice-breaker bingo sheet, then a group photo, followed by the Posit team explaining the workflow (forking/cloning/PRs, etc.) before turning us loose to work.</p>
+<p>We could jump right in because the Posit team does reconnaissance beforehand, looking through <a href="https://www.tidyverse.org">tidyverse</a>, <a href="https://r-lib.r-universe.dev/packages">r-lib</a>, <a href="https://www.tidymodels.org">tidymodels</a> issues good for beginners. They print snippets on post-it notes for the “issue wall” where participants choose what to work on. Once you open a PR, you get to ring “The Gong” – and if you open multiple PRs, you ring it multiple times:</p>
+<p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/gong.jpg" class="blog-img img-fluid" alt="Me smiling with ombre blue-tinted hair wearing a turquoise posit conf shirt and glasses, holding a mallet next to a large bronze gong mounted on a black metal stand. The setting is indoors with white curtains and wooden flooring in the background."></p>
+<figcaption>
+My first time ringing “The Gong”
+</figcaption>
+<p>Before everyone really dove in, Hadley reassured everyone by saying something akin to:</p>
+<blockquote class="blockquote">
+<p>“I have written a lot of shitty code. It’s OK if your code is shitty. We’re here to learn.”</p>
+<p>— Hadley Wickham</p>
+</blockquote>
+<p>I have 7+ years of R programming under my belt, so while I’m confident tackling obscure problems, I admit when my code might be “shitty.” One example? I constantly struggle to write concisely (my coworkers can confirm I’m anything but brief). Going into TDD, I tried cutting through brain noise to make my annotations and documentation short and sweet… only to be advised to add MORE info in places 😅. What I loved was how feedback was delivered – positive or clever contributions were celebrated and corrections came with grace and compassion. This gave me confidence to contribute to tidyverse packages more often, which I’m making a goal moving forward.</p>
+<p>As the day progressed, I continued vibing and working, stopping only for provided snacks and lunch. Looking back, I was nervous beforehand about what skills I’d need to be “useful” to the tidyverse team. I can confidently say that basic GitHub functionality is enough, and if you lack that, they provide virtual “office hours” before TDD to get you ready. For direct function work, knowing how to debug is super helpful – Shannon Pileggi has workshops on this <a href="https://www.pipinghotdata.com/workshops/2022-11-11-debugging">here</a>.</p>
+<p>By day’s end, I opened 4 PRs with 2 accepted and merged so far for <a href="https://ggplot2.tidyverse.org">ggplot2</a>, <a href="https://dplyr.tidyverse.org">dplyr</a>, <a href="https://purrr.tidyverse.org">purrr</a>, and <a href="https://cli.r-lib.org/index.html">cli</a> – all packages I use frequently for my <a href="https://github.com/Meghansaha/artpack">artpack</a> development.</p>
+<p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/tdd.png" class="blog-img img-fluid" alt="Two polaroid-style photos showing myself holding a metal hexagonal conference badge. The left photo shows one side of the badge that reads'DEV DAY 2025 ATLANTA GEORGIA SEPTEMBER 19 2025'. The right photo myself holding the other side of badge with colorful dots reading 'tidyverse' in gold text. Both photos show a filled out Tidy Dev Day bingo sheet in the background"></p>
+<figcaption>
+My Tidy Dev Day Badge
+</figcaption>
+<hr>
+</section>
+</section>
+<section id="my-personal-takeaways" class="level1">
+<h1>My Personal Takeaways</h1>
+<p>Needless to say, I had an awesome time and left with new discoveries and motivation to dig deeper into:</p>
+<ul>
+<li>Becoming a programming polyglot, focusing on Python and Rust in my downtime</li>
+<li>Using <a href="https://posit-dev.github.io/air">Air</a> in my workflow</li>
+<li>Transitioning to Positron (this blog post was made in Positron!)</li>
+<li>Getting over my fear of contributing to open source packages</li>
+<li>Being less self-deprecating (TDD showed me that even if I struggle with brevity, I’m still intelligent. I may not know everything, but I know a lot, and that should be celebrated – even if just internally)</li>
+</ul>
+<p>As for next year, posit::conf(2026) was announced for Houston, Texas. Not sure how I feel about traveling to Texas, but we’ll see how things shake out. Until then, fellow nerds!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>r</category>
+  <category>python</category>
+  <category>dev work</category>
+  <category>development</category>
+  <category>updates</category>
+  <category>generative art</category>
+  <category>art</category>
+  <category>artpack</category>
+  <category>rust</category>
+  <category>posit</category>
+  <category>conf</category>
+  <category>tidy dev day</category>
+  <category>professional development</category>
+  <category>vibe confing</category>
+  <guid>https://www.thetidytrekker.com/post/vibe-conf-ing/posit_conf_2025.html</guid>
+  <pubDate>Mon, 22 Sep 2025 04:00:00 GMT</pubDate>
+  <media:content url="https://www.thetidytrekker.com/post/vibe-conf-ing/images/vibeconfing.png" medium="image" type="image/png" height="108" width="144"/>
+</item>
 <item>
   <title>Artpack 0.2.0</title>
   <dc:creator>Meghan Harris</dc:creator>
@@ -1535,23 +1733,23 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
 <p>If you use the Git terminal to do your stash work, you can find the most essential commands you’ll need to know in the table below. If you’re choosing to use a GUI, you won’t have to type the inputs into a terminal, but rather, the application you’re using will be interacting with Git on your behalf to perform some of these commands for you:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="tofrornrhp" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tofrornrhp table {
+<div id="nkfpdyuycw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nkfpdyuycw table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tofrornrhp thead, #tofrornrhp tbody, #tofrornrhp tfoot, #tofrornrhp tr, #tofrornrhp td, #tofrornrhp th {
+#nkfpdyuycw thead, #nkfpdyuycw tbody, #nkfpdyuycw tfoot, #nkfpdyuycw tr, #nkfpdyuycw td, #nkfpdyuycw th {
   border-style: none;
 }
 
-#tofrornrhp p {
+#nkfpdyuycw p {
   margin: 0;
   padding: 0;
 }
 
-#tofrornrhp .gt_table {
+#nkfpdyuycw .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1577,12 +1775,12 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_caption {
+#nkfpdyuycw .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tofrornrhp .gt_title {
+#nkfpdyuycw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1594,7 +1792,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#tofrornrhp .gt_subtitle {
+#nkfpdyuycw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1606,7 +1804,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-top-width: 0;
 }
 
-#tofrornrhp .gt_heading {
+#nkfpdyuycw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1618,13 +1816,13 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_bottom_border {
+#nkfpdyuycw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_col_headings {
+#nkfpdyuycw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1639,7 +1837,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_col_heading {
+#nkfpdyuycw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1659,7 +1857,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   overflow-x: hidden;
 }
 
-#tofrornrhp .gt_column_spanner_outer {
+#nkfpdyuycw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1671,15 +1869,15 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 4px;
 }
 
-#tofrornrhp .gt_column_spanner_outer:first-child {
+#nkfpdyuycw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tofrornrhp .gt_column_spanner_outer:last-child {
+#nkfpdyuycw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tofrornrhp .gt_column_spanner {
+#nkfpdyuycw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1691,11 +1889,11 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   width: 100%;
 }
 
-#tofrornrhp .gt_spanner_row {
+#nkfpdyuycw .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tofrornrhp .gt_group_heading {
+#nkfpdyuycw .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1721,7 +1919,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   text-align: left;
 }
 
-#tofrornrhp .gt_empty_group_heading {
+#nkfpdyuycw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1736,15 +1934,15 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   vertical-align: middle;
 }
 
-#tofrornrhp .gt_from_md > :first-child {
+#nkfpdyuycw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tofrornrhp .gt_from_md > :last-child {
+#nkfpdyuycw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tofrornrhp .gt_row {
+#nkfpdyuycw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1763,7 +1961,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   overflow-x: hidden;
 }
 
-#tofrornrhp .gt_stub {
+#nkfpdyuycw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1776,7 +1974,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#tofrornrhp .gt_stub_row_group {
+#nkfpdyuycw .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1790,15 +1988,15 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   vertical-align: top;
 }
 
-#tofrornrhp .gt_row_group_first td {
+#nkfpdyuycw .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tofrornrhp .gt_row_group_first th {
+#nkfpdyuycw .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tofrornrhp .gt_summary_row {
+#nkfpdyuycw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1808,16 +2006,16 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#tofrornrhp .gt_first_summary_row {
+#nkfpdyuycw .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_first_summary_row.thick {
+#nkfpdyuycw .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tofrornrhp .gt_last_summary_row {
+#nkfpdyuycw .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1827,7 +2025,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_grand_summary_row {
+#nkfpdyuycw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1837,7 +2035,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#tofrornrhp .gt_first_grand_summary_row {
+#nkfpdyuycw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1847,7 +2045,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_last_grand_summary_row_top {
+#nkfpdyuycw .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1857,11 +2055,11 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_striped {
+#nkfpdyuycw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tofrornrhp .gt_table_body {
+#nkfpdyuycw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1870,7 +2068,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_footnotes {
+#nkfpdyuycw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1884,7 +2082,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_footnote {
+#nkfpdyuycw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1893,7 +2091,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#tofrornrhp .gt_sourcenotes {
+#nkfpdyuycw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1907,7 +2105,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#tofrornrhp .gt_sourcenote {
+#nkfpdyuycw .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1915,72 +2113,72 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#tofrornrhp .gt_left {
+#nkfpdyuycw .gt_left {
   text-align: left;
 }
 
-#tofrornrhp .gt_center {
+#nkfpdyuycw .gt_center {
   text-align: center;
 }
 
-#tofrornrhp .gt_right {
+#nkfpdyuycw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tofrornrhp .gt_font_normal {
+#nkfpdyuycw .gt_font_normal {
   font-weight: normal;
 }
 
-#tofrornrhp .gt_font_bold {
+#nkfpdyuycw .gt_font_bold {
   font-weight: bold;
 }
 
-#tofrornrhp .gt_font_italic {
+#nkfpdyuycw .gt_font_italic {
   font-style: italic;
 }
 
-#tofrornrhp .gt_super {
+#nkfpdyuycw .gt_super {
   font-size: 65%;
 }
 
-#tofrornrhp .gt_footnote_marks {
+#nkfpdyuycw .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tofrornrhp .gt_asterisk {
+#nkfpdyuycw .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tofrornrhp .gt_indent_1 {
+#nkfpdyuycw .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tofrornrhp .gt_indent_2 {
+#nkfpdyuycw .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tofrornrhp .gt_indent_3 {
+#nkfpdyuycw .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tofrornrhp .gt_indent_4 {
+#nkfpdyuycw .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tofrornrhp .gt_indent_5 {
+#nkfpdyuycw .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tofrornrhp .katex-display {
+#nkfpdyuycw .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tofrornrhp div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#nkfpdyuycw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -5577,7 +5775,7 @@ font-style: inherit;">#For everything data#</span></span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ forcats   1.0.0     ✔ stringr   1.5.2
 ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.1.0     
@@ -6643,7 +6841,7 @@ font-style: inherit;">#For everything data====</span></span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ forcats   1.0.0     ✔ stringr   1.5.2
 ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.1.0     
@@ -8434,17 +8632,12 @@ font-style: inherit;">+</span></span>
 <span id="cb41-7">                                  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">draw_image</span>(Planet_PNGs[[i]])</span>
-<span id="cb41-8">}</span></code></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Package `magick` is required to draw images. Image not drawn.
-Warning: Package `magick` is required to draw images. Image not drawn.
-Warning: Package `magick` is required to draw images. Image not drawn.
-Warning: Package `magick` is required to draw images. Image not drawn.</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="do" style="color: #5E5E5E;
+<span id="cb41-8">}</span>
+<span id="cb41-9"></span>
+<span id="cb41-10"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Setting names to keep track of the plots===</span></span>
-<span id="cb43-2"><span class="fu" style="color: #4758AB;
+<span id="cb41-11"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">names</span>(Combined_plots) <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -8455,7 +8648,7 @@ font-style: inherit;">names</span>(Planet_PNGs)</span></code></pre></div>
 <p><br></p>
 <p>Just like before, we can take a peek at any of the plots in the Combined_plots list to make sure it looks as expected. I’ll use <code>Combined_plots$Bottomleft</code> in the console to see:</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1">Combined_plots<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb42" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1">Combined_plots<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>Bottomleft</span></code></pre></div>
 <div class="cell-output-display">
@@ -8471,10 +8664,10 @@ font-style: inherit;">$</span>Bottomleft</span></code></pre></div>
 <p>Looking good! Almost done! Now we can <a href="https://purrr.tidyverse.org/reference/pluck.html"><code>pluck()</code></a> each of our plots out and save them to individual objects! Because there’s only four of them, I’ll just copy and paste that code because this is Rtistry and it’s totally OK to be lazy. It’s your work. It’s your aRt . Do what you want!</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="do" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb43" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Plucking out all the individual plots===</span></span>
-<span id="cb45-2">Topleft <span class="ot" style="color: #003B4F;
+<span id="cb43-2">Topleft <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8483,7 +8676,7 @@ background-color: null;
 font-style: inherit;">pluck</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Topleft"</span>)</span>
-<span id="cb45-3">Topright <span class="ot" style="color: #003B4F;
+<span id="cb43-3">Topright <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8492,7 +8685,7 @@ background-color: null;
 font-style: inherit;">pluck</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Topright"</span>)</span>
-<span id="cb45-4">Bottomright <span class="ot" style="color: #003B4F;
+<span id="cb43-4">Bottomright <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8501,7 +8694,7 @@ background-color: null;
 font-style: inherit;">pluck</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Bottomright"</span>)</span>
-<span id="cb45-5">Bottomleft <span class="ot" style="color: #003B4F;
+<span id="cb43-5">Bottomleft <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> Combined_plots <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8515,10 +8708,10 @@ font-style: inherit;">"Bottomleft"</span>)</span></code></pre></div>
 <p>Finally, we use <a href="https://patchwork.data-imaginist.com/articles/guides/layout.html">pacthwork’s layout syntax</a> to combine these plots into one image:</p>
 <p><br></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb44" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Final output construction with patchwork functions====</span></span>
-<span id="cb46-2">Planet_Quad <span class="ot" style="color: #003B4F;
+<span id="cb44-2">Planet_Quad <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> (Topleft <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -8527,11 +8720,11 @@ background-color: null;
 font-style: inherit;">/</span> (Bottomleft <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span> Bottomright)</span>
-<span id="cb46-3"></span>
-<span id="cb46-4"><span class="co" style="color: #5E5E5E;
+<span id="cb44-3"></span>
+<span id="cb44-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># View the piece#</span></span>
-<span id="cb46-5">Planet_Quad</span></code></pre></div>
+<span id="cb44-5">Planet_Quad</span></code></pre></div>
 </div>
 <p><br></p>
 <p>And voila! We have our finished piece! I’ve noticed that sometimes patchwork may render in some borders around these images if <a href="https://ggplot2.tidyverse.org/reference/ggsave.html"><code>ggsave()</code></a> is used. In these cases, I just export using the Export button in the RStudio IDE.</p>
@@ -8553,23 +8746,23 @@ Rainbow Rose
 <p>To start out, we need to set up some specifications that will alter how the data is plotted onto ggplot’s Cartesian coordinate system. This includes calculating the “theta”(angles) of our intended circle, the number of divisions/data points we want in the dataset “<code>n</code>”, and the radial setting we wish to have for the visual. Because we want to give an effect that starts from the center of the image, we set the radial setting, “<code>r</code>” to a vector that spans from 1 to our “<code>n</code>” value.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb45" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Library Load-In====</span></span>
-<span id="cb47-2"><span class="fu" style="color: #4758AB;
+<span id="cb45-2"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(tidyverse) <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># For everything data</span></span>
-<span id="cb47-3"></span>
-<span id="cb47-4"><span class="co" style="color: #5E5E5E;
+<span id="cb45-3"></span>
+<span id="cb45-4"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Setting parameters to prep ggplot to plot data in a "circular" fashion on the Cartesian coordinate system====</span></span>
-<span id="cb47-5"></span>
-<span id="cb47-6"><span class="do" style="color: #5E5E5E;
+<span id="cb45-5"></span>
+<span id="cb45-6"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Angle "slices"/ Sine/Cosine Frequency====</span></span>
-<span id="cb47-7">theta <span class="ot" style="color: #003B4F;
+<span id="cb45-7">theta <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8584,20 +8777,20 @@ background-color: null;
 font-style: inherit;">length =</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">100</span>) </span>
-<span id="cb47-8"></span>
-<span id="cb47-9"><span class="do" style="color: #5E5E5E;
+<span id="cb45-8"></span>
+<span id="cb45-9"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Number of divisions/rows in the data wanted====</span></span>
-<span id="cb47-10">n <span class="ot" style="color: #003B4F;
+<span id="cb45-10">n <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">500</span></span>
-<span id="cb47-11"></span>
-<span id="cb47-12"><span class="do" style="color: #5E5E5E;
+<span id="cb45-11"></span>
+<span id="cb45-12"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## "Radial" setting of the "circle" to create "n" different marks====</span></span>
-<span id="cb47-13">r <span class="ot" style="color: #003B4F;
+<span id="cb45-13">r <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
 background-color: null;
@@ -8609,10 +8802,10 @@ font-style: inherit;">:</span>n</span></code></pre></div>
 <p>Next, I’ll use one of my favorite color palettes that I found for one of my <a href="https://github.com/Meghansaha/TidyTuesday/blob/master/2021/9-14-21%20Billboard_100/final_plot.png">#TidyTuesday submissions</a>. I’ll store them in a vector simply called “colors”:</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="do" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb46" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><span class="do" style="color: #5E5E5E;
 background-color: null;
 font-style: italic;">## Setting up the custom color palette====</span></span>
-<span id="cb48-2">colors <span class="ot" style="color: #003B4F;
+<span id="cb46-2">colors <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8627,7 +8820,7 @@ background-color: null;
 font-style: inherit;">"#612884"</span>,<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#154baf"</span>,</span>
-<span id="cb48-3">            <span class="st" style="color: #20794D;
+<span id="cb46-3">            <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"#0b82b9"</span>, <span class="st" style="color: #20794D;
 background-color: null;
@@ -8643,10 +8836,10 @@ font-style: inherit;">"#b2336a"</span>)</span></code></pre></div>
 <p>Now I’ll create a simple data frame. I’ll create my <code>x</code> and <code>y</code> variables using the <a href="https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/Trig"><code>cos()</code> and <code>sin()</code></a> functions respectively:</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb49" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb47" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Placing everything into a dataset====</span></span>
-<span id="cb49-2">data <span class="ot" style="color: #003B4F;
+<span id="cb47-2">data <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8657,7 +8850,7 @@ background-color: null;
 font-style: inherit;">cos</span>(theta)<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">*</span>r,</span>
-<span id="cb49-3">               <span class="at" style="color: #657422;
+<span id="cb47-3">               <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">y =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8669,15 +8862,15 @@ font-style: inherit;">*</span>r)</span></code></pre></div>
 <p>Finally, we’ll put everything together. Using <code>geom_path()</code> on this dataset and passing our colors vector into it creates our Rainbow Rose!</p>
 <p><br></p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb50" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb48" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Pulling it all together====</span></span>
-<span id="cb50-2">Rainbow_Rose <span class="ot" style="color: #003B4F;
+<span id="cb48-2">Rainbow_Rose <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> data <span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">%&gt;%</span></span>
-<span id="cb50-3">  <span class="fu" style="color: #4758AB;
+<span id="cb48-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">ggplot</span>(<span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8690,7 +8883,7 @@ background-color: null;
 font-style: inherit;">color =</span> color))<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb50-4">  <span class="fu" style="color: #4758AB;
+<span id="cb48-4">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">geom_path</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -8709,19 +8902,19 @@ background-color: null;
 font-style: inherit;">1</span>)<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb50-5">  <span class="fu" style="color: #4758AB;
+<span id="cb48-5">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme_void</span>()<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">+</span></span>
-<span id="cb50-6">  <span class="fu" style="color: #4758AB;
+<span id="cb48-6">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">theme</span>(<span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">legend.position =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"none"</span>,</span>
-<span id="cb50-7">        <span class="at" style="color: #657422;
+<span id="cb48-7">        <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">panel.background =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -8730,11 +8923,11 @@ background-color: null;
 font-style: inherit;">fill =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"black"</span>))</span>
-<span id="cb50-8"></span>
-<span id="cb50-9"><span class="co" style="color: #5E5E5E;
+<span id="cb48-8"></span>
+<span id="cb48-9"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># View it #</span></span>
-<span id="cb50-10">Rainbow_Rose</span></code></pre></div>
+<span id="cb48-10">Rainbow_Rose</span></code></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -9582,7 +9775,7 @@ font-style: inherit;">library</span>(tidyverse)</span></code></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ forcats   1.0.0     ✔ stringr   1.5.2
 ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
 ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
 ✔ purrr     1.1.0     

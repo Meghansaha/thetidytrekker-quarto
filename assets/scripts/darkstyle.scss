@@ -220,3 +220,59 @@ center:nth-child(even) > figcaption {
 #listing-listing > div.list.quarto-listing-default > div:nth-child(1) > div.body > div.listing-description > a > code {
   color: #2F1273;
 }
+
+figcaption {
+  font-style: italic;
+  color: #fff !important;
+  text-align: center;
+  padding-bottom: 25px;
+}
+
+.blog-img {
+  display: block;
+  margin:0 auto;
+  text-align: center;
+  padding-top: 25px;
+}
+
+/* Specifically target JPG/JPEG images (iPhone photos) */
+img[src$=".jpg"], 
+img[src$=".jpeg"], 
+img[src$=".JPG"], 
+img[src$=".JPEG"] {
+  width: 60%; /* Scale down iPhone photos */
+  max-width: 500px; /* Set a reasonable maximum size */
+}
+
+/* Target all code in pre blocks with higher specificity */
+div.cell-output pre code,
+.cell-output pre code,
+pre code {
+  color: #fff !important;
+  background: transparent;
+}
+
+/* Style the pre container too */
+.cell-output pre,
+.cell-output-stdout pre {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 4px;
+}
+
+#quarto-margin-sidebar {
+  overflow: hidden;
+}
+
+details summary p {
+  color: #fff;
+}
+
+blockquote {
+  background-color: #2d2d2d;
+  border-width: .5px .5px .5px 8px !important;
+  border-style: solid solid solid solid !important;
+  border-color: #444 #444 #444 #002F56 !important;
+  color: #fff !important;
+  font-style: italic;
+}
