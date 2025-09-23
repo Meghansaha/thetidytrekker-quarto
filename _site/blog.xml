@@ -145,7 +145,7 @@ From what I could see, a lot of us were actively following this rule
 </section>
 <section id="the-georgia-aquarium" class="level2">
 <h2 class="anchored" data-anchor-id="the-georgia-aquarium">The Georgia Aquarium</h2>
-<p>This was hands-down the BEST social event in conf history (for me). I’m biased as I love water, but this event was great – and the food was surprisingly good. Posit rented out the Georgia Aquarium for us at night, and I had way more fun than expected. It gave me a chance to talk to people I hadn’t run into at conf yet, and having the run of the place at night was honestly magical.</p>
+<p>This was hands-down the BEST social event in conf history (for me). I’m biased as I love water, but this event was great – and the food was surprisingly good. Posit rented out the Georgia Aquarium for us at night, and I had way more fun than expected. It gave me a chance to talk to people I hadn’t run into at conf yet, and having the run of the place at night was awesome.</p>
 <p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/aquarium.png" class="blog-img img-fluid" alt="Three polaroid-style photos arranged in a scattered layout showing marine life: a circular aquarium tank with fish and coral from above, sharks swimming in blue water, and more sharks underwater with light streaming down."></p>
 <figcaption>
 I had the BEST time at the aquarium
@@ -155,7 +155,7 @@ I had the BEST time at the aquarium
 <h2 class="anchored" data-anchor-id="tidy-dev-day-tdd">Tidy Dev Day (TDD)</h2>
 <p>Ok y’all. I have a confession: this was my favorite thing about conf HANDS DOWN, even though it technically happened after. As I mentioned, I’ve been discovering I love development work, and Tidy Dev Day (TDD) gave me the PERFECT opportunity to explore this further in a low-stress, supportive environment.</p>
 <p>The day started with an ice-breaker bingo sheet, then a group photo, followed by the Posit team explaining the workflow (forking/cloning/PRs, etc.) before turning us loose to work.</p>
-<p>We could jump right in because the Posit team does reconnaissance beforehand, looking through <a href="https://www.tidyverse.org">tidyverse</a>, <a href="https://r-lib.r-universe.dev/packages">r-lib</a>, <a href="https://www.tidymodels.org">tidymodels</a> issues good for beginners. They print snippets on post-it notes for the “issue wall” where participants choose what to work on. Once you open a PR, you get to ring “The Gong” – and if you open multiple PRs, you ring it multiple times:</p>
+<p>We could jump right in because the Posit team does reconnaissance beforehand, looking through <a href="https://www.tidyverse.org">tidyverse</a>, <a href="https://r-lib.r-universe.dev/packages">r-lib</a>, and <a href="https://www.tidymodels.org">tidymodels</a> issues good for beginners. They print snippets on post-it notes for the “issue wall” where participants choose what to work on. Once you open a PR, you get to ring “The Gong” – and if you open multiple PRs, you ring it multiple times:</p>
 <p><img src="https://www.thetidytrekker.com/post/vibe-conf-ing/images/gong.jpg" class="blog-img img-fluid" alt="Me smiling with ombre blue-tinted hair wearing a turquoise posit conf shirt and glasses, holding a mallet next to a large bronze gong mounted on a black metal stand. The setting is indoors with white curtains and wooden flooring in the background."></p>
 <figcaption>
 My first time ringing “The Gong”
@@ -1733,23 +1733,23 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
 <p>If you use the Git terminal to do your stash work, you can find the most essential commands you’ll need to know in the table below. If you’re choosing to use a GUI, you won’t have to type the inputs into a terminal, but rather, the application you’re using will be interacting with Git on your behalf to perform some of these commands for you:</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="nkfpdyuycw" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nkfpdyuycw table {
+<div id="ucitsybfte" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ucitsybfte table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nkfpdyuycw thead, #nkfpdyuycw tbody, #nkfpdyuycw tfoot, #nkfpdyuycw tr, #nkfpdyuycw td, #nkfpdyuycw th {
+#ucitsybfte thead, #ucitsybfte tbody, #ucitsybfte tfoot, #ucitsybfte tr, #ucitsybfte td, #ucitsybfte th {
   border-style: none;
 }
 
-#nkfpdyuycw p {
+#ucitsybfte p {
   margin: 0;
   padding: 0;
 }
 
-#nkfpdyuycw .gt_table {
+#ucitsybfte .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1775,12 +1775,12 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-left-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_caption {
+#ucitsybfte .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nkfpdyuycw .gt_title {
+#ucitsybfte .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1792,7 +1792,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-width: 0;
 }
 
-#nkfpdyuycw .gt_subtitle {
+#ucitsybfte .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1804,7 +1804,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-top-width: 0;
 }
 
-#nkfpdyuycw .gt_heading {
+#ucitsybfte .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1816,13 +1816,13 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_bottom_border {
+#ucitsybfte .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_col_headings {
+#ucitsybfte .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1837,7 +1837,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_col_heading {
+#ucitsybfte .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1857,7 +1857,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   overflow-x: hidden;
 }
 
-#nkfpdyuycw .gt_column_spanner_outer {
+#ucitsybfte .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1869,15 +1869,15 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 4px;
 }
 
-#nkfpdyuycw .gt_column_spanner_outer:first-child {
+#ucitsybfte .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nkfpdyuycw .gt_column_spanner_outer:last-child {
+#ucitsybfte .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nkfpdyuycw .gt_column_spanner {
+#ucitsybfte .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1889,11 +1889,11 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   width: 100%;
 }
 
-#nkfpdyuycw .gt_spanner_row {
+#ucitsybfte .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nkfpdyuycw .gt_group_heading {
+#ucitsybfte .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1919,7 +1919,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   text-align: left;
 }
 
-#nkfpdyuycw .gt_empty_group_heading {
+#ucitsybfte .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1934,15 +1934,15 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   vertical-align: middle;
 }
 
-#nkfpdyuycw .gt_from_md > :first-child {
+#ucitsybfte .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nkfpdyuycw .gt_from_md > :last-child {
+#ucitsybfte .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nkfpdyuycw .gt_row {
+#ucitsybfte .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1961,7 +1961,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   overflow-x: hidden;
 }
 
-#nkfpdyuycw .gt_stub {
+#ucitsybfte .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1974,7 +1974,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#nkfpdyuycw .gt_stub_row_group {
+#ucitsybfte .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1988,15 +1988,15 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   vertical-align: top;
 }
 
-#nkfpdyuycw .gt_row_group_first td {
+#ucitsybfte .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nkfpdyuycw .gt_row_group_first th {
+#ucitsybfte .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nkfpdyuycw .gt_summary_row {
+#ucitsybfte .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2006,16 +2006,16 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#nkfpdyuycw .gt_first_summary_row {
+#ucitsybfte .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_first_summary_row.thick {
+#ucitsybfte .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nkfpdyuycw .gt_last_summary_row {
+#ucitsybfte .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2025,7 +2025,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_grand_summary_row {
+#ucitsybfte .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2035,7 +2035,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#nkfpdyuycw .gt_first_grand_summary_row {
+#ucitsybfte .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2045,7 +2045,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-top-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_last_grand_summary_row_top {
+#ucitsybfte .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2055,11 +2055,11 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_striped {
+#ucitsybfte .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nkfpdyuycw .gt_table_body {
+#ucitsybfte .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2068,7 +2068,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-bottom-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_footnotes {
+#ucitsybfte .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2082,7 +2082,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_footnote {
+#ucitsybfte .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2091,7 +2091,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#nkfpdyuycw .gt_sourcenotes {
+#ucitsybfte .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2105,7 +2105,7 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   border-right-color: #D3D3D3;
 }
 
-#nkfpdyuycw .gt_sourcenote {
+#ucitsybfte .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2113,72 +2113,72 @@ font-style: inherit;">theme_void</span>()</span></code></pre></div>
   padding-right: 5px;
 }
 
-#nkfpdyuycw .gt_left {
+#ucitsybfte .gt_left {
   text-align: left;
 }
 
-#nkfpdyuycw .gt_center {
+#ucitsybfte .gt_center {
   text-align: center;
 }
 
-#nkfpdyuycw .gt_right {
+#ucitsybfte .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nkfpdyuycw .gt_font_normal {
+#ucitsybfte .gt_font_normal {
   font-weight: normal;
 }
 
-#nkfpdyuycw .gt_font_bold {
+#ucitsybfte .gt_font_bold {
   font-weight: bold;
 }
 
-#nkfpdyuycw .gt_font_italic {
+#ucitsybfte .gt_font_italic {
   font-style: italic;
 }
 
-#nkfpdyuycw .gt_super {
+#ucitsybfte .gt_super {
   font-size: 65%;
 }
 
-#nkfpdyuycw .gt_footnote_marks {
+#ucitsybfte .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nkfpdyuycw .gt_asterisk {
+#ucitsybfte .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nkfpdyuycw .gt_indent_1 {
+#ucitsybfte .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nkfpdyuycw .gt_indent_2 {
+#ucitsybfte .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nkfpdyuycw .gt_indent_3 {
+#ucitsybfte .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nkfpdyuycw .gt_indent_4 {
+#ucitsybfte .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nkfpdyuycw .gt_indent_5 {
+#ucitsybfte .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nkfpdyuycw .katex-display {
+#ucitsybfte .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nkfpdyuycw div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ucitsybfte div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

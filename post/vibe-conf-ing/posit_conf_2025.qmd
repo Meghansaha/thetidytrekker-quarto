@@ -168,7 +168,7 @@ It's an exciting challenge: wanting to deepen these development skills while app
 
 ## The Georgia Aquarium
 
-This was hands-down the BEST social event in conf history (for me). I'm biased as I love water, but this event was great – and the food was surprisingly good. Posit rented out the Georgia Aquarium for us at night, and I had way more fun than expected. It gave me a chance to talk to people I hadn't run into at conf yet, and having the run of the place at night was honestly magical.
+This was hands-down the BEST social event in conf history (for me). I'm biased as I love water, but this event was great – and the food was surprisingly good. Posit rented out the Georgia Aquarium for us at night, and I had way more fun than expected. It gave me a chance to talk to people I hadn't run into at conf yet, and having the run of the place at night was awesome.
 
 ![](images/aquarium.png){.blog-img fig-alt="Three polaroid-style photos arranged in a scattered layout showing marine life: a circular aquarium tank with fish and coral from above, sharks swimming in blue water, and more sharks underwater with light streaming down."}
 
@@ -179,7 +179,7 @@ Ok y'all. I have a confession: this was my favorite thing about conf HANDS DOWN,
 
 The day started with an ice-breaker bingo sheet, then a group photo, followed by the Posit team explaining the workflow (forking/cloning/PRs, etc.) before turning us loose to work.
 
-We could jump right in because the Posit team does reconnaissance beforehand, looking through [tidyverse](https://www.tidyverse.org), [r-lib](https://r-lib.r-universe.dev/packages), [tidymodels](https://www.tidymodels.org) issues good for beginners. They print snippets on post-it notes for the "issue wall" where participants choose what to work on. Once you open a PR, you get to ring "The Gong" – and if you open multiple PRs, you ring it multiple times:
+We could jump right in because the Posit team does reconnaissance beforehand, looking through [tidyverse](https://www.tidyverse.org), [r-lib](https://r-lib.r-universe.dev/packages), and [tidymodels](https://www.tidymodels.org) issues good for beginners. They print snippets on post-it notes for the "issue wall" where participants choose what to work on. Once you open a PR, you get to ring "The Gong" – and if you open multiple PRs, you ring it multiple times:
 
 ![](images/gong.jpg){.blog-img fig-alt="Me smiling with ombre blue-tinted hair wearing a turquoise posit conf shirt and glasses, holding a mallet next to a large bronze gong mounted on a black metal stand. The setting is indoors with white curtains and wooden flooring in the background."}
 

@@ -276,3 +276,7 @@ blockquote {
   color: #fff !important;
   font-style: italic;
 }
+
+#listing-listing > div.list.quarto-listing-default > div:nth-child(n) > div.metadata > a > div.listing-reading-time {
+  color: #fff;
+}
