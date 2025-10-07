@@ -12,6 +12,13 @@ $navbar-bg: #002F56;
   position: relative;
 }
 
+#ambox {
+  background: $body-bg;
+  overflow: hidden !important;
+  height: auto;
+}
+
+
 .imgname {
   height: 100%;
   line-height:100%;
@@ -26,6 +33,7 @@ $navbar-bg: #002F56;
   /* transition effect. not necessary */
   transition: opacity .2s, visibility .2s;
 }
+
 
 .imgwrap:hover .imgname {
   visibility: visible;

@@ -10,6 +10,12 @@ $navbar-bg: #202124;
   position: relative;
 }
 
+#ambox {
+  background: $body-bg;
+  overflow: hidden !important;
+  height: auto;
+}
+
 .imgname {
   height: 100%;
   line-height:100%;
@@ -50,8 +56,9 @@ $code-block-bg-alpha: -.8;
   color: $font-color;
 }
 
-#ambox{
+#quarto-document-content > div:nth-child(2) > div {
   background: $body-bg;
+  overflow-y: hidden;
 }
 
 #title-block-header > div.quarto-title-meta {
