@@ -1,0 +1,76 @@
+---
+title: "Functional, Iterative, and A Little Bit Feral"
+subtitle: "Thinking Through purrr and Python List Comprehensions"
+description: |
+    As a ride-or-die for purrr's `pmap()` function, finding out about list comprehensions just broke my brain
+author:
+  - name: Meghan Harris
+    orcid: 0000-0003-3922-8101
+date: 11-10-2025
+output:
+  toc: true
+image: images/list-comps.png
+categories:
+  - python
+  - r
+  - purrr
+  - lists
+  - list comprehensions
+  - functional programming
+engine: knitr
+comments:
+  utterances:
+    repo: Meghansaha/thetidytrekker-quarto
+    theme: github-dark
+---
+
+**In this post:**
+
+-   [Intro]
+-   [Purrr]
+-   [Python List Comprehensions]
+-   [Comparing the Two]
+-   [In Closing]
+
+
+------------------------------------------------------------------------
+
+```{r}
+# | echo: true
+library(purrr)
+
+lst_holidays <-
+  list(
+    "Christmas" = TRUE,
+    "Halloween" = FALSE,
+    "My Birthday" = TRUE,
+    "Thanksgiving" = FALSE,
+    "Valentine's Day" = FALSE
+  )
+
+lst_fav_holiday <- imap(
+  lst_holidays,
+  ~ paste(.y, ifelse(.x, "is", "is not"), "my favorite")
+)
+
+lst_fav_holiday
+```
+
+```{python}
+# | echo: true
+
+lst_holidays = [
+    ("Christmas", True),
+    ("Halloween", False),
+    ("My Birthday", True),
+    ("Thanksgiving", False),
+    ("Valentine's Day", False),
+]
+
+lst_fav_holidays = [
+    f"{holiday} is {'my favorite' if is_favorite else 'not my favorite'}."
+    for holiday, is_favorite in lst_holidays
+]
+
+lst_fav_holidays
+```
